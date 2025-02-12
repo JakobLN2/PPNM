@@ -1,0 +1,4 @@
+echo: string
+echo: 1
+echo: 1.23
+echo: (0, 1)

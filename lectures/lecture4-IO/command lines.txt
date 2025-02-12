@@ -1,0 +1,8 @@
+echo / ls sends the parameter to the standard output stream
+This can be manipulated like any pipeline by the "pipe operator, |"
+For example: 
+    echo 1,2 | sed --expression "s/,/\./"
+returns 1.2 to the standard stream (sed means "stream editor" and "s/x/y/" means substitute x with y)
+Can also add "g" to the expression "s/x/y/g" such that it does it to all arguments, not just the first
+
+Strengt taget, er der 3? output streams: 0 for kommandoen, 1 for standard output, 2 for error output

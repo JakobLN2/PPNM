@@ -1,0 +1,1 @@
+line from instream: This is sent to input.txt
