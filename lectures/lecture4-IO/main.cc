@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 
     //Input file stream
     std::ifstream instream(infile); //Shorthand without "new", variable decleration is moemory allocation(?) - Automatically calls the parametarized constructur
-    std::ofstream outstream(outfile, std::ios::app);
+    std::ofstream outstream(outfile, std::ios::app); //open the outfile in append mode
 
     std::string word;
     //>> extract the first token from the stream, any whitespace (space, tab, enter) seperates tokens
