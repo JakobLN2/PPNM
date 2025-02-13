@@ -33,7 +33,6 @@ int main() {
     // std::cout << "float machine epsilon = " << 2*y << std::endl;
 
     // //Task 3:
-    // double tiny = x/2;
     // double tiny = std::pow(2,-52);
     // double a = 1 + tiny + tiny;
     // double b = tiny + tiny + 1;
