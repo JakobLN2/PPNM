@@ -2,7 +2,7 @@ CXXFLAGS += -Wall -Wextra -Werror -std=c++23 -O2
 LDLIBS += -lstdc++ -lm
 
 Out.txt : main
-	./$< > $@
+	./$< < input.txt > $@
 
 main: main.o
 

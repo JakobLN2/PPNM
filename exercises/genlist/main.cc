@@ -15,8 +15,8 @@ double x;
 while(std::getline(std::cin,line)){
     std::istringstream iss(line);
 	std::vector<double> numbers;
-	while(iss >> x) numbers.push_back(x);
-	list.add(numbers);
+	while(iss >> x) numbers.push_back(x); //Read elements from input stream one at a time and save them in a vector
+	list.add(numbers); //Put the vector in a generic list
 	}
 
 for(int i=0;i<list.size;i++){

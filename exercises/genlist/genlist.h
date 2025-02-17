@@ -1,4 +1,3 @@
-//Header file yoinked from the exercise page
 #ifndef HAVE_GENLIST_H
 #define HAVE_GENLIST_H
 #include <stddef.h>
@@ -46,12 +45,12 @@ genlist& operator=(genlist& other){ /* copy assignment */
 
 genlist& operator=(genlist&&) = delete; /* move assignment */
 
-void add(T item) { //why is this implemented in the header file?
-	T *newdata = new T[Size+1]();
-	FOR(i)newdata[i]=data[i];
-	newdata[Size] = item;
+void add(T item) {
+	T *newdata = new T[Size+1](); //Create new list with space for the element
+	FOR(i)newdata[i]=data[i]; //Copy previous data into new list, FOR(i) is a for-loop defined in the top of the file
+	newdata[Size] = item; //Add the final element to the end of the new list
 	Size++;
-	delete[] data;
+	delete[] data; //Delete old list
 	data=newdata;
 	}
 
