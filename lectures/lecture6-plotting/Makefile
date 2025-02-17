@@ -1,5 +1,6 @@
 CXXFLAGS += -std=c++23 -Wall -Wextra -O2
 
+# C# commands
 CODE = $(filter %.cs,$^)
 LIBS = $(addprefix -reference:,$(filter %.dll,$^))
 MKEXE = mcs -target:exe -out:$@ $(LIBS) $(CODE)
@@ -40,11 +41,6 @@ main : main.o sfuns.o
 main.o : main.cc
 	$(CXX) $(CXXFLAGS) -c -o main.o main.cc
 
-#Out.txt: main.exe
-#	mono $< > $@
-
-#sfuns.dll : sfuns.cs ; $(MKLIB)
-#main.exe : main.cs sfuns.dll; $(MKEXE)
 
 clean:	
 	$(RM) *.exe *.dll [Oo]ut* [Ll]og*
