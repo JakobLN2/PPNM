@@ -15,7 +15,8 @@ double x;
 while(std::getline(std::cin,line)){
     std::istringstream iss(line);
 	std::vector<double> numbers;
-	while(iss >> x) numbers.push_back(x); //Read elements from input stream one at a time and save them in a vector
+	while(iss >> x) numbers.push_back(x); //Read elements from input line one at a time and save them in a vector
+	
 	list.add(numbers); //Put the vector in a generic list
 	}
 
@@ -25,6 +26,18 @@ for(int i=0;i<list.size;i++){
 		std::cout << " " << std::scientific << std::setprecision(4) << x;
 	std::cout << "\n";
 }
+
+//Test remove
+genlist<int> ilist;
+ilist.add(1);
+ilist.add(2);
+ilist.add(5);
+ilist.add(4);
+std::cout << "ilist = "; ilist.print();
+std::cout << "ilist.size = " << ilist.size << std::endl;
+ilist.remove(1);
+std::cout << "ilist.remove(1) = "; ilist.print(); 
+std::cout << "ilist.size = " << ilist.size << std::endl;
 
 /* never mind the following... */
 
