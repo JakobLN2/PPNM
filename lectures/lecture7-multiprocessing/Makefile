@@ -11,5 +11,13 @@ CSLIBS = -reference:System.Numerics.dll #Complex numbers in C#
 # Out.txt : main.exe ; mono $< > $@
 # main.exe : main.cs ; $(MKEXE)
 Out.txt : main
+
 main : main.o
+	$(CXX) $(CXXFLAGS) $(LDLIBS) -o main $^
+
 main.o : main.cc
+	$(CXX) $(CXXFLAGS) -c -o main.o main.cc
+
+	
+clean:
+	$(RM) [Oo]ut.txt *.o *.exe main

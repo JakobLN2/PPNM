@@ -33,10 +33,12 @@ int main(int argc, char* argv[]) {
         data[i].stop = (i + 1)*nterms/nthreads;
     }
     for(int i = 0; i < nthreads; i++) {
-        threads[i] = std::thread(harm, data[i]); //Start the threads
+        threads[i] = std::thread(harm, std::ref(data[i])); //Start the threads
+        //We pass the datum object by reference std::ref is safe for this
     }
-    // for(std::thread t : threads) t.join();
-    for(int i=0 ; i < nthreads < i++) threads[i].join();
+    for(std::thread& t : threads) t.join(); //wait till all threads are done, and sum them
+    // for(int i = 0 ; i < nthreads ; i++) threads[i].join();
+
     double sum=0;
     for(datum d : data) sum += d.sum;
 
