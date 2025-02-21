@@ -1,6 +1,6 @@
 set terminal svg background "white";
 
-#The disadvantage of makeing a seperate file, have to hardcode the output file
+#The disadvantage of making a seperate file, have to hardcode the output file
 set output "plot.test.svg";
 
 set xlabel "x";
