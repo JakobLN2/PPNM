@@ -10,5 +10,8 @@ main : main.o vector.o
 main.o : main.cc
 	$(CXX) $(CXXFLAGS) -c -o main.o main.cc
 
+vector.o : vector.cc
+	$(CXX) $(CXXFLAGS) -c -o vector.o vector.cc
+
 clean:
 	$(RM) [Oo]ut.txt *.o main
