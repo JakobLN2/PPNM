@@ -10,7 +10,7 @@ main : main.o vector.o
 main.o : main.cc
 	$(CXX) $(CXXFLAGS) -c -o main.o main.cc
 
-vector.o : vector.cc
+vector.o : vector.cc vector.h
 	$(CXX) $(CXXFLAGS) -c -o vector.o vector.cc
 
 clean:

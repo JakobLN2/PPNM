@@ -24,10 +24,12 @@ LU works by considering that A = LU where
     \item L is a lower triangular matrix
     \item U is an upper triangular matrix
 \end{itemize}
+Might often make $A = LUP$ where P is a permutation matrix. If the first element of L is 0, then the algorithm does not work, so we permute until we find a non-zero element
 
 
-Cholesky works like LU, except the special casae where U = L^T
+Cholesky works like LU, except the special casae where U = L^T, so we can write $A=LL^T$. A is positive definite $x^TAx>0$
 
+\textbf{QR}
 
 Non-stabilized Gramm-Schmidt algortihm:
     - a_1 = q_1 * R_11 : The first column in A is the first in Q up to a factor R_11
@@ -74,9 +76,68 @@ A memory tip for QR, is not allocating ram for Q and R when beginning the algori
 Only allocate for R then :)
 
 
+\textbf{inverse matrices}
+Since $A^-A=1$, then we can also write that $A^-=R^-Q^T
+
 \textbf{Numerical correction}
 Due to precision, we are not surprised if $Ax - b\ne 0$, this mismatch may be calculated $=A\delta x$, such that:
 \begin{equation}
     A(x - \delta x) - b = 0
 \end{equation}
 A is already factorialized, so it is done in only O(n^2) time.
+
+
+
+\textbf{Eigenvalue decomposition, EVD:}
+
+If we have a real symmetric matrix A, then it has real eigenvalues and the eigenvectors span the entire space
+
+$A=VDV^T$
+
+Where D is the diagonal matrix with eigenvalues and the columns of V are the corresponding eigenvectors. Here:
+\begin{itemize}
+    \item$V^TV=1$
+    \item $VV^T=1
+\end{itemize}
+
+Here the inverse of A can easily be found:
+\begin{align}
+    Ax = B \\
+    VDV^Tx = b \\
+    DV^Tx = V^Tb \\
+    V^Tx=D^{-1}V^Tb \\
+    x = VD^{-1}V^Tb \\
+    x = A^{-1}b \\
+\end{align}
+And the inverse of a diagonal matrix is truly trivial. If it does not have full rank (some eigenvalues are 0), we can only find an approximate solution.
+
+\textbf{Functions of matrices}
+If you have a continuous function which can be represented as a taylor series, then a matrix parameter can easily be calculated.
+\begin{equation}
+    f(A) = \sum_i a_iA^i
+\end{equation}
+If D is diagonal, then the function f(D) is simply the function taken on each diagonal element. Therefore we can easily calculate any matrix
+by simply changing the basis to one where A is diagonal:
+\begin{equation} 
+    f(A) = V f(D) V^T
+\end{equation} 
+
+\textbf{singular value decomposition}
+We can always chose the singular values to be non-negative
+$A =USV^T$, $S_{ii}\ge 0$
+
+\begin{itemize}
+    \item U is a (semi-)orthogonal matrix, which spans the same space as U (like Q in QR) can also be tall
+    \item S is a small, diagonal matrix
+\end{itemize}
+
+How to prove that U exists? We consider $A^TA$, which is a small(if A is tall) and symmetric matrix. By doing eigenvalue decomposition $A^TA=VS^2V^T$. Since $S^2$, then the eigenvalues are certainly positive
+
+
+What can SVD be used for?
+
+$Ax=b \Longrightarrow USV^Tx=b \Longrightarrow SV^Tx=U^Tb\Longrightarrow V^Tx=S^{-1}U^Tb \Longrightarrow x=VS^{-1}V^Tb$.
+
+It can be easily used to solve the linear equations
+
+Likewise the inverse of A is simply $A^{-1} = VS^{-1}U^T$

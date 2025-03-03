@@ -10,10 +10,11 @@
 #include<string>
 #include<iostream>
 
+template<typename T>
 class vector {
     // private:    
     public:
-        std::vector<double> data;
+        std::vector<T> data;
         int size = data.size();
 
         vector(int n) : data(n) {} // parametrized constructor
@@ -24,25 +25,23 @@ class vector {
         vector& operator=(const vector&)=default; // copy assignment
         vector& operator=(vector&&)=default; // move assignment
         
-        double& operator[](int i) {return data[i];}
-        vector& operator*=(double n);
-        vector& operator/=(double n);
-
-        double norm();
+        T& operator[](int i) {return data[i];}
+        // vector<T>& operator*=(double n);
         
         void print(std::string s = "") const; //for debugging
+        // void print(std::string s) const {
+        //     std::cout << s;
+        //     // std::cout << "mojn gutter";
+        //     for(T d : data) std::cout << d << ", ";
+        //     // for(int i = 0 ; i < size ; ++i) std::cout << data[i] << ", ";
+        //     std::cout << std::endl;
+        // };
         
     };
-vector operator+(const vector&, const vector&);
-vector operator-(const vector&);
-vector operator-(const vector&, const vector&);
-vector operator*(const vector&, double);
-vector operator*(double, const vector&);
-vector operator/(const vector&, double);
-
-double dot(const vector&, const vector&); //inner product(?)
+template<typename T>
+vector<T> operator+(const vector<T>&, const vector<T>&);
 // int size() return size;
-// const double& operator[](int i) const {return data[i];}
+// const T& operator[](int i) const {return data[i];}
 
 
 // friend vector<T> operator+(const vector<T>&, const vector<T>&);

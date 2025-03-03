@@ -1,37 +1,69 @@
 #include"vector.h"
 #include<string>
 #include<iostream>
+#include<cmath>
 
-// template<typename T>
-// vector<T> operator+(const vector<T>& a, const vector<T>& b) {
-//     vector<T> res(a.size());
-//     for(int i = 0 ; i < a.size() ; ++i) res[i] = a[i] + b[i];
-//     return res;
-// }
 
-template<typename T>
-vector<T> operator+(const vector<T>& a, const vector<T>& b) {
-    vector<T> res(a.size);
-    for(int i = 0; i < a.size ; ++i) res[i] = a[i] + b[i];
+vector& vector::operator*=(double n) {
+    // for(int i = 0 ; i < size ; ++i) data[i] *= n;
+    for(auto& d : data) d *= n;
+    return *this;
+}
+vector& vector::operator/=(double n) {
+    // for(int i = 0 ; i < size ; ++i) data[i] /= n;
+    for(auto& d : data) d /= n;
+    return *this;
+}
+double vector::norm() {
+    double res;
+    for(auto& d : data) res += d*d;
+    return std::sqrt(res);
+}
+
+
+
+void vector::print(std::string s) const {
+    std::cout << s;
+    for(auto d : data) std::cout << d << ", ";
+    std::cout << "\n";
+}
+
+vector operator+(const vector& a, const vector& b) {
+    vector res(a.size);
+    for(int i = 0 ; i < a.size ; ++i) res[i] = a.data[i] + b.data[i];
+    return res;
+}
+vector operator-(const vector& a, const vector& b) {
+    vector res(a.size);
+    for(int i = 0 ; i < a.size ; ++i) res[i] = a.data[i] - b.data[i];
+    return res;
+}
+vector operator-(const vector& a) {
+    vector res(a.size);
+    for(int i = 0 ; i < a.size ; ++i) res[i] = -a.data[i];
     return res;
 }
 
-template<typename T>
-vector<T>& vector<T>::operator*=(double n) {
-    for(T& d : data) d *= n;
-    return *this;
+vector operator*(const vector& a, double n) {
+    vector res(a.size);
+    for(int i = 0 ; i < a.size ; ++i) res[i] = a.data[i] * n;
+    return res;
+}
+vector operator*(double n, const vector& a) {
+    vector res(a.size);
+    for(int i = 0 ; i < a.size ; ++i) res[i] = a.data[i] * n;
+    return res;
+}
+vector operator/(double n, const vector& a) {
+    vector res(a.size);
+    for(int i = 0 ; i < a.size ; ++i) res[i] = a.data[i] / n;
+    return res;
 }
 
-template<typename T>
-void vector<T>::print(std::string s) const {
-    // std::cout << s;
-    std::cout << "mojn gutter";
-    // for(T d : data) std::cout << d << ", ";
-    // for(int i = 0 ; i < size ; ++i) std::cout << data[i] << ", ";
-    std::cout << std::endl;
-}
 
-// void TemporaryFunction ()
-// {
-//     vector<int> TempObj;
-// }
+double dot(const vector& a, const vector& b) {
+    // assert(a.size == b.size); //Check that they are compatible
+    double res = 0;
+    for(int i = 0 ; i < a.size ; ++i) res += a.data[i] * b.data[i];
+    return res;
+}
