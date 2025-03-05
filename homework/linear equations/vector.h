@@ -7,6 +7,7 @@
 //     #define NUMBER double
 // #endif
 #include"vector"
+#include<vector>
 #include<string>
 #include<iostream>
 

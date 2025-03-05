@@ -1,4 +1,4 @@
-CXXFLAGS += -Wall -Wextra -Werror -std=c++23 -O2
+CXXFLAGS += -Wall -Wextra -Werror -std=c++23 -O2 -Wno-maybe-uninitialized #ignore maybe uninitialized warnings
 LDLIBS += -lstdc++ -lm
 
 Out.txt : main
@@ -14,4 +14,6 @@ vector.o : vector.cc vector.h
 	$(CXX) $(CXXFLAGS) -c -o vector.o vector.cc
 
 clean:
-	$(RM) [Oo]ut.txt *.o main
+	$(RM) [Oo]ut.txt *.o main vector_test
+
+vector_test : vector_test.o vector.o
