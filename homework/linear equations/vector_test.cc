@@ -1,6 +1,8 @@
 #include"vector.h"
 #include<iostream>
 #include<string>
+#include<stdexcept>
+#include<assert.h>
 
 
 int main() {
@@ -27,6 +29,28 @@ int main() {
     b[0] = 0.0; b[1] = -30.0; b[2] = 10.0;
     b.print("b = ");
     std::cout << "a * b = " << dot(a,b) << "\n";
+    assert(std::abs(dot(a,b)) < 1e-6); 
+
+    vector d(4); d[0] = 1.0; d[1] = 2.0; d[2] = 3.0; d[3] = 4.0;
+    d.print("d = ");
+    try {
+        a += d;
+    } catch(std::invalid_argument& e) {
+        std::cout << "a += d is illegal :)\n";
+    }
+    try {
+        a -= d;
+    } catch(std::invalid_argument& e) {
+        std::cout << "a -= d is illegal :)\n";
+    }
+    
+    vector e;
+    try {
+        a + d;
+    } catch(std::invalid_argument& e) {
+        std::cout << "a + d  is illegal :)\n";
+    }
+
 
 
     return 0;

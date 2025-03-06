@@ -1,4 +1,5 @@
 #include"vector.h"
+#include"matrix.h"
 #include<iostream>
 #include<string>
 

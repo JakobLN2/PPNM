@@ -25,9 +25,14 @@ class vector {
         vector& operator=(const vector&)=default; // copy assignment
         vector& operator=(vector&&)=default; // move assignment
         
+        // int size() {return data.size();};
+
         double& operator[](int i) {return data[i];}
         vector& operator*=(double n);
         vector& operator/=(double n);
+
+        vector& operator+=(const vector&);
+        vector& operator-=(const vector&);
 
         double norm();
         
@@ -41,7 +46,9 @@ vector operator*(const vector&, double);
 vector operator*(double, const vector&);
 vector operator/(const vector&, double);
 
-double dot(const vector&, const vector&); //inner product(?)
+double dot(const vector&, const vector&); //inner product
+bool compatible_exception(const vector&, const vector&); //Check if two vectors are compatible, if not throw an exception.
+
 // int size() return size;
 // const double& operator[](int i) const {return data[i];}
 

@@ -4,7 +4,7 @@ LDLIBS += -lstdc++ -lm
 Out.txt : main
 	./$< > $@
 
-main : main.o vector.o
+main : main.o vector.o matrix.o
 	$(CXX) $(CXXFLAGS) $(LDLIBS) -o main $^
 
 main.o : main.cc
@@ -13,7 +13,13 @@ main.o : main.cc
 vector.o : vector.cc vector.h
 	$(CXX) $(CXXFLAGS) -c -o vector.o vector.cc
 
+matrix.o : matrix.cc matrix.h vector.o
+	$(CXX) $(CXXFLAGS) -c -o matrix.o matrix.cc
+
+
 clean:
-	$(RM) [Oo]ut.txt *.o main vector_test
+	$(RM) [Oo]ut.txt *.o main vector_test matrix_test
 
 vector_test : vector_test.o vector.o
+
+matrix_test : matrix_test.o matrix.o
