@@ -28,8 +28,13 @@ class vector {
         // int size() {return data.size();};
 
         double& operator[](int i) {return data[i];}
+        double operator[](int i) const {return data[i];}
+
         vector& operator*=(double n);
         vector& operator/=(double n);
+
+        vector& operator+=(double);
+        vector& operator-=(double);
 
         vector& operator+=(const vector&);
         vector& operator-=(const vector&);

@@ -13,6 +13,16 @@ vector& vector::operator/=(double n) {
     for(auto& d : data) d /= n;
     return *this;
 }
+vector& vector::operator+=(double n) {
+    for(auto& d : data) d += n;
+    return *this;
+}
+vector& vector::operator-=(double n) {
+    for(auto& d : data) d -= n;
+    return *this;
+}
+
+
 vector& vector::operator+=(const vector& a) {
     compatible_exception(*this, a);
     for(int i = 0 ; i < size ; ++i) data[i] += a.data[i];
@@ -35,8 +45,8 @@ double vector::norm() {
 
 void vector::print(std::string s) const {
     std::cout << s;
-    for(auto d : data) std::cout << d << ", ";
-    std::cout << "\b \b" << std::endl;
+    for(auto d : data) std::cout << d << " ";
+    std::cout << "\n";
 }
 
 vector operator+(const vector& a, const vector& b) {

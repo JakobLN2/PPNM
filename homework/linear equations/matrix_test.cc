@@ -29,17 +29,41 @@ int main() {
     // b.print("b = ");
     // std::cout << "a * b = " << dot(a,b) << "\n";
 
-    matrix a(2,3);
-    std::cout << "matrix a is a " << a.nrows() << " x " << a.ncols() << " matrix\n";
-    
-    a.set(1,2,3.0);
-    std::cout << "a[1][2] = " << a[1][2] << "\n";
-    // a.print("a = ");
-    a[1].print("a[1] = ");
+    int nrows = 2,
+        ncols = 3;
+    matrix a(nrows, ncols);
+    std::cout << "matrix a is a " << a.nrows() << " x " << a.ncols() << " matrix\n\n";
 
-    for(double elem : a.getRow(1)) std::cout << elem << ", ";
+    //set method
+    a.set(1,2,3.0);
+    std::cout << "a[1][2] = " << a(1,2) << "\n\n";
+
+    //print method
+    a.print("a = ");
     std::cout << "\n";
 
+    //getRow method
+    for(int i = 0; i < 3 ; ++i) std::cout << a.getRow(1)[i] << ", ";
+    std::cout << "\n\n";
+    
+    //setRow method
+    a.setRow(0, a.getRow(0) += 2);
+    std::cout << "a[0] += 2\n";
+    a.print("a = ");
+    
+    //getCol method
+    for(int i = 0; i < nrows ; ++i) std::cout << a.getCol(1)[i] << ", ";
+    std::cout << "\n\n";
+    //setCol method
+    a.setCol(0, a.getCol(0) *= 1.5);
+    std::cout << "a[:,0] *= 1.5\n";
+    a.print("a = ");
+
+    matrix b(nrows, ncols);
+    b.print("b = ");
+    b.setRow(0, (double[]){1,2,3});
+    std::cout << "b[0] = [1,2,3]\n";
+    b.print("b = ");
 
     return 0;
 }

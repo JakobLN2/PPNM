@@ -11,13 +11,16 @@
 #include<string>
 #include<iostream>
 #include<stdexcept>
+#include<array>
+#include<tuple>
+
 
 class matrix {
     // private:    
     public:
         std::vector<vector> cols;
-        int size1 = cols.empty() ? 0 : cols[0].size;
-        int size2 = cols.size();
+        int size1 = cols.empty() ? 0 : cols[0].size; // # of rows
+        int size2 = cols.size(); // # of cols
 
         matrix(int n, int m) : cols(m, vector(n)) {} // parametrized constructor
         matrix() = default; // default constructor
@@ -29,12 +32,24 @@ class matrix {
         
         int nrows() const {return cols.empty() ? 0 : cols[0].size;};
         int ncols() const {return cols.size();};
-        std::vector<double&> getRow(int);
+        
+        // std::vector<std::reference_wrapper<double>> getRow(int);
+        
+        // std::vector<double> getRow(int);
+        vector getRow(int);
+        void setRow(int, vector&);
+        // void setRow(int, double[]);
+        void setRow(int, std::array<double>);
+        
+        vector getCol(int);
+        void setCol(int, vector&);
 
-        vector& operator[](int i) {return cols[i];}; //Has to be single indexing? a[1][2]
-        double& operator()(int i, int j) {return cols[i][j];}; //double indexing has to be with parentheses? a(1,2)
-        double& get(int i, int j) {return cols[i][j];};
-        void set(int i, int j, double n) {cols[i][j] = n;};
+        // double& operator[](int i, int j) {return cols[j][i];}; //This does not work on my machine?
+        double& operator()(int i, int j) {return cols[j][i];}; //double indexing has to be with parentheses? a(1,2)
+        double& get(int i, int j) {return cols[j][i];};
+        double get(int i, int j) const {return cols.at(j)[i];};
+        
+        void set(int i, int j, double n) {cols[j][i] = n;};
 
         matrix& operator*=(double);
         matrix& operator/=(double);
