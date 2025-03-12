@@ -1,5 +1,5 @@
-#ifndef HAVE_MATRIX_H
-#define HAVE_MATRIX_H
+#ifndef HAVE_matrix_H
+#define HAVE_matrix_H
 
 // #ifdef LONG_DOUBLE
 //     #define NUMBER long double
@@ -15,11 +15,11 @@
 class matrix {
     // private:    
     public:
-        std::vector<vector> cols;
-        int size1 = cols.empty() ? 0 : cols[0].size;
-        int size2 = cols.size();
+        std::vector<double> cols;
+        int nrows,
+            ncols;
 
-        matrix(int n, int m) : cols(m, vector(n)) {} // parametrized constructor
+        matrix(int n, int m) : cols(m * n) {nrows = n; ncols = m;} // parametrized constructor
         matrix() = default; // default constructor
         matrix(const matrix&)=default; // copy constructor
         matrix(matrix&&)=default; // move constructor
@@ -27,42 +27,43 @@ class matrix {
         matrix& operator=(const matrix&)=default; // copy assignment
         matrix& operator=(matrix&&)=default; // move assignment
         
-        int nrows() const {return cols.empty() ? 0 : cols[0].size;};
-        int ncols() const {return cols.size();};
-        std::vector<double&> getRow(int);
+        // void reshape(int n, int m) //TODO: implement reshape
+        // std::vector<double> getRow(int);
+        // vector getRow(int);
+        matrix getRow(int);
+        // void setRow(int, std::vector<double>);
+        // void setRow(int, vector);
+        void setRow(int, matrix);
+        void setRow(int, double);
 
-        vector& operator[](int i) {return cols[i];}; //Has to be single indexing? a[1][2]
-        double& operator()(int i, int j) {return cols[i][j];}; //double indexing has to be with parentheses? a(1,2)
-        double& get(int i, int j) {return cols[i][j];};
-        void set(int i, int j, double n) {cols[i][j] = n;};
+        // std::vector<double> getCol(int);
+        matrix getCol(int);
+        // void setCol(int, std::vector<double>);
+        void setCol(int, matrix);
+        void setCol(int, double);
+
+        // vector& operator[](int i) {return cols[i];}; //Has to be single indexing? a[1][2] - I dont have C++23?
+        double& operator()(int i, int j) {return cols[i + j * nrows];}; //double indexing
+        double operator()(int i, int j) const {return cols[i + j * nrows];};
 
         matrix& operator*=(double);
         matrix& operator/=(double);
+        matrix& operator+=(matrix&);
+        matrix& operator-=(matrix&);
 
-//         double norm();
-        
         void print(std::string s = "") const; //for debugging
     };
-// vector operator+(const vector&, const vector&);
-// vector operator-(const vector&);
-// vector operator-(const vector&, const vector&);
-// vector operator*(const vector&, double);
-// vector operator*(double, const vector&);
-// vector operator/(const vector&, double);
+matrix operator+(const matrix& a, const matrix& b);
+matrix operator-(const matrix& a);
+matrix operator-(const matrix& a, const matrix& b);
+matrix operator/(const matrix& a, double);
+matrix operator*(const matrix& a, double);
+matrix operator*(double, const matrix& a);
+matrix operator*(const matrix& a, const matrix& b);
+matrix transpose(const matrix& a);
 
-// double dot(const vector&, const vector&); //inner product(?)
-// // int size() return size;
-// // const double& operator[](int i) const {return data[i];}
-
-
-// // friend vector<T> operator+(const vector<T>&, const vector<T>&);
-// // vector operator-(const vector&);
-// // vector operator*(const vector&, double);
-// // vector operator*(double, const vector&);
-// // vector operator/(const vector&, double);
-// // bool approx(const vector&, const vector&, double acc=1e-6,double eps=1e-6);
-// // double dot(const vector&, const vector&);
-bool prod_compatible_exception(const matrix&, const matrix&); //Check if two matrices are compatible for matrix multiplication, if not throw an exception.
-bool add_compatible_exception(const matrix&, const matrix&); //Check if two matrices are compatible for addition (+ subtraction)
+// bool approx(const matrix& a, const matrix& b, double acc=1e-6,double eps=1e-6);
+void prod_compatible_exception(const matrix& a, const matrix& b); //Check if two matrices are compatible for matrix multiplication, if not throw an exception.
+void sum_compatible_exception(const matrix& a, const matrix& b); //Check if two matrices are compatible for addition (+ subtraction)
 
 #endif
