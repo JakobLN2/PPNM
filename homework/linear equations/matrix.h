@@ -1,11 +1,6 @@
 #ifndef HAVE_matrix_H
 #define HAVE_matrix_H
 
-// #ifdef LONG_DOUBLE
-//     #define NUMBER long double
-// #else
-//     #define NUMBER double
-// #endif
 #include"vector.h"
 #include<vector>
 #include<string>
@@ -29,15 +24,16 @@ class matrix {
         
         // void reshape(int n, int m) //TODO: implement reshape
         // std::vector<double> getRow(int);
-        // vector getRow(int);
-        matrix getRow(int);
+        vector getRow(int) const;
+        // matrix getRow(int) const;
         // void setRow(int, std::vector<double>);
         // void setRow(int, vector);
         void setRow(int, matrix);
+        void setRow(int, vector);
         void setRow(int, double);
 
         // std::vector<double> getCol(int);
-        matrix getCol(int);
+        matrix getCol(int) const;
         // void setCol(int, std::vector<double>);
         void setCol(int, matrix);
         void setCol(int, double);
@@ -48,11 +44,11 @@ class matrix {
 
         matrix& operator*=(double);
         matrix& operator/=(double);
-        matrix& operator+=(matrix&);
-        matrix& operator-=(matrix&);
+        matrix& operator+=(const matrix&);
+        matrix& operator-=(const matrix&);
 
         void print(std::string s = "") const; //for debugging
-        matrix copy();
+        matrix copy(); //not sure if A = B does it right
     };
 matrix operator+(const matrix& a, const matrix& b);
 matrix operator-(const matrix& a);

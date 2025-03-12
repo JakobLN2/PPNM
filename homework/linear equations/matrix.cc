@@ -14,18 +14,17 @@ matrix& matrix::operator*=(double n) {
 }
 matrix& matrix::operator/=(double n) {
     *this *= 1/n;
-    // for(int i = 0 ; i < size ; ++i) data[i] /= n;
-    // for(auto& d : data) d /= n;
     return *this;
 }
-matrix& matrix::operator+=(matrix& b) {
+matrix& matrix::operator+=(const matrix& b) {
     sum_compatible_exception(*this, b);
     for(int i = 0 ; i < nrows ; ++i) {
         for(int j = 0; j < ncols ; ++j) cols[i + j * nrows] += b(i,j);
     }
     return *this;
 }
-matrix& matrix::operator-=(matrix& b) {
+
+matrix& matrix::operator-=(const matrix& b) {
     sum_compatible_exception(*this, b);
     for(int i = 0 ; i < nrows ; ++i) {
         for(int j = 0; j < ncols ; ++j) cols[i + j * nrows] -= b(i,j);
@@ -33,42 +32,31 @@ matrix& matrix::operator-=(matrix& b) {
     return *this;
 }
 
-// std::vector<double> matrix::getRow(int i) {
-//     std::vector<double> res;
-//     for(int j = 0; j < ncols ; ++j) res.push_back(cols[i + j * nrows]);
-//     return res;
-// }
-// vector matrix::getRow(int i) {
-//     vector res(ncols);
-//     for(int j = 0; j < ncols ; ++j) res[j] = cols[i + j * nrows];
-//     return res;
-// }
-matrix matrix::getRow(int i) {
-    matrix res(1,ncols);
-    for(int j = 0; j < ncols ; ++j) res(0,j) = cols[i + j * nrows];
+vector matrix::getRow(int i) const {
+    vector res(ncols);
+    for(int j = 0; j < ncols ; ++j) res[j] = cols[i + j * nrows];
     return res;
 }
-// void matrix::setRow(int i, std::vector<double> setrow) {
-//     for(int j = 0; j < ncols ; ++j) cols[i + j * nrows] = setrow[j];
-// }
-// void matrix::setRow(int i, vector setrow) {
-//     for(int j = 0; j < ncols ; ++j) cols[i + j * nrows] = setrow[j];
+// matrix matrix::getRow(int i) const {
+//     matrix res(1,ncols);
+//     for(int j = 0; j < ncols ; ++j) res(0,j) = cols[i + j * nrows];
+//     return res;
 // }
 void matrix::setRow(int i, matrix setrow) {
     if(i >= nrows) {throw std::invalid_argument("index out of range for matrix with " + std::to_string(nrows) + " rows.");}
     if(setrow.ncols != ncols) {throw std::invalid_argument("operand shape does not match, setting row of length " + std::to_string(setrow.ncols) + " into matrix of " + std::to_string(ncols) + " columns.");}
     for(int j = 0; j < ncols ; ++j) cols[i + j * nrows] = setrow(i,j);
 }
+void matrix::setRow(int i, vector setrow) {
+    if(i >= nrows) {throw std::invalid_argument("index out of range for matrix with " + std::to_string(nrows) + " rows.");}
+    if(setrow.size != ncols) {throw std::invalid_argument("operand shape does not match, setting row of length " + std::to_string(setrow.size) + " into matrix of " + std::to_string(ncols) + " columns.");}
+    for(int j = 0; j < ncols ; ++j) cols[i + j * nrows] = setrow[j];
+}
 void matrix::setRow(int i, double n) {
     for(int j = 0; j < ncols ; ++j) cols[i + j * nrows] = n;
 }
 
-// std::vector<double> matrix::getCol(int j) {
-//     std::vector<double> res(nrows);
-//     for(int i = 0; i < nrows ; ++i) res[i] = cols[i + j * nrows];
-//     return res;
-// }
-matrix matrix::getCol(int j) {
+matrix matrix::getCol(int j) const {
     matrix res(nrows, 1);
     for(int i = 0; i < nrows ; ++i) res(i,0) = cols[i + j * nrows];
     return res;
@@ -91,7 +79,6 @@ void matrix::print(std::string s) const {
         else std::cout << "\n" << pad;
     }
 }
-
 matrix matrix::copy() {
     matrix res(nrows, ncols);
     for(int i = 0; i < nrows ; ++i) {

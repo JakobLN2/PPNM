@@ -6,7 +6,6 @@
 // #else
 //     #define NUMBER double
 // #endif
-#include"vector"
 #include<vector>
 #include<string>
 #include<iostream>
@@ -28,15 +27,15 @@ class vector {
         // int size() {return data.size();};
 
         double& operator[](int i) {return data[i];}
-        vector& operator*=(double n);
-        vector& operator/=(double n);
+        vector& operator*=(double);
+        vector& operator/=(double);
 
         vector& operator+=(const vector&);
         vector& operator-=(const vector&);
 
         double norm();
-        
         void print(std::string s = "") const; //for debugging
+        vector copy() const;
         
     };
 vector operator+(const vector&, const vector&);
@@ -45,6 +44,9 @@ vector operator-(const vector&, const vector&);
 vector operator*(const vector&, double);
 vector operator*(double, const vector&);
 vector operator/(const vector&, double);
+
+/*Project vector a onto b*/
+vector proj(const vector&, const vector&);
 
 double dot(const vector&, const vector&); //inner product
 bool compatible_exception(const vector&, const vector&); //Check if two vectors are compatible, if not throw an exception.

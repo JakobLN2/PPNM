@@ -1,4 +1,5 @@
 #include"vector.h"
+#include<vector>
 #include<string>
 #include<iostream>
 #include<cmath>
@@ -6,7 +7,7 @@
 
 
 vector& vector::operator*=(double n) {
-    for(auto& d : data) d *= n;
+    for(int i = 0; i < size ; ++i) data[i] *= n;
     return *this;
 }
 vector& vector::operator/=(double n) {
@@ -37,6 +38,12 @@ void vector::print(std::string s) const {
     std::cout << s;
     for(auto d : data) std::cout << d << ", ";
     std::cout << "\b \b" << std::endl;
+}
+
+vector vector::copy() const{
+    vector res(size);
+    for(int i = 0; i < size ; ++i) res[i] = data[i];
+    return res;
 }
 
 vector operator+(const vector& a, const vector& b) {
@@ -73,6 +80,12 @@ vector operator/(const vector& a, double n) {
     return res;
 }
 
+vector proj(const vector& a, const vector& b) {
+    compatible_exception(a,b);
+    vector res = a.copy();
+    res *= dot(a,b)/dot(a,a);
+    return res;
+}
 
 double dot(const vector& a, const vector& b) {
     compatible_exception(a, b);
