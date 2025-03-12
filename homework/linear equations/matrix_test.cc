@@ -1,41 +1,38 @@
 #include"vector.h"
-// #include"matrix.h"
+#include"matrix.h"
 #include<iostream>
 
 
 int main() {
-    // matrix a(2,3);
-    // std::cout << "matrix a is a " << a.nrows << " x " << a.ncols << " matrix\n";
+    matrix a(2,3);
+    std::cout << "matrix a is a " << a.nrows << " x " << a.ncols << " matrix\n";
     
-    // //indexing
-    // a(1,2) = 3.0;
-    // std::cout << "a[1][2] = " << a(1,2) << "\n";
-    // a.print("a = ");
+    //indexing
+    a(1,2) = 3.0;
+    std::cout << "a[1][2] = " << a(1,2) << "\n";
+    a.print("a = ");
     
-    // //getRow and setRow
-    // a.setRow(1, 4.5);
-    // a.print("a[1][:] = 4.5 = ");
-    // // vector testRow = a.getRow(1);
-    // // testRow *= 2;
-    vector testRow(2);
-    testRow[0] = 1; testRow[1] = 3;
-    testRow.print("testRow =");
-    // a.setRow(0, testRow);
-    // a.print("a[0][:] = a[1][:] * 2 = ");
+    //getRow and setRow
+    a.setRow(1, 4.5);
+    a.print("a[1][:] = 4.5 = ");
+    vector testRow = a.getRow(1);
+    testRow *= 2;
+    a.setRow(0, testRow);
+    a.print("a[0][:] = a[1][:] * 2 = ");
 
-    // try {
-    //     matrix badRow(1,2);
-    //     badRow.print("badRow = ");
-    //     a.setRow(0, badRow);
-    // } catch(std::invalid_argument& e) {std::cout << "cannot insert badRow into matrix a :)\n";}
+    try {
+        matrix badRow(1,2);
+        badRow.print("badRow = ");
+        a.setRow(0, badRow);
+    } catch(std::invalid_argument& e) {std::cout << "cannot insert badRow into matrix a :)\n";}
 
-    // matrix testCol = a.getCol(2);
-    // testCol /= 8;
-    // a.setCol(0, testCol);
-    // a.print("a = ");
+    vector testCol = a.getCol(2);
+    testCol /= 8;
+    a.setCol(0, testCol);
+    a.print("a = ");
 
 
-    //     std::cout << "a[1][:] *= 2\n";
+//     std::cout << "a[1][:] *= 2\n";
 //     a.print("a = ");
 
 //     std::cout << "a /= 3\n";

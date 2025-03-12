@@ -25,6 +25,10 @@ int main() {
     std::cout << "norm(a) = " << a.norm() << "\n";
     std::cout << "a * a = " << dot(a,a) << "\n";
     std::cout << "a * b = " << dot(a,b) << "\n";
+
+    vector f(2); f[0] = 3; f[1] = 4;
+    f.print("f = ");
+    std::cout << "norm(f) = " << f.norm() << "\n";
     
     b[0] = 0.0; b[1] = -30.0; b[2] = 10.0;
     b.print("b = ");

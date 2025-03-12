@@ -1,11 +1,6 @@
 #ifndef HAVE_VECTOR_H
 #define HAVE_VECTOR_H
 
-// #ifdef LONG_DOUBLE
-//     #define NUMBER long double
-// #else
-//     #define NUMBER double
-// #endif
 #include<vector>
 #include<string>
 #include<iostream>
@@ -27,6 +22,7 @@ class vector {
         // int size() {return data.size();};
 
         double& operator[](int i) {return data[i];}
+        double operator[](int i) const {return data[i];}
         vector& operator*=(double);
         vector& operator/=(double);
 
@@ -34,6 +30,7 @@ class vector {
         vector& operator-=(const vector&);
 
         double norm();
+        void normalize();
         void print(std::string s = "") const; //for debugging
         vector copy() const;
         
@@ -49,7 +46,8 @@ vector operator/(const vector&, double);
 vector proj(const vector&, const vector&);
 
 double dot(const vector&, const vector&); //inner product
-bool compatible_exception(const vector&, const vector&); //Check if two vectors are compatible, if not throw an exception.
+bool approx(const vector& a, const vector& b, double acc=1e-6,double eps=1e-6);
+bool compatible_exception(const vector&, const vector&); //Check if two vecs are compatible, if not throw an exception.
 
 // int size() return size;
 // const double& operator[](int i) const {return data[i];}

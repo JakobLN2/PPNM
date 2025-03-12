@@ -3,7 +3,6 @@
 #include<string>
 #include<iostream>
 #include<cmath>
-#include<vector>
 
 
 matrix& matrix::operator*=(double n) {
@@ -56,15 +55,25 @@ void matrix::setRow(int i, double n) {
     for(int j = 0; j < ncols ; ++j) cols[i + j * nrows] = n;
 }
 
-matrix matrix::getCol(int j) const {
-    matrix res(nrows, 1);
-    for(int i = 0; i < nrows ; ++i) res(i,0) = cols[i + j * nrows];
+// matrix matrix::getCol(int j) const {
+//     matrix res(nrows, 1);
+//     for(int i = 0; i < nrows ; ++i) res(i,0) = cols[i + j * nrows];
+//     return res;
+// }
+vector matrix::getCol(int j) const {
+    vector res(nrows);
+    for(int i = 0; i < nrows ; ++i) res[i] = cols[i + j * nrows];
     return res;
 }
-void matrix::setCol(int j, matrix setcol) {
+// void matrix::setCol(int j, matrix setcol) {
+//     if(j >= ncols) {throw std::invalid_argument("index out of range for matrix with " + std::to_string(ncols) + " columns.");}
+//     if(setcol.nrows != nrows) {throw std::invalid_argument("operand shape does not match, setting column of length " + std::to_string(setcol.nrows) + " into matrix of " + std::to_string(nrows) + " rows.");}
+//     for(int i = 0; i < nrows ; ++i) cols[i + j * nrows] = setcol(i,j);
+// }
+void matrix::setCol(int j, vector setcol) {
     if(j >= ncols) {throw std::invalid_argument("index out of range for matrix with " + std::to_string(ncols) + " columns.");}
-    if(setcol.nrows != nrows) {throw std::invalid_argument("operand shape does not match, setting column of length " + std::to_string(setcol.nrows) + " into matrix of " + std::to_string(nrows) + " rows.");}
-    for(int i = 0; i < nrows ; ++i) cols[i + j * nrows] = setcol(i,j);
+    if(setcol.size != nrows) {throw std::invalid_argument("operand shape does not match, setting column of length " + std::to_string(setcol.size) + " into matrix of " + std::to_string(nrows) + " rows.");}
+    for(int i = 0; i < nrows ; ++i) cols[i + j * nrows] = setcol[i];
 }
 void matrix::setCol(int j, double n) {
     for(int i = 0; i < nrows ; ++j) cols[i + j * nrows] = n;
@@ -138,6 +147,19 @@ matrix operator*(const matrix& a, const matrix& b) {
     }
     return c;
 }
+vector operator*(const matrix& a, const vector& b) {
+    if(a.ncols != b.size) {throw std::invalid_argument("operand shapes do not match (" + std::to_string(a.nrows) + "," + std::to_string(a.ncols) + ") * " + std::to_string(b.size));}
+    vector res(a.nrows);
+    for(int i = 0; i < a.nrows ; ++i) res[i] = dot(a.getRow(i), b);
+    return res;
+}
+vector operator*(const vector& a, const matrix& b) {
+    if(a.size != b.ncols) {throw std::invalid_argument("operand shapes do not match " + std::to_string(a.size) + " * (" + std::to_string(b.nrows) + "," + std::to_string(b.ncols));}
+    vector res(b.ncols);
+    for(int j = 0; j < b.ncols ; ++j) res[j] = dot(a, b.getCol(j));
+    return res;
+}
+
 matrix transpose(const matrix& a) {
     matrix res(a.ncols, a.nrows);
     for(int i = 0; i < res.nrows ; ++i) {
@@ -146,15 +168,41 @@ matrix transpose(const matrix& a) {
     return res;
 }
 
-bool approx(const matrix& a, const matrix& b, double acc=1e-6,double eps=1e-6) {
+matrix identity(int n) {
+    matrix res(n,n);
+    for(int i = 0; i < n ; ++i) res(i,i) = 1;
+    return res;
+}
+
+bool approx(const matrix& a, const matrix& b, double acc,double eps) {
     sum_compatible_exception(a,b);
     for(int i = 0; i < a.nrows ; ++i) {
         for(int j = 0; j < a.ncols ; ++j) {
-            if(std::abs(a(i,j) - b(i,j)) > acc || std::abs(a(i,j) - b(i,j))/std::max(std::abs(a(i,j)),(std::abs(b(i,j)))) > eps) return false;
+            if(std::abs(a(i,j) - b(i,j)) <= acc) {
+                if(a(i,j) != 0 && b(i,j) != 0 && std::abs(a(i,j) - b(i,j))/std::max(std::abs(a(i,j)),(std::abs(b(i,j)))) > eps) return false;
+            } else {return false;}
         }
     }
     return true;    
 }
+// bool approx(const matrix& a, const vector& b, double acc,double eps) { //holy ugly
+//     if(a.ncols == b.size && a.nrows == 1) {
+//         for(int j = 0; j < a.ncols ; ++j) {
+//             if(std::abs(a(0,j) - b[j]) < acc) {
+//                 if(a(0,j) != 0 && b[j] != 0 && std::abs(a(0,j) - b[j])/std::max(std::abs(a(0,j)),(std::abs(b[j]))) > eps) return false;
+//             } else {return false;}
+//         }
+//     } else if(a.nrows == b.size && a.ncols == 1) {
+//         for(int i = 0 ; i < a.nrows ; ++i) {
+//             if(std::abs(a(i,0) - b[i]) < acc) {
+//                 if(a(i,0) != 0 && b[i] != 0 && std::abs(a(i,0) - b[i])/std::max(std::abs(a(i,0)),(std::abs(b[i]))) > eps) return false;
+//             } else {return false;}
+//         }
+//     } else {
+//         throw std::invalid_argument("operand shapes do not match (" + std::to_string(a.nrows) + "," + std::to_string(a.ncols) + " ?= " + std::to_string(b.size));
+//     }
+//     return true;
+// }
 
 void prod_compatible_exception(const matrix& a, const matrix& b) { //matrix product compatible check
     if(a.ncols != b.nrows) {

@@ -27,17 +27,20 @@ vector& vector::operator-=(const vector& a) {
 
 
 double vector::norm() {
-    double res;
-    for(auto& d : data) res += d*d;
+    double res = 0;
+    for(double d : data) res += d*d;
     return std::sqrt(res);
+}
+void vector::normalize() {
+    double len = this->norm();
+    for(int i = 0; i < size; ++i) data[i] /= len;
 }
 
 
-
 void vector::print(std::string s) const {
-    std::cout << s;
-    for(auto d : data) std::cout << d << ", ";
-    std::cout << "\b \b" << std::endl;
+    std::cout << s << "( ";
+    for(auto d : data) std::cout << d << " ";
+    std::cout << ")\n";
 }
 
 vector vector::copy() const{
@@ -93,6 +96,17 @@ double dot(const vector& a, const vector& b) {
     for(int i = 0 ; i < a.size ; ++i) res += a.data[i] * b.data[i];
     return res;
 }
+
+bool approx(const vector& a, const vector& b, double acc,double eps) {
+    compatible_exception(a,b);
+    for(int i = 0; i < a.size ; ++i) {
+        if(std::abs(a[i] - b[i]) <= acc) {
+            if(a[i] != 0 && b[i] != 0 && std::abs(a[i] - b[i])/std::max(std::abs(a[i]),(std::abs(b[i]))) > eps) return false;
+        } else {return false;}
+    }
+    return true;
+}
+
 
 bool compatible_exception(const vector& a, const vector& b) {
     if(a.size != b.size) throw std::invalid_argument("operand shapes do not match (" + std::to_string(a.size) + "," + std::to_string(b.size) + ")");

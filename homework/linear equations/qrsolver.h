@@ -2,7 +2,6 @@
 #define HAVE_QRSOLVER_H
 
 #include"matrix.h"
-#include"matrix.cc"
 #include"vector.h"
 
 class QRSolver {
@@ -10,11 +9,13 @@ class QRSolver {
         matrix Q,
                R;
         matrix& A;
+        matrix B; //inverse of A, if we wish
         
-        QRSolver(matrix& A) : A(A) {
+        QRSolver(matrix& A_in) : A(A_in) {
             Q = A.copy();
-            R(A.ncols, A.ncols);
+            R = matrix(A.ncols, A.ncols);
         } // parametrized constructor
+
 
         QRSolver() = default; // default constructor
         QRSolver(const QRSolver&)=default; // copy constructor
@@ -24,9 +25,9 @@ class QRSolver {
         QRSolver& operator=(QRSolver&&)=default; // move assignment
 
         void decomp(); //Calculate and set Q and R matrices
-        void solve(); //Sovle a system of linear equations Ax = b
-        void inverse(); //Calculate the inverse of A
-        double det(); //Calculate the determinant of A
+        vector solve(const vector&) const; //Sovle a system of linear equations Ax = b
+        matrix& inverse(); //Calculate the inverse of A
+        // double det(); //Calculate the determinant of A
 
 };
 

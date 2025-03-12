@@ -1,5 +1,5 @@
-#ifndef HAVE_matrix_H
-#define HAVE_matrix_H
+#ifndef HAVE_MATRIX_H
+#define HAVE_MATRIX_H
 
 #include"vector.h"
 #include<vector>
@@ -23,19 +23,17 @@ class matrix {
         matrix& operator=(matrix&&)=default; // move assignment
         
         // void reshape(int n, int m) //TODO: implement reshape
-        // std::vector<double> getRow(int);
-        vector getRow(int) const;
         // matrix getRow(int) const;
-        // void setRow(int, std::vector<double>);
-        // void setRow(int, vector);
+        vector getRow(int) const;
         void setRow(int, matrix);
         void setRow(int, vector);
         void setRow(int, double);
 
-        // std::vector<double> getCol(int);
-        matrix getCol(int) const;
-        // void setCol(int, std::vector<double>);
+
+        // matrix getCol(int) const;
+        vector getCol(int) const;
         void setCol(int, matrix);
+        void setCol(int, vector);
         void setCol(int, double);
 
         // vector& operator[](int i) {return cols[i];}; //Has to be single indexing? a[1][2] - I dont have C++23?
@@ -57,9 +55,14 @@ matrix operator/(const matrix& a, double);
 matrix operator*(const matrix& a, double);
 matrix operator*(double, const matrix& a);
 matrix operator*(const matrix& a, const matrix& b);
+vector operator*(const matrix& a, const vector& b); //Note: vectors have no shape, therefore I simply trust that you know if it is a row or column vector.
+vector operator*(const vector& a, const matrix& b); //Note: Also unable to calculate the outer product TODO, perchance?
 matrix transpose(const matrix& a);
 
-// bool approx(const matrix& a, const matrix& b, double acc=1e-6,double eps=1e-6);
+matrix identity(int); //Create identity matrix of size n
+bool approx(const matrix& a, const matrix& b, double acc=1e-6,double eps=1e-6);
+// bool approx(const matrix& a, const vector& b, double acc=1e-6,double eps=1e-6);
+// bool approx(const vector& a, const matrix& b, double acc=1e-6,double eps=1e-6) {return approx(b,a, acc, eps);}
 void prod_compatible_exception(const matrix& a, const matrix& b); //Check if two matrices are compatible for matrix multiplication, if not throw an exception.
 void sum_compatible_exception(const matrix& a, const matrix& b); //Check if two matrices are compatible for addition (+ subtraction)
 
