@@ -92,6 +92,14 @@ void matrix::print(std::string s) const {
     }
 }
 
+matrix matrix::copy() {
+    matrix res(nrows, ncols);
+    for(int i = 0; i < nrows ; ++i) {
+        for(int j = 0 ; j < ncols ; ++j) res(i,j) = cols[i + j * nrows];
+    }
+    return res;
+}
+
 matrix operator+(const matrix& a, const matrix& b) {
     sum_compatible_exception(a,b);
     matrix res(a.nrows, a.ncols);

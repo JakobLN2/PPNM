@@ -4,6 +4,9 @@ LDLIBS += -lstdc++ -lm
 Out.txt : main
 	./$< > $@
 
+Out_matrix_test.txt : matrix_test
+	./$< > $@
+
 main : main.o vector.o matrix.o
 	$(CXX) $(CXXFLAGS) $(LDLIBS) -o main $^
 
