@@ -37,8 +37,8 @@ class matrix {
         void setCol(int, double);
 
         // vector& operator[](int i) {return cols[i];}; //Has to be single indexing? a[1][2] - I dont have C++23?
-        double& operator()(int i, int j) {return cols[i + j * nrows];}; //double indexing
-        double operator()(int i, int j) const {return cols[i + j * nrows];};
+        inline double& operator()(int i, int j) {return cols[i + j * nrows];}; //double indexing
+        inline double operator()(int i, int j) const {return cols[i + j * nrows];};
 
         matrix& operator*=(double);
         matrix& operator/=(double);
@@ -61,8 +61,6 @@ matrix transpose(const matrix& a);
 
 matrix identity(int); //Create identity matrix of size n
 bool approx(const matrix& a, const matrix& b, double acc=1e-6,double eps=1e-6);
-// bool approx(const matrix& a, const vector& b, double acc=1e-6,double eps=1e-6);
-// bool approx(const vector& a, const matrix& b, double acc=1e-6,double eps=1e-6) {return approx(b,a, acc, eps);}
 void prod_compatible_exception(const matrix& a, const matrix& b); //Check if two matrices are compatible for matrix multiplication, if not throw an exception.
 void sum_compatible_exception(const matrix& a, const matrix& b); //Check if two matrices are compatible for addition (+ subtraction)
 

@@ -19,10 +19,9 @@ class vector {
         vector& operator=(const vector&)=default; // copy assignment
         vector& operator=(vector&&)=default; // move assignment
         
-        // int size() {return data.size();};
-
-        double& operator[](int i) {return data[i];}
-        double operator[](int i) const {return data[i];}
+        inline double& operator[](int i) {return data[i];}
+        inline double operator[](int i) const {return data[i];}
+        
         vector& operator*=(double);
         vector& operator/=(double);
 
@@ -49,16 +48,5 @@ double dot(const vector&, const vector&); //inner product
 bool approx(const vector& a, const vector& b, double acc=1e-6,double eps=1e-6);
 bool compatible_exception(const vector&, const vector&); //Check if two vecs are compatible, if not throw an exception.
 
-// int size() return size;
-// const double& operator[](int i) const {return data[i];}
-
-
-// friend vector<T> operator+(const vector<T>&, const vector<T>&);
-// vector operator-(const vector&);
-// vector operator*(const vector&, double);
-// vector operator*(double, const vector&);
-// vector operator/(const vector&, double);
-// bool approx(const vector&, const vector&, double acc=1e-6,double eps=1e-6);
-// double dot(const vector&, const vector&);
 
 #endif

@@ -1,20 +1,41 @@
 CXXFLAGS += -Wall -Wextra -Werror -std=c++23 -O2 -Wno-maybe-uninitialized #ignore maybe uninitialized warnings
-CPPFLAGS += '-I ~/projects/PPNM/homework'
+# CPPFLAGS += '-I ~/projects/PPNM/homework'
 LDLIBS += -lstdc++ -lm
 TIME = time --portability --append --output=$@ --format "$$n %e"
-# %U"
 
-SRC_DIR := ../src/
-LIB_DIR := ../include/
+SRC_DIR := ../src
+OBJ_DIR := ../obj
+I_DIR := ../include
+
+#Header files to be compiled:
+INCS = $(I_DIR)/vector.h $(I_DIR)/matrix.h qrsolver.h
+
+SRCS = $(INCS:$(I_DIR)/%.h=$(SRC_DIR)/%.cc)
+SRCS := $(SRCS:.h=.cc)
+
+OBJS := $(INCS:$(I_DIR)/%.h=$(OBJ_DIR)/%.o)
+OBJS := $(OBJS:.h=.o)
+
+.PHONY: all clean
+all: main Out.txt plot.times.svg
+
+test:
+	$(info SRC_DIR is $(SRC_DIR))
+	$(info INCS is $(INCS))
+	$(info SRCS is $(SRCS))
+	$(info OBJS is $(OBJS))
+	@echo "Linking command: $(CXX) $(CXXFLAGS) $(OBJS) $(LDLIBS) $(CPPFLAGS) -o $@ $^"
+
 
 Out.txt : main
 	./$< -n 4 -m 4 > $@
 
-#something is major league wrong with my makefile, i can change the header files without it thinking it should recompile those??? But it perfectly works for the .cc file?????
-main : main.o vector.o matrix.o qrsolver.o
-	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o main $^
-main.o : main.cc
-	$(CXX) $(CXXFLAGS) -c -o main.o main.cc
+main : $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
+# main : main.o vector.o matrix.o qrsolver.o
+# 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o main $^
+# main.o : main.cc
+# 	$(CXX) $(CXXFLAGS) -c -o main.o main.cc
 
 
 plot.times.svg : out.times.txt Makefile
@@ -43,19 +64,29 @@ factorizer : factorizer.o vector.o matrix.o qrsolver.o
 factorizer.o : factorizer.cc
 	$(CXX) $(CXXFLAGS) -c -o factorizer.o factorizer.cc
 
+# $(OBJS): $(SRCS)
+# 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $< $@
 
-vector.o : vector.cc vector.h
-	$(CXX) $(CXXFLAGS) -c -o vector.o vector.cc
+# %.o: %.cc
+# 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 
-matrix.o : matrix.cc matrix.h vector.o
-	$(CXX) $(CXXFLAGS) -c -o matrix.o matrix.cc
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 
-qrsolver.o : qrsolver.cc qrsolver.h
-	$(CXX) $(CXXFLAGS) -c -o qrsolver.o qrsolver.cc
+
+# vector.o : vector.cc vector.h
+# 	$(CXX) $(CXXFLAGS) -c -o vector.o vector.cc
+
+# matrix.o : matrix.cc matrix.h vector.o
+# 	$(CXX) $(CXXFLAGS) -c -o matrix.o matrix.cc
+
+# qrsolver.o : qrsolver.cc qrsolver.h
+# 	$(CXX) $(CXXFLAGS) -c -o qrsolver.o qrsolver.cc
 
 matrix_test : matrix_test.o matrix.o vector.o 
 vector_test : vector_test.o vector.o
 
 clean:
-	$(RM) [Oo]ut*.txt *.o main vector_test matrix_test factorizer *.png *.svg
+	$(RM) [Oo]ut*.txt main vector_test matrix_test factorizer *.png *.svg *.log $(OBJS)
 
+# -include $(OBJ:.o=.d)

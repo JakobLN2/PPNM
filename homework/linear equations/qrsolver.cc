@@ -1,6 +1,4 @@
 #include"qrsolver.h"
-#include"matrix.h"
-#include"vector.h"
 
 void QRSolver::decomp() {
     vector Qcol;

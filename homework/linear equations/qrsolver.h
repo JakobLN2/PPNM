@@ -1,8 +1,8 @@
 #ifndef HAVE_QRSOLVER_H
 #define HAVE_QRSOLVER_H
 
-#include"matrix.h"
-#include"vector.h"
+#include"../include/matrix.h"
+#include"../include/vector.h"
 
 class QRSolver {
     public:
