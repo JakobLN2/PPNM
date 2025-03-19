@@ -20,7 +20,6 @@ OBJS := $(OBJS:.h=.o)
 all: main Out.txt plot.times.svg
 
 test:
-	$(info SRC_DIR is $(SRC_DIR))
 	$(info INCS is $(INCS))
 	$(info SRCS is $(SRCS))
 	$(info OBJS is $(OBJS))
@@ -30,12 +29,12 @@ test:
 Out.txt : main
 	./$< -n 4 -m 4 > $@
 
-main : $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
+main : main.o $(OBJS)
+	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
 # main : main.o vector.o matrix.o qrsolver.o
 # 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o main $^
-# main.o : main.cc
-# 	$(CXX) $(CXXFLAGS) -c -o main.o main.cc
+main.o : main.cc
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 
 plot.times.svg : out.times.txt Makefile
@@ -64,24 +63,20 @@ factorizer : factorizer.o vector.o matrix.o qrsolver.o
 factorizer.o : factorizer.cc
 	$(CXX) $(CXXFLAGS) -c -o factorizer.o factorizer.cc
 
-# $(OBJS): $(SRCS)
-# 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $< $@
-
-# %.o: %.cc
-# 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
-
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
+# $(OBJ_DIR)/%.o : $(SRCS)
+# 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $< -o $@
 
 
-# vector.o : vector.cc vector.h
-# 	$(CXX) $(CXXFLAGS) -c -o vector.o vector.cc
+# $(OBJ_DIR)/vector.o : $(SRC_DIR)/vector.cc $(I_DIR)/vector.h
+# 	$(CXX) $(CXXFLAGS) -c -o $< $@
 
-# matrix.o : matrix.cc matrix.h vector.o
-# 	$(CXX) $(CXXFLAGS) -c -o matrix.o matrix.cc
+# $(OBJ_DIR)/matrix.o : $(SRC_DIR)/matrix.cc $(I_DIR)/matrix.h $(OBJ_DIR)/vector.o
+# 	$(CXX) $(CXXFLAGS) -c -o $< $@
 
 # qrsolver.o : qrsolver.cc qrsolver.h
-# 	$(CXX) $(CXXFLAGS) -c -o qrsolver.o qrsolver.cc
+# 	$(CXX) $(CXXFLAGS) -c -o $< $@
 
 matrix_test : matrix_test.o matrix.o vector.o 
 vector_test : vector_test.o vector.o
