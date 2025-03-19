@@ -1,5 +1,4 @@
 CXXFLAGS += -Wall -Wextra -Werror -std=c++23 -O2 -Wno-maybe-uninitialized #ignore maybe uninitialized warnings
-# CPPFLAGS += '-I ~/projects/PPNM/homework'
 LDLIBS += -lstdc++ -lm
 TIME = time --portability --append --output=$@ --format "$$n %e"
 
@@ -31,10 +30,6 @@ Out.txt : main
 
 main : main.o $(OBJS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
-# main : main.o vector.o matrix.o qrsolver.o
-# 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o main $^
-main.o : main.cc
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 
 plot.times.svg : out.times.txt Makefile
@@ -48,7 +43,7 @@ plot.times.svg : out.times.txt Makefile
 		  fit f(x) "$<" via a; \
 		  plot \
 		  	"$<" index 0 with points title "Runtime of QR factorization",\
-		   f(x) title "a*n^3 fit"\
+		   f(x) title sprintf("a = %3.5f ns",a*1e9)\
 	' | gnuplot
 
 
@@ -58,30 +53,19 @@ out.times.txt: factorizer
 		do $(TIME) ./factorizer -n $$n;\
 	done
 
-factorizer : factorizer.o vector.o matrix.o qrsolver.o
-	$(CXX) $(CXXFLAGS) $(LDLIBS) -o factorizer $^
-factorizer.o : factorizer.cc
-	$(CXX) $(CXXFLAGS) -c -o factorizer.o factorizer.cc
+factorizer : factorizer.o $(OBJS)
+	$(CXX) $(CXXFLAGS) $(LDLIBS) -o $@ $^
 
-$(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc
+#Create all object files from their corresponding .cc file. Also check if the obj folder even exists
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
-# $(OBJ_DIR)/%.o : $(SRCS)
-# 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $< -o $@
 
-
-# $(OBJ_DIR)/vector.o : $(SRC_DIR)/vector.cc $(I_DIR)/vector.h
-# 	$(CXX) $(CXXFLAGS) -c -o $< $@
-
-# $(OBJ_DIR)/matrix.o : $(SRC_DIR)/matrix.cc $(I_DIR)/matrix.h $(OBJ_DIR)/vector.o
-# 	$(CXX) $(CXXFLAGS) -c -o $< $@
-
-# qrsolver.o : qrsolver.cc qrsolver.h
-# 	$(CXX) $(CXXFLAGS) -c -o $< $@
+#If the obj directory does not exist, create it.
+$(OBJ_DIR):
+	mkdir -p $@
 
 matrix_test : matrix_test.o matrix.o vector.o 
 vector_test : vector_test.o vector.o
 
 clean:
 	$(RM) [Oo]ut*.txt main vector_test matrix_test factorizer *.png *.svg *.log $(OBJS)
-
-# -include $(OBJ:.o=.d)
