@@ -85,7 +85,8 @@ void matrix::print(std::string s) const {
     for(int i = 0; i < nrows ; ++i) for(int j = 0; j < ncols ; ++j) maxSize = std::max((int)(std::to_string(cols[i + j*nrows]).size()), maxSize);  
     for(int i = 0 ; i < nrows ; ++i) {
         for(int j = 0; j < ncols ; ++j) {
-            std::cout << std::setw(maxSize + 3) << std::left;
+            if(cols[i + j * nrows] >= 0) std::cout << " " << std::setw(maxSize + 1) << std::left;
+            else std::cout << std::setw(maxSize + 2) << std::left;
             std::cout << cols[i + j * nrows] << " ";
 
         }
