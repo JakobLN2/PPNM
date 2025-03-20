@@ -1,20 +1,21 @@
 #ifndef HAVE_EVD_H
 #define HAVE_EVD_H
 
-#include"matrix.h"
-#include"vector.h"
+#include"../include/matrix.h"
+#include"../include/vector.h"
 
 class EVD {
     public:
-        matrix V; //matrix of eigenvectors
-        matrix& A;
+        matrix V, A; //matrix of eigenvectors
+        matrix& M;
         vector w; //vector of eigenvalues
         
-        matrix B; //inverse of A, if we wish
+        // matrix B; //inverse of A, if we wish
         
-        EVD(matrix& A_in) : A(A_in) {
-            V = A.copy();
-            w = vector(A.ncols);
+        EVD(matrix& M_in) : M(M_in) {
+            A = M_in.copy();
+            V = identity(A.nrows);
+            w = vector(V.ncols);
         } // parametrized constructor
 
 
@@ -25,8 +26,8 @@ class EVD {
         EVD& operator=(const EVD&)=default; // copy assignment
         EVD& operator=(EVD&&)=default; // move assignment
 
-        void timesJ(int, int, double); //Multiply V with J from the right, update V
-        void Jtimes(int, int, double);
+        void timesJ(matrix&, int, int, double); //Multiply V with J from the right, update V
+        void Jtimes(matrix&, int, int, double);
         void cyclic(); //Do cyclic sweeps over the matrix until convergence
 
 };

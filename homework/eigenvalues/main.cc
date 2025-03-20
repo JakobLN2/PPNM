@@ -1,6 +1,6 @@
 #include"EVD.h"
-#include"matrix.h"
-#include"vector.h"
+#include"../include/matrix.h"
+#include"../include/vector.h"
 #include<random>
 #include<iostream>
 
@@ -18,8 +18,12 @@ int main(int argc, char** argv) {
     std::uniform_real_distribution<double> unif(0,1);
     std::default_random_engine re;
 
-    for(int i = 0; i < n; ++i) for(int j = 0; j < n ; ++j) A(i,j) = unif(re);
-    A.print("A = ");
+    for(int i = 0; i < n; ++i) for(int j = 0; j < i + 1 ; ++j) {
+        double val = unif(re);
+        A(i,j) = val; 
+        A(j,i) = val;
+    }
+        A.print("A = ");
     
     EVD evd(A);
     evd.cyclic();
@@ -32,6 +36,8 @@ int main(int argc, char** argv) {
     std::cout << "\nV^TV ?= I : " << approx(VTV, I) << "\n";
 
 
+    matrix X = transpose(evd.V) * (evd.A * evd.V);
+    X.print("V^TAV = ");
 
 
     return 0;

@@ -4,14 +4,27 @@ LDLIBS += -lstdc++ -lm
 TIME = time --portability --append --output=$@ --format "$$n %e"
 # %U"
 
+SRC_DIR := ../src
+OBJ_DIR := ../obj
+I_DIR := ../include
+
+#Header files to be compiled:
+INCS = $(I_DIR)/vector.h $(I_DIR)/matrix.h EVD.h
+
+SRCS = $(INCS:$(I_DIR)/%.h=$(SRC_DIR)/%.cc)
+SRCS := $(SRCS:.h=.cc)
+
+OBJS := $(INCS:$(I_DIR)/%.h=$(OBJ_DIR)/%.o)
+OBJS := $(OBJS:.h=.o)
+
+.PHONY: all clean
+all: Out.txt plot.times.svg
+
 Out.txt : main
 	./$< -n 3 > $@
 
-#something is major league wrong with my makefile, i can change the header files without it thinking it should recompile those??? But it perfectly works for the .cc file?????
-main : main.o vector.o matrix.o EVD.o
+main : main.o $(OBJS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o main $^
-main.o : main.cc
-	$(CXX) $(CXXFLAGS) -c -o main.o main.cc
 
 
 plot.times.svg : out.times.txt Makefile
@@ -35,17 +48,24 @@ out.times.txt: factorizer
 		do $(TIME) ./factorizer -n $$n;\
 	done
 
-vector.o : vector.cc vector.h
-	$(CXX) $(CXXFLAGS) -c -o vector.o vector.cc
 
-matrix.o : matrix.cc matrix.h vector.o
-	$(CXX) $(CXXFLAGS) -c -o matrix.o matrix.cc
+#Create all object files from their corresponding .cc file. Also check if the obj folder even exists
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 
-EVD.o : EVD.cc EVD.h
-	$(CXX) $(CXXFLAGS) -c -o EVD.o EVD.cc
+#If the obj directory does not exist, create it.
+$(OBJ_DIR):
+	mkdir -p $@
 
-matrix_test : matrix_test.o matrix.o vector.o 
-vector_test : vector_test.o vector.o
+# vector.o : vector.cc vector.h
+# 	$(CXX) $(CXXFLAGS) -c -o vector.o vector.cc
+
+# matrix.o : matrix.cc matrix.h vector.o
+# 	$(CXX) $(CXXFLAGS) -c -o matrix.o matrix.cc
+
+# EVD.o : EVD.cc EVD.h
+# 	$(CXX) $(CXXFLAGS) -c -o EVD.o EVD.cc
+
 
 clean:
 	$(RM) [Oo]ut*.txt *.o main vector_test matrix_test factorizer *.png *.svg
