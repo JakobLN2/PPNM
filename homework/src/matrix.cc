@@ -2,6 +2,7 @@
 #include<string>
 #include<iostream>
 #include<cmath>
+#include<iomanip>
 
 
 matrix& matrix::operator*=(double n) {
@@ -79,12 +80,17 @@ void matrix::setCol(int j, double n) {
 }
 
 void matrix::print(std::string s) const {
-    std::cout << s << "( ";
-    std::string pad((int)s.size() + 2, ' ');
+    std::cout << s << "(";
+    int maxSize = 1;
+    for(int i = 0; i < nrows ; ++i) for(int j = 0; j < ncols ; ++j) maxSize = std::max((int)(std::to_string(cols[i + j*nrows]).size()), maxSize);  
     for(int i = 0 ; i < nrows ; ++i) {
-        for(int j = 0; j < ncols ; ++j) std::cout << cols[i + j * nrows] << " ";
+        for(int j = 0; j < ncols ; ++j) {
+            std::cout << std::setw(maxSize + 3) << std::left;
+            std::cout << cols[i + j * nrows] << " ";
+
+        }
         if(i == nrows - 1) std::cout << ")\n";
-        else std::cout << "\n" << pad;
+        else std::cout << std::setw((int)s.size() + 2) << "\n";
     }
 }
 matrix matrix::copy() {
