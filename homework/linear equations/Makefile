@@ -16,13 +16,7 @@ OBJS := $(INCS:$(I_DIR)/%.h=$(OBJ_DIR)/%.o)
 OBJS := $(OBJS:.h=.o)
 
 .PHONY: all clean
-all: main Out.txt plot.times.svg
-
-test:
-	$(info INCS is $(INCS))
-	$(info SRCS is $(SRCS))
-	$(info OBJS is $(OBJS))
-	@echo "Linking command: $(CXX) $(CXXFLAGS) $(OBJS) $(LDLIBS) $(CPPFLAGS) -o $@ $^"
+all: Out.txt plot.times.svg
 
 
 Out.txt : main
@@ -64,8 +58,8 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc | $(OBJ_DIR)
 $(OBJ_DIR):
 	mkdir -p $@
 
-matrix_test : matrix_test.o matrix.o vector.o 
-vector_test : vector_test.o vector.o
+matrix_test : matrix_test.o $(OBJS)
+vector_test : vector_test.o ../include/vector.h
 
 clean:
-	$(RM) [Oo]ut*.txt main vector_test matrix_test factorizer *.png *.svg *.log $(OBJS)
+	$(RM) [Oo]ut*.txt main vector_test matrix_test factorizer *.png *.svg *.log $(OBJS) *.o
