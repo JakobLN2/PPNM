@@ -28,7 +28,6 @@ vector QRSolver::solve(const vector& b) const {
     return x;
 }
 matrix& QRSolver::inverse() {
-    matrix Rinv(R.nrows, R.ncols);
     double sum;
     for(int j = 0; j < R.ncols ; ++j) { //Solve for R^- by backsubstitution column by column.
         Rinv(j,j) = 1/R(j,j);

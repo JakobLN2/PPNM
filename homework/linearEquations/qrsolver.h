@@ -10,10 +10,12 @@ class QRSolver {
                R;
         matrix& A;
         matrix B; //inverse of A, if we wish
+        matrix Rinv;
         
         QRSolver(matrix& A_in) : A(A_in) {
             Q = A.copy();
             R = matrix(A.ncols, A.ncols);
+            Rinv = identity(A.ncols);
         } // parametrized constructor
 
 
