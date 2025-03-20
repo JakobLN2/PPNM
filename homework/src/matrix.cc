@@ -185,7 +185,8 @@ bool approx(const matrix& a, const matrix& b, double acc,double eps) {
     for(int i = 0; i < a.nrows ; ++i) {
         for(int j = 0; j < a.ncols ; ++j) {
             if(std::abs(a(i,j) - b(i,j)) <= acc) {
-                if(a(i,j) != 0 && b(i,j) != 0 && std::abs(a(i,j) - b(i,j))/std::max(std::abs(a(i,j)),(std::abs(b(i,j)))) > eps) return false;
+                if(a(i,j) > acc && b(i,j) > acc //We cannot reasonably compare the relative accuracy if one of the elements is almost 0 
+                    && std::abs(a(i,j) - b(i,j))/std::max(std::abs(a(i,j)),(std::abs(b(i,j)))) > eps) return false;
             } else {return false;}
         }
     }

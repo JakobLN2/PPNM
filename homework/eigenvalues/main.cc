@@ -23,21 +23,26 @@ int main(int argc, char** argv) {
         A(i,j) = val; 
         A(j,i) = val;
     }
-        A.print("A = ");
+    std::cout << "Random " << n << " x " << n << " matrix with values [0,1]\n";
+    A.print("A = ");
     
+    
+    std::cout << "\nEigendecomposition of A into V^T D V:\n";
     EVD evd(A);
     evd.cyclic();
     evd.V.print("V = ");
+    evd.D.print("D = ");
+    
+    
+    std::cout << "\nTests:\n";
+    std::cout << "V^TV  ?= I : " << approx(transpose(evd.V) * evd.V, I) << "\n";
+    std::cout << "VV^T  ?= I : " << approx(evd.V * transpose(evd.V), I) << "\n";
+    
+    matrix X = evd.V * (evd.D * transpose(evd.V));
+    std::cout << "V^TAV ?= D : " << approx(transpose(evd.V)*(A * evd.V), evd.D) << "\n";
+    std::cout << "VDV^T ?= A : " << approx(X,A) << "\n";
+    
 
-    matrix VTV = transpose(evd.V) * evd.V;
-    VTV.print("V^TV = ");
-    (evd.V * transpose(evd.V)).print("VV^T = ");
-
-    std::cout << "\nV^TV ?= I : " << approx(VTV, I) << "\n";
-
-
-    matrix X = transpose(evd.V) * (evd.A * evd.V);
-    X.print("V^TAV = ");
 
 
     return 0;

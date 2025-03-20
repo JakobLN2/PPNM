@@ -6,16 +6,17 @@
 
 class EVD {
     public:
-        matrix V, A; //matrix of eigenvectors
+        matrix V, //Matrix of eigenvectors
+               D; //Diagonal matrix of eigenvalues
+            //    vector w; //vector of eigenvalues
         matrix& M;
-        vector w; //vector of eigenvalues
         
         // matrix B; //inverse of A, if we wish
         
         EVD(matrix& M_in) : M(M_in) {
-            A = M_in.copy();
-            V = identity(A.nrows);
-            w = vector(V.ncols);
+            D = M_in.copy();
+            V = identity(D.nrows);
+            // w = vector(D.ncols);
         } // parametrized constructor
 
 
