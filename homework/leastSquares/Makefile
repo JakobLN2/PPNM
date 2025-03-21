@@ -18,7 +18,7 @@ OBJS := $(INCS:$(I_DIR)/%.h=$(OBJ_DIR)/%.o)
 OBJS := $(OBJS:.h=.o)
 
 .PHONY: all clean
-all: Out.txt plot.dr_convergence.svg plot.rmax_convergence.svg plot.eigenfuncs.svg plot.n_times.svg
+all: Out.txt plot.fit.svg
 
 Out.txt : main
 	./$< > $@
@@ -26,9 +26,25 @@ Out.txt : main
 main : main.o $(OBJS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
 
-l := 0.170624
-a := 142.4028
-
+plot.fit.svg : Out.txt Makefile
+	echo 'set terminal svg background "white"; \
+		  set output "$@"; \
+		  set key right; \
+		  set xlabel "Time (day)"; \
+		  set ylabel "Activity (counts)"; \
+		  l = 0.170624; \
+		  a = 4.95866; \
+		  lerr = 0.007157; \
+		  aerr = 0.035402; \
+		  f(x) = exp(-l*x + a) ; \
+		  g(x) = exp(-(l + lerr)*x + a - aerr) ; \
+		  h(x) = exp(-(l - lerr)*x + a + aerr) ; \
+		  plot \
+		  	"$<" index 1 with yerrorbars title "Runtime of QR factorization",\
+		   f(x) title sprintf("F_c = exp(-%3.4f * x + %3.4f)",l,a),\
+		   g(x) title sprintf("F_{c - dc}",a),\
+		   h(x) title sprintf("F_{c + dc}",a)\
+	' | gnuplot
 
 
 #Create all object files from their corresponding .cc file. Also check if the obj folder even exists
@@ -40,5 +56,5 @@ $(OBJ_DIR):
 	mkdir -p $@
 
 clean:
-	$(RM) [Oo]ut*.txt *.o *.png *.svg *.log main swave factorizer
+	$(RM) [Oo]ut*.txt *.o *.png *.svg *.log main 
 

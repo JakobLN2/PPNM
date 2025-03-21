@@ -32,11 +32,14 @@ int main() {
     std::cout << "Optimal parameters (a, lambda):\n";
     par.print("par = ");
     cov.print("cov = ");
-    std::cout << "parameter errors: " << std::sqrt(cov(0,0)) 
+    std::cout << "parameter errors: " << std::sqrt(cov(0,0)) << ", " << std::sqrt(cov(1,1)) << "\n\n";
     double half_life = std::log(2)/par[1];
     double half_life_err = std::log(2)/par[1]/par[1] * std::sqrt(cov(1,1)); //Error calculated by the law of accumulation
     std::cout << "ThX has measured half life : " << half_life << " +/- " << half_life_err << " days\n";
-    std::cout << "224Ra has half life : 3.6319 +/- days" << "\n";
+    std::cout << "224Ra has half life : 3.6319 days" << "\n";
     std::cout << "The experimental data is " << (half_life - 3.6319)/half_life_err << " standard deviations from the modern value\n";
+    
+    std::cout << "\n\n";
+    for(int i = 0; i < (int)t.size() ; ++i) std::cout << t[i] << " " << y[i] << " " << dy[i] << "\n";
     return 0;
 }

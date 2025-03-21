@@ -14,7 +14,7 @@ std::tuple<vector, matrix> lsfit(const std::vector<std::function<double(double)>
     vector par = fac.solve(b);
 
     matrix Ainv = fac.inverse();
-    matrix cov = fac.Rinv * transpose(fac.Rinv);
+    matrix cov = Ainv * transpose(Ainv);
 
     return std::make_tuple(par, cov);
 }
