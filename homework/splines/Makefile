@@ -21,7 +21,7 @@ OBJS := $(OBJS:.h=.o)
 all: Out.txt plot.times.svg
 
 Out.txt : main
-	./$< -n 3 > $@
+	./$< > $@
 
 main : main.o $(OBJS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o main $^
@@ -35,7 +35,8 @@ plot.linspline.svg : out.linspline.txt Makefile
 		  set ylabel "y"; \
 		  f(x) = cos(x) ; \
 		  plot \
-		  	"$<" index 0 with points title "sample points",\
+		  	"$<" index 1 with points title "sample points",\
+		  	"$<" index 2 with lines title "linear spline",\
 		   f(x) title "sampled function"\
 	' | gnuplot
 

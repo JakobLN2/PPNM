@@ -152,10 +152,10 @@
 	<path stroke='black'  d='M72.53,18.01 L72.53,422.40 L574.82,422.40 L574.82,18.01 L72.53,18.01 Z  '/></g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
-	<g id="gnuplot_plot_1" ><title>linear spline</title>
+	<g id="gnuplot_plot_1" ><title>sample points</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(215.16,39.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
-		<text><tspan font-family="Arial" >linear spline</tspan></text>
+		<text><tspan font-family="Arial" >sample points</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
@@ -172,14 +172,27 @@
 	<use xlink:href='#gpPt0' transform='translate(244.83,36.01) scale(4.50)' color='rgb(148,   0, 211)'/>
 </g>
 	</g>
-	<g id="gnuplot_plot_2" ><title>sampled function</title>
+	<g id="gnuplot_plot_2" ><title>linear spline</title>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(215.16,57.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >linear spline</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(  0, 158, 115)'  d='M223.55,54.01 L266.11,54.01 M72.53,18.01 L86.48,41.25 L100.44,64.48 L114.39,87.72 L128.34,110.96 L142.29,159.31
+		L156.25,207.65 L170.20,256.00 L184.15,304.35 L198.10,333.35 L212.06,362.36 L226.01,391.37 L239.96,420.38 L253.91,403.37
+		L267.87,386.37 L281.82,369.37 L295.77,352.37 L309.72,304.99 L323.68,257.61 L337.63,210.23 L351.58,162.85 L365.53,128.65
+		L379.49,94.46 L393.44,60.26 L407.39,26.06 L421.34,36.49 L435.30,46.92 L449.25,57.34 L463.20,67.77 L477.15,113.23
+		L491.11,158.70 L505.06,204.16 L519.01,249.62 L532.96,288.33 L546.92,327.03 L560.87,365.73 L574.82,404.43  '/></g>
+	</g>
+	<g id="gnuplot_plot_3" ><title>sampled function</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(215.16,75.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
 		<text><tspan font-family="Arial" >sampled function</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
-	<path stroke='rgb(  0, 158, 115)'  d='M223.55,54.01 L266.11,54.01 M72.53,18.01 L77.60,18.84 L82.68,21.34 L87.75,25.48 L92.82,31.23 L97.90,38.54
+	<path stroke='rgb( 86, 180, 233)'  d='M223.55,72.01 L266.11,72.01 M72.53,18.01 L77.60,18.84 L82.68,21.34 L87.75,25.48 L92.82,31.23 L97.90,38.54
 		L102.97,47.35 L108.05,57.59 L113.12,69.17 L118.19,81.99 L123.27,95.96 L128.34,110.96 L133.41,126.86 L138.49,143.52
 		L143.56,160.83 L148.63,178.62 L153.71,196.75 L158.78,215.08 L163.86,233.45 L168.93,251.71 L174.00,269.72 L179.08,287.31
 		L184.15,304.35 L189.22,320.69 L194.30,336.21 L199.37,350.76 L204.44,364.24 L209.52,376.53 L214.59,387.52 L219.67,397.14
@@ -193,7 +206,7 @@
 		L508.86,212.97 L513.94,231.34 L519.01,249.62 L524.08,267.66 L529.16,285.31 L534.23,302.42 L539.30,318.85 L544.38,334.47
 		L549.45,349.14 L554.53,362.75 L559.60,375.18 L564.67,386.33 L569.75,396.11 L574.82,404.43  '/></g>
 	</g>
-<g fill="none" color="#FFFFFF" stroke="rgb(  0, 158, 115)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+<g fill="none" color="#FFFFFF" stroke="rgb( 86, 180, 233)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
 </g>
@@ -201,12 +214,12 @@
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<path stroke='black'  d='M72.53,18.01 L72.53,422.40 L574.82,422.40 L574.82,18.01 L72.53,18.01 Z  '/>	<g transform="translate(19.18,220.21) rotate(270.00)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >algorithm runtime (s)</tspan></text>
+		<text><tspan font-family="Arial" >y</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
 	<g transform="translate(323.67,471.30)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
-		<text><tspan font-family="Arial" >size of matrix n x n</tspan></text>
+		<text><tspan font-family="Arial" >x</tspan></text>
 	</g>
 </g>
 <g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">

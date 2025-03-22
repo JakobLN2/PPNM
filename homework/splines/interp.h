@@ -3,9 +3,11 @@
 
 #include"../include/matrix.h"
 #include"../include/vector.h"
+#include<exception>
 
 int binsearch(vector, double);
-double interp(vector, vector, double);
+double linterp(vector, vector, double);
+double linterpInteg(vector, vector, double);
 
 // class qspline {
 //     public:
