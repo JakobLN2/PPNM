@@ -27,7 +27,7 @@ main : main.o $(OBJS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o main $^
 
 
-plot.linspline.svg : out.linspline.txt Makefile
+Plot.linspline.svg : out.linspline.txt Makefile
 	echo 'set terminal svg background "white"; \
 		  set output "$@"; \
 		  set key left; \
@@ -35,14 +35,52 @@ plot.linspline.svg : out.linspline.txt Makefile
 		  set ylabel "y"; \
 		  f(x) = cos(x) ; \
 		  plot \
+			f(x) title "sampled function",\
 		  	"$<" index 1 with points title "sample points",\
 		  	"$<" index 2 with lines title "linear spline",\
-		   f(x) title "sampled function"\
+		  	"$<" index 3 with lines title "linear spline antiderivative"\
 	' | gnuplot
 
 
 out.linspline.txt: main
-	./$< > $@
+	./$< -p "lin" > $@
+
+Plot.quadspline.svg : out.quadspline.txt Makefile
+	echo 'set terminal svg background "white"; \
+		  set output "$@"; \
+		  set key left; \
+		  set xlabel "x"; \
+		  set ylabel "y"; \
+		  f(x) = cos(x) ; \
+		  plot \
+			f(x) title "sampled function",\
+		  	"$<" index 1 with points title "sample points",\
+		  	"$<" index 2 with lines title "quadratic spline",\
+		  	"$<" index 3 with lines title "spline derivative",\
+		  	"$<" index 4 with lines title "spline antiderivative"\
+	' | gnuplot
+
+out.quadspline.txt: main
+	./$< -p "quad" > $@
+
+Plot.cubspline.svg : out.cubspline.txt Makefile
+	echo 'set terminal svg background "white"; \
+		  set output "$@"; \
+		  set key left; \
+		  set xlabel "x"; \
+		  set ylabel "y"; \
+		  f(x) = cos(x) ; \
+		  plot \
+			f(x) with lines linestyle "dashed" title "sampled function",\
+		  	"$<" index 1 with points title "sample points", \
+			"" using 1:2 smooth csplines title "gnuplot spline",\
+		  	"$<" index 2 with lines title "cubic spline",\
+		  	"$<" index 3 with lines title "spline derivative",\
+		  	"$<" index 4 with lines title "spline antiderivative"\
+	' | gnuplot
+
+out.cubspline.txt: main
+	./$< -p "cubic" > $@
 # >$@
 # for n in $$(seq 100 100 2000); \
 # 	do $(TIME) ./factorizer -n $$n;\
