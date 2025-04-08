@@ -40,7 +40,7 @@ plot.fit.svg : Out.txt Makefile
 		  g(x) = exp(-(l + lerr)*x + a - aerr) ; \
 		  h(x) = exp(-(l - lerr)*x + a + aerr) ; \
 		  plot \
-		  	"$<" index 1 with yerrorbars title "Runtime of QR factorization",\
+		  	"$<" index 1 with yerrorbars title "datapoints",\
 		   f(x) title sprintf("F_c = exp(-%3.4f * x + %3.4f)",l,a),\
 		   g(x) title sprintf("F_{c - dc}",a),\
 		   h(x) title sprintf("F_{c + dc}",a)\
