@@ -18,7 +18,7 @@ OBJS := $(INCS:$(I_DIR)/%.h=$(OBJ_DIR)/%.o)
 OBJS := $(OBJS:.h=.o)
 
 .PHONY: all clean
-all: Out.txt plot.times.svg
+all: Out.txt Plot.linspline.svg Plot.quadspline.svg Plot.cubspline.svg
 
 Out.txt : main
 	./$< > $@
