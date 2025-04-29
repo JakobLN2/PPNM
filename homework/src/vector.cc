@@ -48,6 +48,11 @@ vector vector::copy() const{
     return res;
 }
 
+void vector::push_back(double a) {
+    data.push_back(a);
+    size += 1;
+}
+
 vector operator+(const vector& a, const vector& b) {
     compatible_exception(a, b);
     vector res(a.size);

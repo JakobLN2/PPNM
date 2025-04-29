@@ -32,6 +32,7 @@ class vector {
         void normalize();
         void print(std::string s = "") const; //for debugging
         vector copy() const;
+        void push_back(double);
         
     };
 vector operator+(const vector&, const vector&);
