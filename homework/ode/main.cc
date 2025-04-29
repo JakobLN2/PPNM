@@ -32,16 +32,13 @@ std::function<vector(double,vector)> bessel = [](double x, const vector& y) {
     return res;
 };
 
-std::function<vector(double,vector)> grMotion = [](double x, const vector& y) {
-    /*Equatorial motion of a planet around a star in General Relativity*/
-    double eps = 0.1;
+std::function<vector(double,vector)> thirdOrder = [](double x, const vector& y) {
+    /* y'' = 2x */
     vector res(2);
     res[0] = y[1];
-    res[1] = 1 + y[0] * (eps*y[0] - 1);
-    // res[1] = 1 + y[1] * (eps*y[1] - 1);
+    res[1] = 2*x;
     return res;
 };
-
 
 int main() {
     vector y0(2);
@@ -54,7 +51,7 @@ int main() {
     std::vector<vector> ylists_harm = std::get<1>(res_harm);
     ylast = ylists_harm[xlist_harm.size - 1][0];
     
-    std::cout << "Harmonic oscillator y'' = -y from [0:10] with "; y0.print("y0 = "); std::cout << "\n";
+    std::cout << "Harmonic oscillator y'' = -y from [0:10] with "; y0.print("y0 = ");
     std::cout << "absolute error from analytic solution: " << std::abs(ylast - std::sin(10.0)) << ", promised error: 0.01\n";
     std::cout << "Relative error: " << std::abs(ylast - std::sin(10))/std::abs(std::sin(10)) << ", promised error: 0.01\n";
     
@@ -65,7 +62,7 @@ int main() {
     std::vector<vector> ylists_dharm = std::get<1>(res_dharm);
     // ylast = ylists_dharm[xlist_dharm.size - 1][0];
     // y_analytic = 
-    
+
     // std::cout << "\nDamped harmonic oscillator y'' + 0.25y' + 5sin(y) = 0  from [0:10] \n";
     // std::cout << "absolute error from analytic solution: " << std::abs(ylast - std::sin(10.0)) << ", promised error: 0.005\n";
     // std::cout << "Relative error: " << std::abs(ylast - std::sin(10))/std::abs(std::sin(10)) << ", promised error: 0.005\n";
@@ -78,20 +75,28 @@ int main() {
     std::vector<vector> ylists_bes = std::get<1>(res_bes);
     ylast = ylists_bes[xlist_bes.size - 1][0];
     y_analytic = std::sin(b)/b/b - std::cos(b)/b;
-    
-    std::cout << "\nRadial Schrödinger equation for a free particle y'' + 2y'/x + (1 - l(l-1)/x/x)y = 0 for l = 2 from [0:" << b << "] with "; y0.print("y0 = "); std::cout << "\n";
+
+    std::cout << "\nRadial Schrödinger equation for a free particle y'' + 2y'/x + (1 - l(l-1)/x/x)y = 0 for l = 2 from [0:" << b << "] with "; y0.print("y0 = ");
     std::cout << "absolute error from analytic solution: " << std::abs(ylast - y_analytic) << ", promised error: 0.01\n";
     std::cout << "Relative error: " << std::abs(ylast - y_analytic)/std::abs(y_analytic) << ", promised error: 0.01\n";
-    
-    /*Relativistic precession of planetary orbit*/
-    y0[0] = 1.0; y0[1] = -0.5;
-    // y0[0] = 0; y0[1] = -0.5;
-    std::tuple<vector, std::vector<vector>> res_eq = rkdriver(grMotion, 0.0, 25.0, y0, 0.125,0.01,0.01);
-    vector xlist_eq = std::get<0>(res_eq);
-    std::vector<vector> ylists_eq = std::get<1>(res_eq);
-    ylast = ylists_eq[xlist_eq.size - 1][0];
-    
-    
+ 
+ 
+    /*y'' = 2x*/
+    y0[0] = 0.0; y0[1] = 0.0;
+    b = 5;
+    auto res_c1 = rkdriver_step(thirdOrder, 0.0, b, y0, 0.125,0.01,0.01);
+    vector xlist_c1 = std::get<0>(res_c1);
+    std::vector<vector> ylists_c1 = std::get<1>(res_c1);
+    vector hlist = std::get<2>(res_c1);
+
+    ylast = ylists_c1[xlist_c1.size - 1][0];
+    y_analytic = b*b*b/3.0;
+
+    std::cout << "\nThird order pylonomial y'' = 2x from [0:" << b << "] with "; y0.print("y0 = ");
+    std::cout << "absolute error from analytic solution: " << std::abs(ylast - y_analytic) << ", promised error: 0.01\n";
+    std::cout << "Relative error: " << std::abs(ylast - y_analytic)/std::abs(y_analytic) << ", promised error: 0.01\n";
+    hlist.print("Step sizes = ");
+
 
     std::cout << "\n\n";
     for(int i = 0; i < xlist_harm.size; ++i) std::cout << xlist_harm[i] << ", " << ylists_harm[i][0] << "\n";
@@ -103,8 +108,10 @@ int main() {
     for(int i = 0; i < xlist_dharm.size; ++i) std::cout << xlist_dharm[i] << ", " << ylists_dharm[i][1] << "\n";
     std::cout << "\n\n";
     for(int i = 0; i < xlist_bes.size; ++i) std::cout << xlist_bes[i] << ", " << ylists_bes[i][0] << "\n";
+    
     std::cout << "\n\n";
-    for(int i = 0; i < xlist_eq.size; ++i) std::cout << xlist_eq[i] << ", " << ylists_eq[i][0] << "\n";
+    for(int i = 0; i < xlist_c1.size; ++i) std::cout << xlist_c1[i] << ", " << ylists_c1[i][0] << "\n";
+
     
     return 0;
 };

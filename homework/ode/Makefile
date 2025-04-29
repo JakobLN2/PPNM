@@ -20,7 +20,7 @@ OBJS := $(OBJS:.h=.o)
 
 
 
-all: Out.txt Plot.sinwave.svg Plot.dampedoscillator.svg Plot.bessel.svg Plot.circularPreces.svg
+all: Out.txt Plot.sinwave.svg Plot.dampedoscillator.svg Plot.bessel.png Plot.circular.svg Plot.elliptical.svg Plot.circularPreces.svg Plot.P3.svg
 
 Out.txt : main
 	./$< > $@
@@ -61,16 +61,50 @@ Plot.bessel.png : Out.txt Makefile
 			f(x) with lines title "spherical bessel function l = 2" \
 	' | gnuplot
 
-Plot.circularPreces.svg : Out.txt Makefile
+Plot.circular.svg : grData.txt Makefile
 	echo 'set terminal svg background "white"; \
 		  set output "$@"; \
 		  set xlabel "angle phi"; \
 		  set ylabel "reduced-circumference 1/r"; \
-		  set title "Equatorial motion with u(0) = 1, du(0) = 0"; \
+		  set title "Equatorial motion with u(0) = 1, du(0) = 0.01, eps = 0"; \
 		  set size square; \
-		  plot "$<" index 6 using (1/$$2)*cos($$1):(1/$$2)*sin($$1) with lines notitle \
+		  plot[-1.2:1.2][-1.2:1.2] "$<" index 0 using (1/$$2)*cos($$1):(1/$$2)*sin($$1) with lines notitle \
 	' | gnuplot
 
+Plot.elliptical.svg : grData.txt Makefile
+	echo 'set terminal svg background "white"; \
+		  set output "$@"; \
+		  set xlabel "angle phi"; \
+		  set ylabel "reduced-circumference 1/r"; \
+		  set title "Equatorial motion with u(0) = 1, du(0) = -0.25, eps = 0"; \
+		  plot "$<" index 1 using (1/$$2)*cos($$1):(1/$$2)*sin($$1) with lines notitle \
+	' | gnuplot
+
+Plot.circularPreces.svg : grData.txt Makefile
+	echo 'set terminal svg background "white"; \
+		  set output "$@"; \
+		  set xlabel "angle phi"; \
+		  set ylabel "reduced-circumference 1/r"; \
+		  set title "Equatorial motion with u(0) = 1, du(0) = -0.5, eps = 0.1"; \
+		  plot "$<" index 2 using (1/$$2)*cos($$1):(1/$$2)*sin($$1) with lines notitle \
+	' | gnuplot
+
+Plot.P3.svg : Out.txt Makefile
+	echo 'set terminal svg background "white"; \
+		  set output "$@"; \
+		  set xlabel "x"; \
+		  set ylabel "y"; \
+		  f(x) = x*x*x/3.0; \
+		  plot \
+		  	"$<" index 6 with points title "numerical solution",\
+			f(x) with lines title "Third order polynomial" \
+	' | gnuplot
+
+grData.txt : grSolve
+	./$< > $@
+
+grSolve : grSolve.o $(OBJS)
+	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
 
 #Create all object files from their corresponding .cc file. Also check if the obj folder even exists
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc | $(OBJ_DIR)
@@ -82,5 +116,5 @@ $(OBJ_DIR):
 
 
 clean:
-	$(RM) [Oo]ut*.txt *.o *.png *.svg main
+	$(RM) [Oo]ut*.txt *.o *.png *.svg main grSolve
 

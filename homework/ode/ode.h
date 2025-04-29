@@ -43,5 +43,12 @@ std::tuple<vector, std::vector<vector>> rkdriver(
     double h0 = 0.125,
     double acc = 0.01, double eps = 0.01
     );
+std::tuple<vector, std::vector<vector>, vector> rkdriver_step(
+    std::function<vector(double, vector)> F,
+    double a, double b,
+    vector yinit,
+    double h0 = 0.125,
+    double acc = 0.01, double eps = 0.01
+    );
 
 #endif
