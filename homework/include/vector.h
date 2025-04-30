@@ -4,6 +4,7 @@
 #include<vector>
 #include<string>
 #include<iostream>
+#include<initializer_list>
 
 class vector {
     // private:    
@@ -12,6 +13,7 @@ class vector {
         int size = data.size();
 
         vector(int n) : data(n) {} // parametrized constructor
+        vector(std::initializer_list<double> list) : data(list.begin(),list.end()) {}
         vector() = default; // default constructor
         vector(const vector&)=default; // copy constructor
         vector(vector&&)=default; // move constructor

@@ -2,7 +2,6 @@ CXXFLAGS += -Wall -Wextra -Werror -std=c++23 -O2 -Wno-maybe-uninitialized -Wno-u
 CPPFLAGS += '-I ~/projects/PPNM/homework'
 LDLIBS += -lstdc++ -lm
 TIME = time --portability --append --output=$@ --format "$$n %e"
-# %U"
 
 SRC_DIR := ../src
 OBJ_DIR := ../obj
@@ -19,14 +18,17 @@ OBJS := $(OBJS:.h=.o)
 .PHONY: all clean
 
 
-
 all: Out.txt Plot.sinwave.svg Plot.dampedoscillator.svg Plot.bessel.png Plot.circular.svg Plot.elliptical.svg Plot.circularPreces.svg Plot.P3.svg
+
+test :
+	@echo $(OBJS)
+	@echo $(INCS)
 
 Out.txt : main
 	./$< > $@
 
 main : main.o $(OBJS)
-	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o main $^
+	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
 
 Plot.sinwave.svg : Out.txt Makefile
 	echo 'set terminal svg background "white"; \
@@ -34,8 +36,8 @@ Plot.sinwave.svg : Out.txt Makefile
 		  set xlabel "t"; \
 		  set ylabel "y"; \
 		  plot \
-		  	"$<" index 1 with points title "numerical solution y",\
-		  	"$<" index 2 with points title "numerical solution dy/dt",\
+		  	"$<" index 1 with linespoints title "numerical solution y",\
+		  	"$<" index 2 with linespoints title "numerical solution dy/dt",\
 	' | gnuplot
 
 Plot.dampedoscillator.svg : Out.txt Makefile
@@ -103,8 +105,8 @@ Plot.P3.svg : Out.txt Makefile
 grData.txt : grSolve
 	./$< > $@
 
-grSolve : grSolve.o $(OBJS)
-	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
+grSolve : grSolve.o $(INCS)
+	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) $(OBJS) -o $@ $^
 
 #Create all object files from their corresponding .cc file. Also check if the obj folder even exists
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc | $(OBJ_DIR)
@@ -113,6 +115,8 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc | $(OBJ_DIR)
 #If the obj directory does not exist, create it.
 $(OBJ_DIR):
 	mkdir -p $@
+
+
 
 
 clean:

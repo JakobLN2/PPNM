@@ -54,6 +54,12 @@ int main() {
     std::cout << "Harmonic oscillator y'' = -y from [0:10] with "; y0.print("y0 = ");
     std::cout << "absolute error from analytic solution: " << std::abs(ylast - std::sin(10.0)) << ", promised error: 0.01\n";
     std::cout << "Relative error: " << std::abs(ylast - std::sin(10))/std::abs(std::sin(10)) << ", promised error: 0.01\n";
+
+    res_harm = rkdriver(harm, 0.0, 10.0, y0, 0.125,0.01,0.01,1);
+    vector xlist_harm_0 = std::get<0>(res_harm);
+    std::vector<vector> ylists_harm_0 = std::get<1>(res_harm);
+    std::cerr << "method=1 x size: " << xlist_harm_0.size << "\n";
+    std::cerr << "method=0 x size: " << xlist_harm.size << "\n";
     
     /*Damped harmonic oscillator (scipy odeint example)*/
     y0[0] = M_PI - 0.1; y0[1] = 0.0;
