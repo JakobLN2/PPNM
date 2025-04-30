@@ -15,19 +15,17 @@ SRCS := $(SRCS:.h=.cc)
 
 OBJS := $(INCS:$(I_DIR)/%.h=$(OBJ_DIR)/%.o)
 OBJS := $(OBJS:.h=.o)
+
+
 .PHONY: all clean
-
-
 all: Out.txt Plot.sinwave.svg Plot.dampedoscillator.svg Plot.bessel.png Plot.circular.svg Plot.elliptical.svg Plot.circularPreces.svg Plot.P3.svg
-
-test :
-	@echo $(OBJS)
-	@echo $(INCS)
 
 Out.txt : main
 	./$< > $@
 
-main : main.o $(OBJS)
+
+
+main : main.o $(OBJS) $(INCS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
 
 Plot.sinwave.svg : Out.txt Makefile
@@ -109,13 +107,12 @@ grSolve : grSolve.o $(INCS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) $(OBJS) -o $@ $^
 
 #Create all object files from their corresponding .cc file. Also check if the obj folder even exists
-$(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc | $(OBJ_DIR)
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc $(INC_DIR)/%.h | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 
 #If the obj directory does not exist, create it.
 $(OBJ_DIR):
 	mkdir -p $@
-
 
 
 
