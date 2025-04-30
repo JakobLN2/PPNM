@@ -9,7 +9,6 @@ Relative error: 0.272851, promised error: 0.01
 Third order pylonomial y'' = 2x from [0:5] with y0 = ( 0 0 )
 absolute error from analytic solution: 1.42109e-14, promised error: 0.01
 Relative error: 3.41061e-16, promised error: 0.01
-Step sizes = ( 0.125 0.25 0.334212 0.400082 0.475561 0.576051 0.712821 0.899377 1.1551 0.0717978 )
 
 
 0, 0

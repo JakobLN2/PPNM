@@ -57,7 +57,7 @@ std::tuple<vector, std::vector<vector>> rkdriver(
     double acc, double eps, int method
     ) {
 
-		std::cerr << "driver: method=" << method << "\n";
+    std::cerr << "driver: method=" << method << "\n";
     vector y = yinit.copy();
     double x = a, 
            h = h0;
@@ -65,15 +65,21 @@ std::tuple<vector, std::vector<vector>> rkdriver(
     std::vector<vector> ylist;
     xlist.push_back(a); //Add initial point
     ylist.push_back(y);
+    
+    auto stepper = rkstep12;
+    switch(method) {
+        case 0:  stepper = rkstep12; break;
+        case 1:  stepper = rkstep23; break;
+    }
 
     while(true) {
         if(x >= b) return std::make_tuple(xlist, ylist);
         if(x + h > b) h = b - x;
 
-        std::tuple<vector,vector> res;
-	if(method==0) res = rkstep12(F, h, x, y);
-	else if (method==1) res = rkstep23(F, h, x, y);
-	else res = rkstep3point(F,h,x,y);
+        std::tuple<vector,vector> res = stepper(F,h,x,y);
+	// if(method==0) res = rkstep12(F, h, x, y);
+	// else if (method==1) res = stepper(F, h, x, y);
+	// else res = rkstep3point(F,h,x,y);
         vector yh = std::get<0>(res); //New y-value
         vector dy = std::get<1>(res); //Error estimate
         double tol = (acc + eps*yh.norm()) * std::sqrt(h/(b - a)); //Calculate tolerance based on step size
@@ -86,41 +92,4 @@ std::tuple<vector, std::vector<vector>> rkdriver(
         if(err>0) h *= std::min( std::pow(tol/err,0.25)*0.95 , 2.0); // readjust stepsize
         else h*=2.0;
     };
-}
-
-std::tuple<vector, std::vector<vector>, vector> rkdriver_step(
-    std::function<vector(double, vector)> F,
-    double a, double b,
-    vector yinit,
-    double h0,
-    double acc, double eps
-    ) {
-
-    vector y = yinit.copy();
-    double x = a, 
-           h = h0;
-    vector xlist, 
-            hlist; //vector of accepted step sizes
-    std::vector<vector> ylist;
-    xlist.push_back(a); //Add initial point
-    ylist.push_back(y);
-
-    while(true) {
-        if(x >= b) return std::make_tuple(xlist, ylist,hlist);
-        if(x + h > b) h = b - x;
-
-        std::tuple<vector,vector> res = rkstep23(F, h, x, y);
-        vector yh = std::get<0>(res); //New y-value
-        vector dy = std::get<1>(res); //Error estimate
-        double tol = (acc + eps*yh.norm()) * std::sqrt(h/(b - a)); //Calculate tolerance based on step size
-        double err = dy.norm();
-        if(err <= tol){
-            x += h; y = yh;
-            xlist.push_back(x);
-            ylist.push_back(y);
-            hlist.push_back(h);
-            }
-        if(err>0) h *= std::min( std::pow(tol/err,0.25)*0.95 , 2.0); // readjust stepsize
-        else h*=2.0;
-    };
-}
+} //rkdriver

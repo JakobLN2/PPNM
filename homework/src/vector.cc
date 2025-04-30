@@ -35,6 +35,11 @@ void vector::normalize() {
     for(int i = 0; i < size; ++i) data[i] /= len;
 }
 
+vector vector::diff() {
+    vector res(size - 1);
+    for(int i = 0; i < size - 2 ; ++i) res[i] = data[i + 1] - data[i];
+    return res;
+}
 
 void vector::print(std::string s) const {
     std::cout << s << "( ";

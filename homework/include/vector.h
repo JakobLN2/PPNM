@@ -32,6 +32,7 @@ class vector {
 
         double norm();
         void normalize();
+        vector diff();
         void print(std::string s = "") const; //for debugging
         vector copy() const;
         void push_back(double);

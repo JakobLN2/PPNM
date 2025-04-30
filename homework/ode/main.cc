@@ -42,66 +42,71 @@ std::function<vector(double,vector)> thirdOrder = [](double x, const vector& y) 
 
 int main() {
     vector y0(2);
-    double ylast, y_analytic;
+    vector y_last, y_analytic;
+    double eps, acc, tol;
+    double a,b;
     
     /*Harmonic oscillator*/
     y0[0] = 0.0; y0[1] = 1.0;
-    std::tuple<vector, std::vector<vector>> res_harm = rkdriver(harm, 0.0, 10.0, y0, 0.125,0.01,0.01);
+    acc = 0.01; eps = 0.01;
+    a = 0.0, b = 10.0;
+    std::tuple<vector, std::vector<vector>> res_harm = rkdriver(harm, a, b, y0, 0.125,acc,eps,2);
     vector xlist_harm = std::get<0>(res_harm);
     std::vector<vector> ylists_harm = std::get<1>(res_harm);
-    ylast = ylists_harm[xlist_harm.size - 1][0];
+    y_last = ylists_harm[xlist_harm.size - 1];
+    y_analytic = vector({std::sin(b), std::cos(b)});
+    tol = acc + eps*y_analytic.norm();
     
-    std::cout << "Harmonic oscillator y'' = -y from [0:10] with "; y0.print("y0 = ");
-    std::cout << "absolute error from analytic solution: " << std::abs(ylast - std::sin(10.0)) << ", promised error: 0.01\n";
-    std::cout << "Relative error: " << std::abs(ylast - std::sin(10))/std::abs(std::sin(10)) << ", promised error: 0.01\n";
+    std::cout << "Harmonic oscillator y'' = -y from [" << a << ":" << b << "] with "; y0.print("y0 = ");
+    std::cout << "Error from analytic solution: " << (y_last - y_analytic).norm() + (y_last - y_analytic).norm()/y_analytic.norm() << " promised tolerance: " << tol << "\n";
 
-    res_harm = rkdriver(harm, 0.0, 10.0, y0, 0.125,0.01,0.01,1);
-    vector xlist_harm_0 = std::get<0>(res_harm);
-    std::vector<vector> ylists_harm_0 = std::get<1>(res_harm);
-    std::cerr << "method=1 x size: " << xlist_harm_0.size << "\n";
-    std::cerr << "method=0 x size: " << xlist_harm.size << "\n";
+    // res_harm = rkdriver(harm, 0.0, 10.0, y0, 0.125,0.01,0.01,1);
+    // vector xlist_harm_0 = std::get<0>(res_harm);
+    // std::vector<vector> ylists_harm_0 = std::get<1>(res_harm);
+    // std::cerr << "method=1 x size: " << xlist_harm_0.size << "\n";
+    // std::cerr << "method=0 x size: " << xlist_harm.size << "\n";
     
     /*Damped harmonic oscillator (scipy odeint example)*/
     y0[0] = M_PI - 0.1; y0[1] = 0.0;
-    std::tuple<vector, std::vector<vector>> res_dharm = rkdriver(harm_damp, 0.0, 10.0, y0, 0.125,0.005,0.005);
+    a = 0.0, b = 10.0;
+    acc = 0.005, eps = 0.005;
+    std::tuple<vector, std::vector<vector>> res_dharm = rkdriver(harm_damp, a, b, y0, 0.125,acc,eps);
     vector xlist_dharm = std::get<0>(res_dharm);
     std::vector<vector> ylists_dharm = std::get<1>(res_dharm);
-    // ylast = ylists_dharm[xlist_dharm.size - 1][0];
-    // y_analytic = 
 
-    // std::cout << "\nDamped harmonic oscillator y'' + 0.25y' + 5sin(y) = 0  from [0:10] \n";
-    // std::cout << "absolute error from analytic solution: " << std::abs(ylast - std::sin(10.0)) << ", promised error: 0.005\n";
-    // std::cout << "Relative error: " << std::abs(ylast - std::sin(10))/std::abs(std::sin(10)) << ", promised error: 0.005\n";
 
     /*Bessel function*/
     y0[0] = 0.0; y0[1] = 1.0;
-    double b = 15.0;
-    std::tuple<vector, std::vector<vector>> res_bes = rkdriver(bessel, 0.001, b, y0, 0.125,0.01,0.01);
+    acc = 0.01, eps = 0.01;
+    a = 0.0001, b = 15.0;
+    std::tuple<vector, std::vector<vector>> res_bes = rkdriver(bessel, a, b, y0, 0.125,acc,eps,2);
     vector xlist_bes = std::get<0>(res_bes);
     std::vector<vector> ylists_bes = std::get<1>(res_bes);
-    ylast = ylists_bes[xlist_bes.size - 1][0];
-    y_analytic = std::sin(b)/b/b - std::cos(b)/b;
 
-    std::cout << "\nRadial Schrödinger equation for a free particle y'' + 2y'/x + (1 - l(l-1)/x/x)y = 0 for l = 2 from [0:" << b << "] with "; y0.print("y0 = ");
-    std::cout << "absolute error from analytic solution: " << std::abs(ylast - y_analytic) << ", promised error: 0.01\n";
-    std::cout << "Relative error: " << std::abs(ylast - y_analytic)/std::abs(y_analytic) << ", promised error: 0.01\n";
+    y_last = ylists_bes[xlist_bes.size - 1];
+    y_analytic = vector({std::sin(b)/b/b - std::cos(b)/b, 2*std::cos(b)/b/b+std::sin(b)/b*(1-2/b/b)});
+    tol = acc + eps*y_analytic.norm();
+
+    std::cout << "\nRadial Schrödinger equation for a free particle y'' + 2y'/x + (1 - l(l-1)/x/x)y = 0 for l = 2 from [" << a << ":" << b << "] with "; y0.print("y0 = ");
+    // std::cout << "absolute error from analytic solution: " << std::abs(ylast - y_analytic) << ", promised error: 0.01\n";
+    // std::cout << "Relative error: " << std::abs(ylast - y_analytic)/std::abs(y_analytic) << ", promised error: 0.01\n";
+    std::cout << "Error from analytic solution: " << (y_last - y_analytic).norm() + (y_last - y_analytic).norm()/y_analytic.norm() << " promised tolerance: " << tol << "\n";
  
- 
-    /*y'' = 2x*/
-    y0[0] = 0.0; y0[1] = 0.0;
-    b = 5;
-    auto res_c1 = rkdriver_step(thirdOrder, 0.0, b, y0, 0.125,0.01,0.01);
-    vector xlist_c1 = std::get<0>(res_c1);
-    std::vector<vector> ylists_c1 = std::get<1>(res_c1);
-    vector hlist = std::get<2>(res_c1);
+    // /*y'' = 2x*/
+    // y0[0] = 0.0; y0[1] = 0.0;
+    // b = 5;
+    // auto res_c1 = rkdriver(thirdOrder, 0.0, b, y0, 0.125,0.01,0.01);
+    // vector xlist_c1 = std::get<0>(res_c1);
+    // std::vector<vector> ylists_c1 = std::get<1>(res_c1);
+    // // vector hlist = xlist_c1.diff();
 
-    ylast = ylists_c1[xlist_c1.size - 1][0];
-    y_analytic = b*b*b/3.0;
+    // ylast = ylists_c1[xlist_c1.size - 1][0];
+    // y_analytic = b*b*b/3.0;
 
-    std::cout << "\nThird order pylonomial y'' = 2x from [0:" << b << "] with "; y0.print("y0 = ");
-    std::cout << "absolute error from analytic solution: " << std::abs(ylast - y_analytic) << ", promised error: 0.01\n";
-    std::cout << "Relative error: " << std::abs(ylast - y_analytic)/std::abs(y_analytic) << ", promised error: 0.01\n";
-    hlist.print("Step sizes = ");
+    // std::cout << "\nThird order pylonomial y'' = 2x from [0:" << b << "] with "; y0.print("y0 = ");
+    // std::cout << "absolute error from analytic solution: " << std::abs(ylast - y_analytic) << ", promised error: 0.01\n";
+    // std::cout << "Relative error: " << std::abs(ylast - y_analytic)/std::abs(y_analytic) << ", promised error: 0.01\n";
+    // // hlist.print("Step sizes = ");
 
 
     std::cout << "\n\n";
@@ -115,8 +120,8 @@ int main() {
     std::cout << "\n\n";
     for(int i = 0; i < xlist_bes.size; ++i) std::cout << xlist_bes[i] << ", " << ylists_bes[i][0] << "\n";
     
-    std::cout << "\n\n";
-    for(int i = 0; i < xlist_c1.size; ++i) std::cout << xlist_c1[i] << ", " << ylists_c1[i][0] << "\n";
+    // std::cout << "\n\n";
+    // for(int i = 0; i < xlist_c1.size; ++i) std::cout << xlist_c1[i] << ", " << ylists_c1[i][0] << "\n";
 
     
     return 0;
