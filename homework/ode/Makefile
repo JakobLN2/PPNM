@@ -28,6 +28,7 @@ all: Out.txt Plot.sinwave.svg Plot.dampedoscillator.svg Plot.bessel.png Plot.cir
 Out.txt : main
 	./$< > $@
 
+test : test.o $(OBJS)
 
 main : main.o $(OBJS) $(INCS)
 	@echo MAKING MAIN WITH $^
