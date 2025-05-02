@@ -1,0 +1,155 @@
+acc = 0.0001, eps = 0.0001
+∫_0^1 dx sqrt(x) = 0.666681 +/- 7.17421e-05, expected 0.666667
+|calculated - analytic| <= est. error ?= 1
+Combined absolute and relative error: 3.56656e-05,  Promised tolerance: 0.000166667  :  error <= tol ?= 1
+In 40 evaluations
+
+∫_0^1 dx 1/sqrt(x) = 2 +/- 7.70898e-05, expected 2
+|calculated - analytic| <= est. error ?= 1
+Combined absolute and relative error: 3.91805e-06,  Promised tolerance: 0.0003  :  error <= tol ?= 1
+In 17140 evaluations
+
+∫_0^1 dx sqrt(1 - x*x) = 0.785406 +/- 6.03037e-05, expected 0.785398
+|calculated - analytic| <= est. error ?= 1
+Combined absolute and relative error: 1.85193e-05,  Promised tolerance: 0.00017854  :  error <= tol ?= 1
+In 52 evaluations
+
+∫_0^1 dx ln(x)/sqrt(x) = -4 +/- 8.09349e-05, expected -4
+|calculated - analytic| <= est. error ?= 1
+Combined absolute and relative error: 2.06376e-06,  Promised tolerance: 0.0005  :  error <= tol ?= 1
+In 29972 evaluations
+
+Task b) Clenshaw-Curtis integration:
+acc = 0.0001, eps = 0.0001
+
+∫_0^1 dx sqrt(x) = 0.666667 +/- 7.98719e-05, expected 0.666667
+|calculated - analytic| <= est. error ?= 1
+Combined absolute and relative error: 2.84169e-07,  Promised tolerance: 0.000166667  :  error <= tol ?= 1
+In 64 evaluations (Scipy: 231)
+
+∫_0^1 dx ln(x)/sqrt(x) = -4 +/- 8.72531e-05, expected -4
+|calculated - analytic| <= est. error ?= 1
+Combined absolute and relative error: 2.33325e-06,  Promised tolerance: 0.0005  :  error <= tol ?= 1
+In 272 evaluations (Scipy: 315)
+
+Infinite limit integrals:
+acc = 0.0001, eps = 0.0001
+
+1/sqrt(2pi)∫_-inf^inf dx exp(-x*x/2) = 1.00001 +/- 4.95849e-05, expected 1
+|calculated - analytic| <= est. error ?= 1
+Combined absolute and relative error: 2.33325e-06,  Promised tolerance: 0.0002  :  error <= tol ?= 1
+In 160 evaluations (SciPy: 150)
+
+∫_1^inf dx 1/x/x = 1 +/- 7.43102e-05, expected 1
+|calculated - analytic| <= est. error ?= 1
+Combined absolute and relative error: 2.33325e-06,  Promised tolerance: 0.0002  :  error <= tol ?= 1
+In 64 evaluations (SciPy: 15)
+
+∫_0^inf dx 1/(x + 1)/sqrt(x) = 3.14159 +/- 4.44089e-16, expected 3.14159
+|calculated - analytic| <= est. error ?= 1
+Combined absolute and relative error: 2.33325e-06,  Promised tolerance: 0.000414159  :  error <= tol ?= 1
+In 4 evaluations (SciPy: 285)
+
+
+-3, -0.999979
+-2.875, -0.999953
+-2.75, -0.999899
+-2.625, -0.99979
+-2.5, -0.999578
+-2.375, -0.999177
+-2.25, -0.998441
+-2.125, -0.997137
+-2, -0.9949
+-1.875, -0.991189
+-1.75, -0.985234
+-1.625, -0.975995
+-1.5, -0.96214
+-1.375, -0.942072
+-1.25, -0.914006
+-1.125, -0.876134
+-1, -0.84251
+-0.875, -0.783804
+-0.75, -0.710946
+-0.625, -0.623123
+-0.5, -0.520451
+-0.375, -0.404103
+-0.25, -0.276324
+-0.125, -0.140316
+0, 0
+0.125, 0.140316
+0.25, 0.276324
+0.375, 0.404103
+0.5, 0.520451
+0.625, 0.623123
+0.75, 0.710946
+0.875, 0.783804
+1, 0.84251
+1.125, 0.876134
+1.25, 0.914006
+1.375, 0.942072
+1.5, 0.96214
+1.625, 0.975995
+1.75, 0.985234
+1.875, 0.991189
+2, 0.9949
+2.125, 0.997137
+2.25, 0.998441
+2.375, 0.999177
+2.5, 0.999578
+2.625, 0.99979
+2.75, 0.999899
+2.875, 0.999953
+
+
+1, 0.000190425
+0.5, 0.000190425
+0.25, 0.000190425
+0.125, 0.000190425
+0.0625, 0.000190425
+0.03125, 0.000190425
+0.015625, 0.000190425
+0.0078125, 0.000190425
+0.00390625, 1.69631e-05
+0.00195312, 2.91655e-05
+0.000976562, 2.91655e-05
+0.000488281, 2.91655e-05
+0.000244141, 3.19011e-05
+0.00012207, 1.65576e-06
+6.10352e-05, 4.94755e-08
+3.05176e-05, 1.01126e-07
+1.52588e-05, 5.50318e-08
+7.62939e-06, 2.98544e-08
+3.8147e-06, 2.76379e-08
+1.90735e-06, 2.75408e-09
+9.53674e-07, 1.24965e-09
+4.76837e-07, 1.04688e-09
+2.38419e-07, 1.28442e-10
+1.19209e-07, 7.05788e-11
+5.96046e-08, 3.47272e-11
+2.98023e-08, 3.07069e-11
+1.49012e-08, 3.12628e-12
+7.45058e-09, 1.27054e-12
+3.72529e-09, 1.05349e-12
+1.86265e-09, 1.1191e-13
+9.31323e-10, 4.72955e-14
+4.65661e-10, 3.55271e-14
+2.32831e-10, 3.14193e-14
+1.16415e-10, 2.75335e-14
+5.82077e-11, 2.69784e-14
+2.91038e-11, 2.67564e-14
+1.45519e-11, 2.66454e-14
+7.27596e-12, 0
+3.63798e-12, 0
+1.81899e-12, 1.11022e-16
+9.09495e-13, 1.11022e-16
+4.54747e-13, 1.11022e-16
+2.27374e-13, 1.11022e-16
+1.13687e-13, 1.11022e-16
+5.68434e-14, 1.11022e-16
+2.84217e-14, 1.11022e-16
+1.42109e-14, 1.11022e-16
+7.10543e-15, 1.11022e-16
+3.55271e-15, 1.11022e-16
+1.77636e-15, 1.11022e-16
+8.88178e-16, 1.11022e-16
+4.44089e-16, 1.11022e-16
