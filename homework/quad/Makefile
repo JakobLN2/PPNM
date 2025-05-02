@@ -18,7 +18,7 @@ OBJS := $(OBJS:.h=.o)
 
 
 .PHONY: all clean
-all: Out.txt 
+all: Out.txt Plot.erf.svg Plot.erf_acc.svg
 
 Out.txt : main
 	./$< > $@
