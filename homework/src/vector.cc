@@ -37,7 +37,7 @@ void vector::normalize() {
 
 vector vector::diff() {
     vector res(size - 1);
-    for(int i = 0; i < size - 2 ; ++i) res[i] = data[i + 1] - data[i];
+    for(int i = 0; i < size - 1 ; ++i) res[i] = data[i + 1] - data[i];
     return res;
 }
 
@@ -51,6 +51,10 @@ vector vector::copy() const{
     vector res(size);
     for(int i = 0; i < size ; ++i) res[i] = data[i];
     return res;
+}
+
+bool vector::isZeros() const {
+    return approx(*this, vector(size));
 }
 
 void vector::push_back(double a) {

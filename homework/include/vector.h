@@ -36,6 +36,7 @@ class vector {
         void print(std::string s = "") const; //for debugging
         vector copy() const;
         void push_back(double);
+        bool isZeros() const;
         
     };
 vector operator+(const vector&, const vector&);
