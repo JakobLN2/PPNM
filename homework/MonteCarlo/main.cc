@@ -46,8 +46,9 @@ int main() {
     std::cout << "\n∫unit circle = " << q << " +/- " << err << ", expected: " << M_PI << "\n"; 
     std::cout << "\twith " << N << " samples\n";
     std::cout << "\t|MC - analytic| <= err ?= " << (std::abs(q - M_PI) <= err) << "\n";
-    std::cout << "Error as a function of sample points is plotted in Plot.err.svg, the estimated error nicely follows a 1/sqrt(N) dependency.\n" <<
-                "Though it seems underestimated for N <~ 1e5, where the law of large numbers may not have kicked in yet.\n";
+    std::cout << "Error as a function of sample points is plotted in Plot.err.svg, the estimated error convincingly follows a 1/sqrt(N) dependency.\n" <<
+                "Though it seems underestimated for N <~ 1e5, where the law of large numbers may not have kicked in yet.\n" <<
+                "The first two points also have a extremely low estiamted error, which is likely due to random chance from having few samples\n";
     
     /* unit sphere */
     a = vector({-1.05,-1.05,-1.05});
