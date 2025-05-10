@@ -21,7 +21,7 @@ OBJS := $(OBJS:.h=.o)
 all: Out.txt
 
 Out.txt : main
-	./$< > $@
+	./$< -t all > $@
 
 
 main : main.o $(OBJS) $(INCS)
@@ -32,7 +32,7 @@ main : main.o $(OBJS) $(INCS)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 
 
-Plot.err.svg : Out.txt Makefile
+Plot.err.svg : err.data Makefile
 	echo 'set terminal svg background "white"; \
 		  set output "$@"; \
 		  set xlabel "sample points N"; \
@@ -40,14 +40,35 @@ Plot.err.svg : Out.txt Makefile
 		  set logscale x 2; \
 		  f(x) = a/sqrt(x); \
 		  a = 0.01; \
-		  fit f(x) "$<" index 1 using 1:2 via a; \
-		  set title "Area of unit circle error estimate"; \
+		  fit f(x) "$<" index 0 skip 3 using 1:3 via a; \
+		  set title "Area of unit circle error estimate using uniform sampling"; \
 		  plot \
-		  	"$<" index 1 using 1:2 with points pointtype 4 title "estimated error",\
+		  	"$<" index 0 using 1:2 with points pointtype 4 title "estimated error",\
 			f(x) title sprintf("a/sqrt(N) fit, a = %3.5f",a), \
-			"$<" index 1 using 1:3 with points pointtype 1 title "actual error" \
+			"$<" index 0 using 1:3 with points pointtype 1 title "actual error" \
 	' | gnuplot
 
+err.data : main
+	./$< -t errData > $@
+
+Plot.errquasi.svg : errquasi.data Makefile
+	echo 'set terminal svg background "white"; \
+		  set output "$@"; \
+		  set xlabel "sample points N"; \
+		  set ylabel "error"; \
+		  set logscale x 2; \
+		  f(x) = a/sqrt(x); \
+		  a = 0.01; \
+		  fit f(x) "$<" index 0 using 1:3 via a; \
+		  set title "Area of unit circle error estimate using quasi-random sampling"; \
+		  plot \
+		  	"$<" index 0 using 1:2 with points pointtype 4 title "estimated error",\
+			f(x) title sprintf("a/sqrt(N) fit, a = %3.5f",a), \
+			"$<" index 0 using 1:3 with points pointtype 1 title "actual error" \
+	' | gnuplot
+
+errquasi.data : main
+	./$< -t errQuasiData > $@
 
 #Create all object files from their corresponding .cc file. Also check if the obj folder even exists
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc | $(OBJ_DIR)
