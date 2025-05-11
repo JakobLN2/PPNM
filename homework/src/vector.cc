@@ -25,7 +25,7 @@ vector& vector::operator-=(const vector& a) {
 }
 
 
-double vector::norm() {
+double vector::norm() const {
     double res = 0;
     for(double d : data) res += d*d;
     return std::sqrt(res);
@@ -35,7 +35,7 @@ void vector::normalize() {
     for(int i = 0; i < size; ++i) data[i] /= len;
 }
 
-vector vector::diff() {
+vector vector::diff() const {
     vector res(size - 1);
     for(int i = 0; i < size - 1 ; ++i) res[i] = data[i + 1] - data[i];
     return res;

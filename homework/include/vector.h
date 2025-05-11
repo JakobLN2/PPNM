@@ -30,9 +30,9 @@ class vector {
         vector& operator+=(const vector&);
         vector& operator-=(const vector&);
 
-        double norm();
+        double norm() const;
         void normalize();
-        vector diff();
+        vector diff() const;
         void print(std::string s = "") const; //for debugging
         vector copy() const;
         void push_back(double);

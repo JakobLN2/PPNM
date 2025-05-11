@@ -18,7 +18,7 @@ OBJS := $(OBJS:.h=.o)
 
 
 .PHONY: all clean
-all: Out.txt
+all: Out.txt Plot.err.svg Plot.errquasi.svg
 
 Out.txt : main
 	./$< -t all > $@
@@ -80,5 +80,5 @@ $(OBJ_DIR):
 	mkdir -p $@
 
 clean:
-	$(RM) [Oo]ut*.txt *.o *.png *.svg main ../obj/*.o
+	$(RM) [Oo]ut*.txt *.o *.png *.svg main ../obj/*.o mcInt
 

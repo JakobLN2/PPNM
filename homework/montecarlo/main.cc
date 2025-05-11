@@ -152,7 +152,7 @@ int graph_b() {
 
 int task_c() {
     std::cout << "Task c, Stratified Monte Carlo integration.\n";
-    std::cout << "This one didn't really work out, the error is larger than simply plainMC, even though it seems that it should work? Likely a misunderstanding with splitting the volume.\n";
+    std::cout << "This one didn't really work out. Likely a misunderstanding with splitting the volume.\n";
     std::cout << "Don't think it deserves a whole point, it technically has a lower error than plainMC (for actually asymmetric integrals), about a factor 10\n" << 
                 "Though it calculates the whole thing for every subdivision, leading to a very slow algorithm where one might as well crank up the no. of samples for plainMC and still get a better and faster result. \n" <<
                 "I may have misunderstood the assignment, since it to me reads like 'dont use the acc,eps condition from the book' and instead let it run only with N and nmin, but this doesn't seem to make much sense.\n";
