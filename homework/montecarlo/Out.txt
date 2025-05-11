@@ -1,0 +1,51 @@
+Task a, plain Monte Carlo integration.
+∫_-1^1∫_-1^1∫_-1^1 1 = 8 +/- 0
+	with 1000 samples
+	Is calculated exactly, which was our one requirement
+
+∫unit circle = 3.145680 +/- 0.005184, expected: 3.141593
+	with 100000 samples
+	|MC - analytic|/err = 0.788450
+Since the error is a statistical deviation, it is expected that the result is within one standard deviation of the actual value ~67% of the time, and within 2 deviations ~95% of the time
+Error as a function of sample points is plotted in Plot.err.svg
+Though it seems underestimated for N <~ 1e5, where there may not be enough samples for proper convergence.
+The first two points also have a extremely low estimated error, which is likely due to random chance from having few samples
+The actual error convincingly follows a 1/sqrt(N) dependency. Note that the first 3 points are not included in the fit due to low number of samples
+
+∫unit sphere = 4.197206 +/- 0.004610, expected: 4.188790
+	with 1000000 samples
+	|MC - analytic|/err = 1.825391
+
+∫4D unit sphere = 4.937569 +/- 0.003785, expected: 4.934802
+	with 5000000 samples
+	|MC - analytic|/err = 0.730964
+
+1/pi^3∫_0^pi dx∫_0^pi dy∫_0^pi dz [1-cos(x)cos(y)cos(z)]^-1 = 1.392144 +/- 0.001515, expected: 1.393204
+	with 100000000 samples
+	|MC - analytic|/err = 0.699343
+
+
+Task b, Quasi-random Monte Carlo integration.
+∫unit circle = 3.141160 +/- 0.000040, expected: 3.141593
+	with 100000 samples
+	|MC - analytic|/err = 10.816340
+Due to random variance arising from an error estimate of two random samplers, the error can be misjudged severely. Though this seems rare from the error plot.
+	Error as a function of sample points is plotted in Plot.errquasi.svg.
+	The convergence of quasi-random sampling is quite a lot faster than plain Monte Carlo (plainMC), still roughly following the 1/sqrt(N) dependency.
+	The actual error is about an order of magnitude lower than for plainMC for pretty much all no. of samples, the fitting coefficient is ~17 times lower
+
+
+Task c, Stratified Monte Carlo integration.
+This one didn't really work out, the error is larger than simply plainMC, even though it seems that it should work? Likely a misunderstanding with splitting the volume.
+Don't think it deserves a whole point, it technically has a lower error than plainMC (for actually asymmetric integrals), about a factor 10
+Though it calculates the whole thing for every subdivision, leading to a very slow algorithm where one might as well crank up the no. of samples for plainMC and still get a better and faster result. 
+I may have misunderstood the assignment, since it to me reads like 'dont use the acc,eps condition from the book' and instead let it run only with N and nmin, but this doesn't seem to make much sense.
+
+2D gauss centered on (1, 0.5) with standard deviations (1, 0.5):
+plainMC: ∫2D gauss = 3.162795 +/- 0.011901, expected: 3.141593
+	with 10000000 samples
+	|MC - analytic|/err = 1.781610
+
+Stratified: ∫2D gauss = 3.140026 +/- 0.001824, expected: 3.141593
+	with 10000000 samples
+	|MC - analytic|/err = 0.859177
