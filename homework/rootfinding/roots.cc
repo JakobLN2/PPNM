@@ -1,12 +1,16 @@
 #include"roots.h"
 
-matrix jacobian(const std::function<vector(vector)> F, const vector& x, vector fx, vector dx) {
+matrix jacobian(const std::function<vector(vector)> F, vector& x, vector fx, vector dx) {
     if(fx.isZeros()) fx = F(x);
-    if(dx.isZeros()) dx = std::max(1.0, x.norm())*std::pow(2,-26);
+    if(dx.isZeros()) {
+        for(int i = 0; i < x.size ; ++i) dx[i] = std::max(1.0, std::abs(x[i]))*std::pow(2,-26);
+    }
     matrix J(x.size,x.size);
     for(int i = 0; i < x.size ; ++i) {
-        vector df = F(x + dx) - fx;
-        for(int j = 0; j < x.size; ++j) J(j,i) = df[i]/dx[j]; 
+        x[i] += dx[i];
+        vector df = F(x) - fx;
+        for(int j = 0; j < x.size; ++j) J(j,i) = df[j]/dx[i]; 
+        x[i] -= dx[i];
     }
 
     return J;
@@ -15,7 +19,30 @@ matrix jacobian(const std::function<vector(vector)> F, const vector& x, vector f
 
 vector newton(const std::function<vector(vector)>& F, const vector& start, double acc, vector dx) {
     vector x = start.copy();
-    vector fx = F(x);    
+    if(dx.isZeros()) dx = vector(x.size); //Ensure that dx is the same size as x 
+    x.print("x0 = ");
+    vector fx = F(x);
+    vector f_step;
 
-    return start;
+    while(true) {
+        std::cout << "loop begun\n";
+        if(fx.norm() <= acc) {std::cout << "function F(x) = " << fx.norm() << " is within tolerance\n"; break;}
+        matrix J = jacobian(F, x, fx, dx);
+        QRSolver JQR(J);
+        vector x_step = JQR.solve(-fx);
+        x_step.print("x_step = ");
+        double l = 1;
+        while(l >= 1.0/128.0) {
+            std::cout << "inner loop begun with lambda = " << l << "\n";
+            f_step = F(x + l*x_step);
+            if(f_step.norm() < (1 - l/2)*fx.norm()) break;
+            l /= 2;
+        }
+        x = x + l*x_step;
+        std::cout << "x updated to "; x.print();
+        fx = f_step;
+        std::cout << "Function value at new x "; fx.print();
+    }
+
+    return x;
 }

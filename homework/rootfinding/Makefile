@@ -8,7 +8,7 @@ OBJ_DIR := ../obj
 I_DIR := ../include
 
 #Header files to be compiled:
-INCS = $(I_DIR)/vector.h $(I_DIR)/matrix.h roots.h
+INCS = $(I_DIR)/vector.h $(I_DIR)/matrix.h roots.h ../linearEquations/qrsolver.h
 
 SRCS = $(INCS:$(I_DIR)/%.h=$(SRC_DIR)/%.cc)
 SRCS := $(SRCS:.h=.cc)
@@ -28,7 +28,7 @@ main : main.o $(OBJS) $(INCS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
 
 
-%.o : %.cc %.h
+%.o : %.cc %.h $(INCS)
 	@echo MAKING $@ WITH $^
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
 

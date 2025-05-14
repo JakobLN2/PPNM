@@ -3,6 +3,7 @@
 
 #include"../include/matrix.h"
 #include"../include/vector.h"
+#include<cmath>
 
 class QRSolver {
     public:
