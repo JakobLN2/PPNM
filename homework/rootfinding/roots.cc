@@ -24,11 +24,15 @@ vector newton(const std::function<vector(vector)>& F, const vector& start, doubl
     vector fx = F(x);
     vector f_step;
 
+    int i = 0;
     while(true) {
         std::cout << "loop begun\n";
-        if(fx.norm() <= acc) {std::cout << "function F(x) = " << fx.norm() << " is within tolerance\n"; break;}
+        if(fx.norm() <= acc) {std::cout << "function norm(F(x)) = " << fx.norm() << " is within tolerance\n"; break;}
         matrix J = jacobian(F, x, fx, dx);
+        J.print("J = ");
         QRSolver JQR(J);
+        JQR.Q.print("Q = ");
+        JQR.R.print("R = ");
         vector x_step = JQR.solve(-fx);
         x_step.print("x_step = ");
         double l = 1;
@@ -42,6 +46,8 @@ vector newton(const std::function<vector(vector)>& F, const vector& start, doubl
         std::cout << "x updated to "; x.print();
         fx = f_step;
         std::cout << "Function value at new x "; fx.print();
+        // i += 1;
+        if(++i >= 5) break;
     }
 
     return x;

@@ -23,11 +23,20 @@ vector& vector::operator-=(const vector& a) {
     for(int i = 0 ; i < size ; ++i) data[i] -= a.data[i];
     return *this;
 }
+vector& vector::operator+=(double n) {
+    for(int i = 0 ; i < size ; ++i) data[i] += n;
+    return *this;
+}
+vector& vector::operator-=(double n) {
+    for(int i = 0 ; i < size ; ++i) data[i] -= n;
+    return *this;
+}
 
 
 double vector::norm() const {
     double res = 0;
-    for(double d : data) res += d*d;
+    // for(double d : data) res += d*d;
+    for(int i = 0; i < size; ++i) res += data[i]*data[i];
     return std::sqrt(res);
 }
 void vector::normalize() {
@@ -62,12 +71,28 @@ void vector::push_back(double a) {
     size += 1;
 }
 
+std::ostream& operator<<(std::ostream& os, const vector& a) { // ToString method
+    os << "( ";
+    for(int i = 0; i < a.size ; ++i) os << a[i] << " ";
+    os << ")";
+    return os;
+}
+
 vector operator+(const vector& a, const vector& b) {
     compatible_exception(a, b);
     vector res(a.size);
     for(int i = 0 ; i < a.size ; ++i) res[i] = a.data[i] + b.data[i];
     return res;
 }
+vector operator+(const vector& a, double n) {
+    vector res = a.copy();
+    res += n;
+    return res;
+}
+vector operator+(double n, const vector& a) {
+    return a + n;
+}
+
 vector operator-(const vector& a, const vector& b) {
     compatible_exception(a, b);
     vector res(a.size);
@@ -78,6 +103,14 @@ vector operator-(const vector& a) {
     vector res(a.size);
     for(int i = 0 ; i < a.size ; ++i) res[i] = -a.data[i];
     return res;
+}
+vector operator-(const vector& a, double n) {
+    vector res = a.copy();
+    res -= n;
+    return res;
+}
+vector operator-(double n, const vector& a) {
+    return (-a.copy()) + n;
 }
 
 vector operator*(const vector& a, double n) {

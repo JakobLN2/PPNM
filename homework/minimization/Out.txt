@@ -1,0 +1,62 @@
+infile = higgs_data.txt
+outfile = higgs_fit.txt
+
+Task A test functions:
+Minimum of (x - 4)^2 + (y + 9)^2 is expected at: (4,-9)
+x0 = ( 1 1 ), acc = 1e-06
+Forward difference:
+	( 4 -9 )
+	In 2 iterations
+	at solution: norm(gradient) = 3.49099e-12 < acc == 1
+Central difference:
+	( 4 -9 )
+	In 1 iterations
+	at solution: norm(gradient) = 0 < acc == 1
+
+Minimum of Rosenbrock's function is expected at: (1,1)
+x0 = ( 10 10 ), acc = 1e-06
+Forward difference:
+	( 0.999991 0.999983 )
+	In 8609 iterations
+	at solution: norm(gradient) = 9.99965e-07 < acc == 1
+Central difference:
+	( 1 1 )
+	In 46 iterations
+	at solution: norm(gradient) = 7.3079e-07 < acc == 1
+
+Minimum of Himmelblau's function is expected at: (3,2)
+x0 = ( 10 10 ), acc = 1e-06
+Forward difference:
+	( 3 2 )
+	In 8 iterations
+	at solution: norm(gradient) = 4.82234e-07 < acc == 1
+Central difference:
+	( 3 2 )
+	In 8 iterations
+	at solution: norm(gradient) = 4.58262e-08 < acc == 1
+
+Minimum of Baele's function (from wikipedia) is expected at: (3,0.5)
+x0 = ( 3 0 ), acc = 1e-06
+Forward difference:
+	( 3 0.5 )
+	In 8 iterations
+	at solution: norm(gradient) = 2.87074e-07 < acc == 1
+Central difference:
+	( 3 0.5 )
+	In 8 iterations
+	at solution: norm(gradient) = 3.04456e-08 < acc == 1
+
+Task b: Higgs data
+Higgs fit with initial guess x0 = ( 125 4 15 )
+Forward difference:
+	Optimal parameters (m, Γ, a) = ( 125.972 2.08633 9.87621 ) in 7 iterations
+Central difference:
+	Optimal parameters (m, Γ, a) = ( 125.972 2.08633 9.87621 ) in 768 iterations
+Mass of Higgs boson is 125.972 GeV/c^2, Experimental width is 2.08633 GeV
+Requires a really good guess, otherwise diverges to god knows where
+
+Task c:
+ Central difference seems to work much better than forward difference in some cases.
+ It requires much fewer iterations for the Rosenbrock function,
+ though the Higgs fit is significantly worse.
+It depends on the function which is minimized

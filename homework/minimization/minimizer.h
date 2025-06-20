@@ -6,8 +6,10 @@
 #include<string>
 #include<functional>
 
-std::tuple<vector,int> newton(std::function<double(vector)>, vector, double acc=1e-3);
+std::tuple<vector,int> newton(std::function<double(vector)>, vector, double acc=1e-3, int method=0);
 
-vector gradient(const std::function<double(vector)>&, vector);
+vector gradient(const std::function<double(vector)>&, vector, int);
 
-matrix hessian(const std::function<double(vector)>, vector x, vector dFx);
+matrix hessian(const std::function<double(vector)>, vector, vector);
+
+matrix centralHess(const std::function<double(vector)>, vector);

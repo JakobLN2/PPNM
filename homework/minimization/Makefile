@@ -18,7 +18,7 @@ OBJS := $(OBJS:.h=.o)
 
 
 .PHONY: all clean
-all: Out.txt
+all: Out.txt Plot.higgs.svg
 
 Out.txt : main
 	./$< --input higgs_data.txt > $@
@@ -46,6 +46,7 @@ Plot.higgs.svg : higgs_data.txt higgs_fit.txt Makefile
 		  set output "$@"; \
 		  set xlabel "Energy [GeV]"; \
 		  set ylabel "σ [arb. units]"; \
+		  set title "Higgs data Breit Wigner fit"; \
 		  plot \
 		  	"$<" with errorbars pointtype 7 title "experimental data",\
 			"higgs_fit.txt" with lines title "fit"\

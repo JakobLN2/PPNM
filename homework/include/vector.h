@@ -26,9 +26,12 @@ class vector {
         
         vector& operator*=(double);
         vector& operator/=(double);
+        vector& operator+=(double);
+        vector& operator-=(double);
 
         vector& operator+=(const vector&);
         vector& operator-=(const vector&);
+        
 
         double norm() const;
         void normalize();
@@ -37,11 +40,17 @@ class vector {
         vector copy() const;
         void push_back(double);
         bool isZeros() const;
+
+        friend std::ostream& operator<<(std::ostream&, const vector&);
         
     };
 vector operator+(const vector&, const vector&);
+vector operator+(const vector&, double);
+vector operator+(double, const vector&);
 vector operator-(const vector&);
 vector operator-(const vector&, const vector&);
+vector operator-(const vector&, double);
+vector operator-(double, const vector&);
 vector operator*(const vector&, double);
 vector operator*(double, const vector&);
 vector operator/(const vector&, double);
