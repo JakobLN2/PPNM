@@ -19,8 +19,7 @@ void makeTrainAnn(std::function<double(double)> F, double xmin, double xmax, int
     vector y(N_sample);
     for(int i = 0; i < N_sample; ++i) y[i] = F(x[i]);
 
-    ann A(N_nodes);
-    A.train(x,y);
+    ann A(N_nodes, "gaussian wavelet",x,y);
 
     vector x_fit = linspace(xmin, xmax, 5000);
     vector y_fit(x_fit.size);
@@ -36,10 +35,10 @@ void makeTrainAnn(std::function<double(double)> F, double xmin, double xmax, int
 }
 
 int main() {
-    int N_sample = 1000,
-        N_node = 3;
-    double xmin = -3,
-           xmax = 3;
+    int N_sample = 600,
+        N_node = 5;
+    double xmin = -1,
+           xmax = 1;
     // makeTrainAnn(F_cos, xmin, xmax, N_sample, N_node, "cosexp_data.txt");
     makeTrainAnn(F_cosexp, xmin, xmax, N_sample, N_node, "cosexp_data.txt");
     // N_sample = 600;

@@ -25,8 +25,10 @@ Out.txt : main
 
 
 main : main.o $(OBJS) $(INCS)
+	@echo MAKING $@ WITH $^
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
 
+main.o : main.cc $(INCS)
 
 %.o : %.cc %.h $(INCS)
 	@echo MAKING $@ WITH $^
@@ -53,5 +55,5 @@ $(OBJ_DIR):
 	mkdir -p $@
 
 clean:
-	$(RM) [Oo]ut*.txt *.o *.png *.svg main ../obj/*.o *fit.txt
+	$(RM) [Oo]ut*.txt *.o *.png *.svg main ../obj/*.o *_data.txt
 

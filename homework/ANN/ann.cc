@@ -1,8 +1,24 @@
 #include"ann.h"
 
-double ann::eval(double x) {
+double ann::eval(double x) const {
     double res = 0;
     for(int i = 0; i < n; ++i) res += F_neuron(x,P.getRow(i));
+    return res;
+}
+
+vector ann::eval2(double x) const {
+    // I really dont want to add logic to make this easier, just kill the program if it does not go as i want it to.
+    if(act != "gaussian wavelet") throw std::logic_error("expanded eval is only implemented for gaussian wavelet activation function");
+    vector res(4);
+    res[0] = eval(x);
+    double a,b,w,u;
+    for(int i = 0; i < P.nrows; i++) {
+        a = P(i,0); b = P(i,1); w = P(i,2);
+        u = (x-a/b);
+        res[1] += w/b*(1-2*u*u)*std::exp(-u*u);
+        res[2] += w/b/b*2*u*(2*u*u-3)*std::exp(-u*u);
+        res[3] += -0.5*w*b*(std::exp(-u*u) - std::exp(-a*a/b/b));
+    }
     return res;
 }
 
@@ -16,7 +32,9 @@ void ann::train(const vector& x, const vector& y) {
         }
         return cost;
     };
-    std::cerr << "Training network with " << n << " neurons for " << x.size << " datapoints\n";
+    int epochs = 10000;
+    int starts = 3;
+    std::cerr << "Training network with " << n << " neurons for " << x.size << " datapoints\nEpochs: " << epochs << ", Random start locations: " << starts <<"\n";
     
     std::uniform_real_distribution<double> unif(-1,1);
     std::default_random_engine re(5);
@@ -24,25 +42,30 @@ void ann::train(const vector& x, const vector& y) {
     vector px(3*n);
     for(int i = 0; i < 3*n ; ++i) px[i] = unif(re)*2; //Random start guess
     reshape(px,n,3).print("p0 = ",std::cerr);
-
     std::cerr << "Initial cost: " << F_cost(px) << "\n";
-
+    
     double cost_min = F_cost(px);
     vector p_opt = px.copy();
-    int epoch = 0, epoch_best = 0;
-    do {
-        vector gp = gradient(x,y,px);
-        px -= gp/128.0;
-        double cost = F_cost(px);
-        if(cost < cost_min) {
-            p_opt = px.copy();
-            cost_min = cost;
-            epoch_best = epoch + 1;
-        }
-        epoch++;
-    } while(epoch < 10000);
-    
-    std::cerr << "Training complete, best cost: " << F_cost(p_opt) << " at epoch " << epoch_best << "\n";
+    int epoch = 0, epoch_best = 0, guess_best = 0;
+
+    for(int i = 0; i < starts ; ++i) {
+        if(i > 0) for(int i = 0; i < 3*n ; ++i) px[i] = unif(re)*2; //New random start guess
+        do {
+            vector gp = gradient(x,y,px);
+            px -= gp/128.0;
+            double cost = F_cost(px);
+            if(cost < cost_min) {
+                p_opt = px.copy();
+                cost_min = cost;
+                epoch_best = epoch + 1;
+                guess_best = i+1;
+            }
+            epoch++;
+        } while(epoch < 10000);
+        epoch = 0;
+    }
+
+    std::cerr << "Training complete, best cost: " << F_cost(p_opt) << " at epoch " << epoch_best << " for start location " << guess_best << "\n";
 
 
     // std::uniform_real_distribution<double> unif(-1,1);

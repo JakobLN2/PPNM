@@ -9,57 +9,42 @@
 #include<string>
 #include<functional>
 #include<random>
-
+#include<exception>
 
 class ann {
     public:
         int n; //Number of neurons
         matrix P; //matrix of weights
-        // std::function<double(double)> F_act, dF_act; //Activation function used in hidden neurons and its derivative
+        std::string act; //which method to use
         
-        std::function<double(double)> F_act, dF_act;
+        std::function<double(double)> F_act, dF_act; //Activation function used in hidden neurons and its derivative
         std::function<double(double,vector)> F_neuron;
-        std::function<double(double,double,vector)> dL_da, dL_db, dL_dw;
+        std::function<double(double,double,vector)> dL_da, dL_db, dL_dw; //Derivatives of loss functions
 
-        /*Gaussian wavelet*/
-        // std::function<double(double)> F_act = [](double x){return x*std::exp(-x*x);}; 
-        // std::function<double(double)> dF_act = [](double x){return (1 - 2*x*x)*std::exp(-x*x);};
         
-        // std::function<double(double,vector)> F_neuron = [&](double x, vector p) {return F_act((x - p[0])/p[1])*p[2];}; //neuron activation function
-        // /*Analytical loss function derivatives*/
-        // std::function<double(double,double,vector)> dL_da = [&](double x,double y, vector p) {return -2*(F_neuron(x,p) - y) * p[2] * dF_act((x - p[0])/p[1])/p[1];};
-        // std::function<double(double,double,vector)> dL_dw = [&](double x,double y, vector p) {return 2*(F_neuron(x,p) - y) * F_act((x - p[0])/p[1]);};
-        // std::function<double(double,double,vector)> dL_db = [&](double x,double y, vector p) {return -2*(F_neuron(x,p) - y) * p[2] * dF_act((x - p[0])/p[1])*(x - p[0])/p[1]/p[1];};
-        
-        
-        ann(int n) : n(n) {
+        ann(int n, std::string act) : n(n), act(act) {
             P = matrix(n,3);
             
-            // /*Gaussian wavelet*/
-            // F_act = [](double x){return x*std::exp(-x*x);};
-            // dF_act = [](double x){return (1 - 2*x*x)*std::exp(-x*x);};
+            if(act == "gaussian wavelet") {  /*Gaussian wavelet*/
+                F_act = [](double x){return x*std::exp(-x*x);};
+                dF_act = [](double x){return (1 - 2*x*x)*std::exp(-x*x);};
+            } else if(act == "gaussian") { /*Gaussian*/
+                F_act = [](double x){return std::exp(-x*x);};
+                dF_act = [](double x){return -2*x*std::exp(-x*x);};
+            } else if(act == "wavelet") { /*Wavelet*/
+                F_act = [](double x){return std::cos(5*x)*std::exp(-x*x);};
+                dF_act = [](double x){return -(5*std::sin(5*x) + 2*x*std::cos(5*x)) * std::exp(-x*x);};
+            } else {throw std::invalid_argument("Unknown activation function, accepted values are: 'gaussian wavelet', 'gaussian', 'wavelet'");};
 
-            /*Gaussian*/
-            F_act = [](double x){return std::exp(-x*x);};
-            dF_act = [](double x){return -2*x*std::exp(-x*x);};
-
-            // /*Gaussian wavelet*/
-            // F_act = [](double x){return std::cos(5*x)*std::exp(-x*x);};
-            // dF_act = [](double x){return -(5*std::sin(5*x) + 2*x*std::cos(5*x)) * std::exp(-x*x);};
-           
-           
             F_neuron = [&](double x, vector p) {return F_act((x - p[0])/p[1])*p[2];};
-
 
             dL_da = [&](double x,double y, vector p) {return -2 * (F_neuron(x,p) - y) * p[2] * dF_act((x - p[0])/p[1])/p[1];};
             dL_db = [&](double x,double y, vector p) {return -2 * (F_neuron(x,p) - y) * p[2] * dF_act((x - p[0])/p[1])*(x - p[0])/p[1]/p[1];};
             dL_dw = [&](double x,double y, vector p) {return  2 * (F_neuron(x,p) - y) * F_act((x - p[0])/p[1]);};
         }
-        ann(int n, vector x, vector y) : n(n) {
-            P = matrix(n,3);
-            train(x,y);
-        } // parametrized constructor
-
+        ann(int n, vector x, vector y) : ann(n, "gaussian wavelet") {train(x,y);} //additional parametrized constructors
+        ann(int n) : ann(n, "gaussian wavelet") {}
+        ann(int n, std::string act, vector x, vector y) : ann(n, act) {train(x,y);}
 
         ann() = default; // default constructor
         ann(const ann&)=default; // copy constructor
@@ -68,7 +53,8 @@ class ann {
         ann& operator=(const ann&)=default; // copy assignment
         ann& operator=(ann&&)=default; // move assignment
 
-        double eval(double x); //Calculate network responce for input x
+        double eval(double x) const; //Calculate network response for input x
+        vector eval2(double x) const;
         void train(const vector& x, const vector& y);
         vector gradient(const vector&, const vector&, const vector&);
 };
