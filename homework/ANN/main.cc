@@ -9,7 +9,7 @@
 
 
 
-// std::function<double(double)> F_cosexp = [](double x){return std::cos(5*x)*std::exp(-x*x);};
+std::function<double(double)> F_cosexp = [](double x){return std::cos(5*x - 1)*std::exp(-x*x);};
 std::function<double(double)> F_cos = [](double x){return std::cos(x);};
 std::function<double(double)> F_square = [](double x){return x*x;};
 std::function<double(double)> F_lin = [](double x){return 5*x;};
@@ -19,7 +19,8 @@ void makeTrainAnn(std::function<double(double)> F, double xmin, double xmax, int
     vector y(N_sample);
     for(int i = 0; i < N_sample; ++i) y[i] = F(x[i]);
 
-    ann A(N_nodes,x,y);
+    ann A(N_nodes);
+    A.train(x,y);
 
     vector x_fit = linspace(xmin, xmax, 5000);
     vector y_fit(x_fit.size);
@@ -35,11 +36,12 @@ void makeTrainAnn(std::function<double(double)> F, double xmin, double xmax, int
 }
 
 int main() {
-    int N_sample = 800,
-        N_node = 5;
-    double xmin = -1,
-           xmax = 1;
-    makeTrainAnn(F_cos, xmin, xmax, N_sample, N_node, "cosexp_data.txt");
+    int N_sample = 1000,
+        N_node = 3;
+    double xmin = -3,
+           xmax = 3;
+    // makeTrainAnn(F_cos, xmin, xmax, N_sample, N_node, "cosexp_data.txt");
+    makeTrainAnn(F_cosexp, xmin, xmax, N_sample, N_node, "cosexp_data.txt");
     // N_sample = 600;
     // N_node = 10;
     // makeTrainAnn(F_square, xmin, xmax, N_sample, N_node, "cosexp_data.txt");
