@@ -80,6 +80,9 @@ void matrix::setCol(int j, double n) {
 }
 
 void matrix::print(std::string s) const {
+    print(s, std::cout);
+}
+void matrix::print(std::string s, std::ostream&) const {
     std::cout << s << "(";
     int maxSize = 1;
     for(int i = 0; i < nrows ; ++i) for(int j = 0; j < ncols ; ++j) maxSize = std::max((int)(std::to_string(cols[i + j*nrows]).size()), maxSize);  
@@ -88,12 +91,15 @@ void matrix::print(std::string s) const {
             if(cols[i + j * nrows] >= 0) std::cout << " " << std::setw(maxSize + 3) << std::left;
             else std::cout << std::setw(maxSize + 4) << std::left;
             std::cout << cols[i + j * nrows] << " ";
-
+    
         }
         if(i == nrows - 1) std::cout << ")\n";
         else std::cout << std::setw((int)s.size() + 2) << "\n";
     }
+    
 }
+
+
 matrix matrix::copy() {
     matrix res(nrows, ncols);
     for(int i = 0; i < nrows ; ++i) {

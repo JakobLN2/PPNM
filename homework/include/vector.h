@@ -55,8 +55,8 @@ vector operator*(const vector&, double);
 vector operator*(double, const vector&);
 vector operator/(const vector&, double);
 
-/*Project vector a onto b*/
-vector proj(const vector&, const vector&);
+vector proj(const vector&, const vector&); /*Project vector a onto b*/
+vector linspace(double min, double max, int N);
 
 double dot(const vector&, const vector&); //inner product
 bool approx(const vector& a, const vector& b, double acc=1e-6,double eps=1e-6);

@@ -45,7 +45,8 @@ class matrix {
         matrix& operator+=(const matrix&);
         matrix& operator-=(const matrix&);
 
-        void print(std::string s = "") const; //for debugging
+        // void print(std::string s = "") const; //for debugging
+        void print(std::string s = "", std::ostream& = std::cout) const; //for debugging
         matrix copy(); //not sure if A = B does it right
     };
 matrix operator+(const matrix& a, const matrix& b);

@@ -135,6 +135,13 @@ vector proj(const vector& a, const vector& b) {
     res *= dot(a,b)/dot(a,a);
     return res;
 }
+vector linspace(double min, double max, int N) {
+    /*Go from min to max in N points (start and end point included)*/
+    double dx = (max - min)/(N - 1);
+    vector res(N);
+    for(int i = 0; i < N ; ++i) res[i] = min + i*dx;
+    return res;
+}
 
 double dot(const vector& a, const vector& b) {
     compatible_exception(a, b);
