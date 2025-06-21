@@ -79,9 +79,9 @@ void matrix::setCol(int j, double n) {
     for(int i = 0; i < nrows ; ++j) cols[i + j * nrows] = n;
 }
 
-void matrix::print(std::string s) const {
-    print(s, std::cout);
-}
+// void matrix::print(std::string s) const {
+//     print(s, std::cout);
+// }
 void matrix::print(std::string s, std::ostream&) const {
     std::cout << s << "(";
     int maxSize = 1;
@@ -178,6 +178,16 @@ matrix transpose(const matrix& a) {
         for(int j = 0; j < res.ncols; ++j) res(i,j) = a(j,i);
     }
     return res;
+}
+
+matrix reshape(const vector a, int nrows, int ncols) {
+    if(a.size != nrows * ncols) throw std::invalid_argument("vector of len " + std::to_string(a.size) + " could not be casted to matrix of size (" + std::to_string(nrows) + ", " + std::to_string(ncols) + ")\n");
+    matrix res(nrows,ncols);
+    for(int i = 0; i < nrows; ++i) {
+        for(int j = 0; j < ncols; ++j) res(i,j) = a[ncols * i + j];
+    }
+    return res;
+
 }
 
 matrix identity(int n) {

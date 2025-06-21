@@ -8,17 +8,22 @@
 #include<cmath>
 #include<string>
 #include<functional>
+#include<random>
 
 
 class ann {
     public:
         int n; //Number of neurons
         matrix P; //matrix of weights
-        std::function<double(double)> F_act = [](double x){return x*std::exp(-x*x);}; //Output layer activation function
-        std::function<double(double,vector)> F_neuron = [&](double x, vector p) {return F_act((x - p[0])/p[1])*p[2];};
+        std::function<double(double)> F_act = [](double x){return x*std::exp(-x*x);}; //Activation function used in hidden neurons
+        std::function<double(double,vector)> F_neuron = [&](double x, vector p) {return F_act((x - p[0])/p[1])*p[2];}; //neuron activation function
         
         ann(int n) : n(n) {
             P = matrix(n,3);
+        }
+        ann(int n, vector x, vector y) : n(n) {
+            P = matrix(n,3);
+            train(x,y);
         } // parametrized constructor
 
 

@@ -33,6 +33,7 @@ vector& vector::operator-=(double n) {
 }
 
 
+
 double vector::norm() const {
     double res = 0;
     // for(double d : data) res += d*d;

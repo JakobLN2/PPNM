@@ -60,6 +60,7 @@ vector operator*(const matrix& a, const vector& b); //Note: vectors have no shap
 vector operator*(const vector& a, const matrix& b); //Note: Also unable to calculate the outer product TODO, perchance?
 matrix transpose(const matrix& a);
 
+matrix reshape(const vector, int,int);
 matrix identity(int); //Create identity matrix of size n
 bool approx(const matrix& a, const matrix& b, double acc=1e-6,double eps=1e-6);
 void prod_compatible_exception(const matrix& a, const matrix& b); //Check if two matrices are compatible for matrix multiplication, if not throw an exception.

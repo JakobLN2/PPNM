@@ -1,3 +1,6 @@
+#ifndef HAVE_MINIMIZER_H
+#define HAVE_MINIMIZER_H
+
 #include"../include/vector.h"
 #include"../include/matrix.h"
 #include"../linearEquations/qrsolver.h"
@@ -13,3 +16,5 @@ vector gradient(const std::function<double(vector)>&, vector, int);
 matrix hessian(const std::function<double(vector)>, vector, vector);
 
 matrix centralHess(const std::function<double(vector)>, vector);
+
+#endif

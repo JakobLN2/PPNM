@@ -43,7 +43,6 @@ Plot.cosexp.svg : cosexp_data.txt Makefile
 		  set output "$@"; \
 		  set xlabel "x"; \
 		  set ylabel "y"; \
-		  set title "Higgs data Breit Wigner fit"; \
 		  plot \
 		  	"$<" index 0 with lines title "analytical data",\
 			"$<" index 1 with lines title "fit"\

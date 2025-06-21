@@ -21,6 +21,7 @@ std::tuple<vector,int> newton(std::function<double(vector)> F, vector start, dou
             if(F(x + l*dx) < Fx) break;
             l /= 2.0; 
         }
+        std::cerr << l << "\n";
         x += l*dx;
         N += 1;
     } while(N < 50000);
