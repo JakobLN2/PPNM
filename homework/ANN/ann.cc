@@ -22,7 +22,7 @@ void ann::train(const vector& x, const vector& y) {
     std::default_random_engine re(5);
     
     vector p0(3*n);
-    for(int i = 0; i < 3*n ; ++i) p0[i] = unif(re)*8; //Random start guess
+    for(int i = 0; i < 3*n ; ++i) p0[i] = unif(re)*64; //Random start guess
     reshape(p0,n,3).print("p0 = ",std::cerr);
     std::cerr << "Initial cost: " << F_cost(p0) << "\n";
 

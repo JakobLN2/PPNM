@@ -9,7 +9,7 @@
 #include<string>
 #include<functional>
 
-std::tuple<vector,int> newton(std::function<double(vector)>, vector, double acc=1e-3, int method=0);
+std::tuple<vector,int> newton(const std::function<double(vector)>&, vector, double acc=1e-3, int method=0);
 
 vector gradient(const std::function<double(vector)>&, vector, int);
 

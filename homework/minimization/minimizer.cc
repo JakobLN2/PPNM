@@ -1,10 +1,10 @@
 #include"minimizer.h"
 
-std::tuple<vector,int> newton(std::function<double(vector)> F, vector start, double acc, int method) {
+std::tuple<vector,int> newton(const std::function<double(vector)>& F, vector start, double acc, int method) {
     if(method != 0 && method != 1) throw std::invalid_argument("unknown method " + std::to_string(method) + "\n0 for forward difference\n1 for central difference\n");
+    
     vector x = start.copy();
     int N = 0;
-
     do {
         vector gx = gradient(F,x,method);
         if(gx.norm() < acc) break;
@@ -21,10 +21,12 @@ std::tuple<vector,int> newton(std::function<double(vector)> F, vector start, dou
             if(F(x + l*dx) < Fx) break;
             l /= 2.0; 
         }
-        std::cerr << l << "\n";
         x += l*dx;
         N += 1;
-    } while(N < 50000);
+        std::cerr << "gx = " << gx << "\n";
+        std::cerr << "dx = " << dx << "\n";
+        std::cerr << "x  = " << x << "\n\n";
+    } while(N < 25000);
 
     return std::make_tuple(x,N);
 }
@@ -36,7 +38,8 @@ vector gradient(const std::function<double(vector)>& F, vector x, int method) {
     if(method == 0) {
         for(int i = 0; i < x.size ; ++i) {
             dxi = (1 + std::abs(x[i])) * std::pow(2.0,-26);
-            x[i] += dxi;  Fp = F(x);
+            x[i] += dxi;
+            Fp = F(x);
             x[i] -= dxi;
             dFx[i] = (Fp - F(x))/dxi;
         }

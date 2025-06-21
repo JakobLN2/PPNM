@@ -82,19 +82,19 @@ void matrix::setCol(int j, double n) {
 // void matrix::print(std::string s) const {
 //     print(s, std::cout);
 // }
-void matrix::print(std::string s, std::ostream&) const {
-    std::cout << s << "(";
+void matrix::print(std::string s, std::ostream& out) const {
+    out << s << "(";
     int maxSize = 1;
     for(int i = 0; i < nrows ; ++i) for(int j = 0; j < ncols ; ++j) maxSize = std::max((int)(std::to_string(cols[i + j*nrows]).size()), maxSize);  
     for(int i = 0 ; i < nrows ; ++i) {
         for(int j = 0; j < ncols ; ++j) {
-            if(cols[i + j * nrows] >= 0) std::cout << " " << std::setw(maxSize + 3) << std::left;
-            else std::cout << std::setw(maxSize + 4) << std::left;
-            std::cout << cols[i + j * nrows] << " ";
+            if(cols[i + j * nrows] >= 0) out << " " << std::setw(maxSize + 3) << std::left;
+            else out << std::setw(maxSize + 4) << std::left;
+            out << cols[i + j * nrows] << " ";
     
         }
-        if(i == nrows - 1) std::cout << ")\n";
-        else std::cout << std::setw((int)s.size() + 2) << "\n";
+        if(i == nrows - 1) out << ")\n";
+        else out << std::setw((int)s.size() + 2) << "\n";
     }
     
 }
