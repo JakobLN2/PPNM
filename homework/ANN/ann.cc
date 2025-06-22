@@ -6,24 +6,24 @@ double ann::eval(double x) const {
     return res;
 }
 
-vector ann::eval2(double x) const {
+vector ann::eval_derivs(double x) const {
     // I really dont want to add logic to make this easier, just kill the program if it does not go as i want it to.
     if(act != "gaussian wavelet") throw std::logic_error("expanded eval is only implemented for gaussian wavelet activation function");
     vector res(4);
     res[0] = eval(x);
-    double a,b,w,u;
-    for(int i = 0; i < P.nrows; i++) {
+    double a,b,w,u,euu;
+    for(int i = 0; i < n; i++) {
         a = P(i,0); b = P(i,1); w = P(i,2);
-        u = (x-a/b);
-        res[1] += w/b*(1-2*u*u)*std::exp(-u*u);
-        res[2] += w/b/b*2*u*(2*u*u-3)*std::exp(-u*u);
-        res[3] += -0.5*w*b*(std::exp(-u*u) - std::exp(-a*a/b/b));
+        u = (x-a)/b;
+        euu = std::exp(-u*u);
+        res[1] += w/b*(1-2*u*u)*euu;
+        res[2] += w/b/b*2*u*(2*u*u-3)*euu;
+        res[3] += -0.5*w*b*(euu - std::exp(-a*a/b/b));
     }
     return res;
 }
 
 void ann::train(const vector& x, const vector& y, double acc) {
-
     std::function<double(vector)> F_cost = [&](vector p){
         double cost = 0;
         for(int i = 0; i < x.size ; ++i) {
@@ -34,8 +34,8 @@ void ann::train(const vector& x, const vector& y, double acc) {
         return cost;
     };
     
-    int epochs = 15000;
-    int starts = 3;
+    int epochs = 15000; //Number of iterations to calculate the gradient
+    int starts = 3; //Number of random start guesses for weights
     std::cerr << "Training network with " << n << " neurons for " << x.size << " datapoints\nEpochs: " << epochs << ", Random start locations: " << starts <<"\n";
     
     std::uniform_real_distribution<double> unif(-1,1);
@@ -53,42 +53,44 @@ void ann::train(const vector& x, const vector& y, double acc) {
         if(i > 0) for(int i = 0; i < 3*n ; ++i) px[i] = unif(re)*2; //New random start guess
         do {
             vector gp = gradient(x,y,px);
-            reshape(gp,n,3).print("gp = ");
             px -= gp/128.0;
             double cost = F_cost(px);
+
             if(cost < cost_min) {
                 p_opt = px.copy();
                 epoch_best = epoch + 1;
                 guess_best = i+1;
-                if(cost_min - cost < acc) break;
+                if(cost_min - cost < acc) break; //Our improvement is extremely marginal, probably very close to the minimum. 
+                //I do not have adaptive step sizes so we'll probably start oscillating around the minimum which this hopefully avoids
                 cost_min = cost;
             }
             epoch++;
         } while(epoch < epochs);
+
         epoch = 0;
     }
 
-    std::cerr << "Training complete, best cost: " << F_cost(p_opt) << " at epoch " << epoch_best << " for start location " << guess_best << "\n";
+    std::cerr << "Training complete: best cost: " << F_cost(p_opt) << " at epoch " << epoch_best << " for start location " << guess_best << "\n";
 
     P = reshape(p_opt, n, 3);
     P.print("P = ", std::cerr);
 }
 
 vector ann::gradient(const vector& x, const vector& y, const vector& p) {
-    vector gp(p.size);
     vector ak(x.size);
     for(int k = 0; k < x.size; ++k) {
         double a = -y[k];
-        for(int i = 0; i < p.size; i+= 3) a += F_act((x[k] - p[i])/p[i+1])*p[i+2];
+        for(int i = 0; i < n; ++i) a += F_act((x[k] - p[3*i])/p[3*i+1])*p[3*i+2];
         ak[k] = a;
     }
-
-    for(int i = 0; i < p.size; i += 3) {
-        vector pj({p[i],p[i+1],p[i+2]});
+    
+    vector gp(p.size);
+    for(int i = 0; i < n; ++i) {
+        vector pj({p[3*i],p[3*i+1],p[3*i+2]});
         for(int k = 0; k < x.size; ++k) {
-            gp[i] += dL_da(x[k],ak[k],pj);
-            gp[i+1] += dL_db(x[k],ak[k],pj);
-            gp[i+2] += dL_dw(x[k],ak[k],pj);
+            gp[3*i]   += dL_da(x[k],ak[k],pj);
+            gp[3*i+1] += dL_db(x[k],ak[k],pj);
+            gp[3*i+2] += dL_dw(x[k],ak[k],pj);
         }
     }
     gp.normalize();

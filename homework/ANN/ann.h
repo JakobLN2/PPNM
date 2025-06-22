@@ -56,8 +56,8 @@ class ann {
         ann& operator=(ann&&)=default; // move assignment
 
         double eval(double x) const; //Calculate network response for input x
-        vector eval2(double x) const;
-        void train(const vector& x, const vector& y, double acc = 1e-5); //There are diminishing returns so we add an acc, if the cost improves less than acc, terminate stop training
+        vector eval_derivs(double x) const;
+        void train(const vector& x, const vector& y, double acc = 1e-8); //There are diminishing returns so we add an acc, if the cost improves less than acc, stop training
         vector gradient(const vector&, const vector&, const vector&);
 };
 

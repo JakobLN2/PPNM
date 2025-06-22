@@ -17,7 +17,7 @@ class QRSolver {
             Q = A.copy();
             R = matrix(A.ncols, A.ncols);
             decomp();
-            //Rinv = identity(A.ncols);
+            Rinv = matrix(R.nrows, R.nrows);
         } // parametrized constructor
 
 

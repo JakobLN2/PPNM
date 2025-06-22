@@ -1,0 +1,70 @@
+Interpolating a cos(5x - 1)*exp(-x*x) from -1 to 1 using gaussian wavelet as the activation function
+Training network with 5 neurons for 600 datapoints
+Epochs: 15000, Random start locations: 3
+p0 = (-1.47385      -0.165399     -1.12416      
+       0.715459      1.73877       0.0776655    
+      -1.86171       0.118801     -1.96921      
+      -1.73263       0.747091      1.72175      
+       0.107715      0.615676      0.804762     )
+Initial cost: 176.377
+Training complete: best cost: 0.118915 at epoch 14999 for start location 2
+P = ( 0.813742     -1.86432      -1.08168      
+      0.511014     -0.422246      1.33119      
+      1.49737      -1.69352       1.24963      
+     -0.146033     -0.418613     -1.98533      
+     -0.381756      0.948258     -1.56649      )
+Saving output to cosexp_data.txt... Output saved.
+Output is graphed in 'Plot.cosexp.svg'
+
+Interpolating a cos(5x - 1)*exp(-x*x) from -1 to 1 using gaussian as the activation function
+Training network with 5 neurons for 600 datapoints
+Epochs: 15000, Random start locations: 3
+p0 = (-1.47385      -0.165399     -1.12416      
+       0.715459      1.73877       0.0776655    
+      -1.86171       0.118801     -1.96921      
+      -1.73263       0.747091      1.72175      
+       0.107715      0.615676      0.804762     )
+Initial cost: 340.342
+Training complete: best cost: 0.124142 at epoch 14999 for start location 3
+P = (-0.376851     -0.338603     -1.17943      
+     -1.73659      -1.46843       0.567492     
+      1.65527      -0.142216     -1.79966      
+      0.560623     -0.399909     -1.22004      
+      0.296894      0.400295      1.54022      )
+Saving output to cosexp_data_2.txt... Output saved.
+Output is graphed in 'Plot.cosexp_2.svg'
+The two activation fucntions both seem able to describe the function adequately, though the gaussian wavelet is slightly better at extrapolating.Which is expected as the training function is also a wavelet.
+
+
+Interpolating a x*x using gaussian wavelet as the activation function
+Training network with 12 neurons for 600 datapoints
+Epochs: 15000, Random start locations: 3
+p0 = (-1.47385      -0.165399     -1.12416      
+       0.715459      1.73877       0.0776655    
+      -1.86171       0.118801     -1.96921      
+      -1.73263       0.747091      1.72175      
+       0.107715      0.615676      0.804762     
+       1.04879      -1.81014      -0.687063     
+       1.02564      -0.538645      1.9302       
+       1.01342      -1.70926       1.53883      
+      -0.254354     -0.0890729    -0.900373     
+      -1.33397       1.59063      -1.75774      
+       0.0180916    -0.723868     -0.0240933    
+      -1.63707      -1.705        -0.463431     )
+Initial cost: 4264.72
+Training complete: best cost: 0.0588663 at epoch 15000 for start location 3
+P = (-0.630707      0.777424      0.989255     
+      1.68947      -0.827228      2.05668      
+      0.12264       1.52503       2.4016       
+     -1.49004       0.405339     -2.86288      
+     -1.67683       0.766177     -1.80932      
+      0.124102     -1.56166      -3.17649      
+      0.082617      1.72825       1.60205      
+      1.80429       0.965474     -1.45689      
+      1.41052      -0.350942      1.91076      
+      1.66869       0.200437      1.66964      
+     -0.84177       2.63546e-06  -0.340327     
+      1.89783       0.306774      0.60112      )
+Saving output to square_data.txt... Output saved.
+Derivatives and antiderivative is estimated, output is graphed in 'Plot.square.svg'
+Requires significantly more nodes to be usable and it is terrible at extrapolating, which is as expected.
