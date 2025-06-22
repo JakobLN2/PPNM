@@ -36,13 +36,10 @@ void makeTrainAnn(std::function<double(double)> F, double xmin, double xmax, int
 
 int main() {
     int N_sample = 600,
-        N_node = 5;
+        N_node = 3;
     double xmin = -1,
            xmax = 1;
-    // makeTrainAnn(F_cos, xmin, xmax, N_sample, N_node, "cosexp_data.txt");
+
     makeTrainAnn(F_cosexp, xmin, xmax, N_sample, N_node, "cosexp_data.txt");
-    // N_sample = 600;
-    // N_node = 10;
-    // makeTrainAnn(F_square, xmin, xmax, N_sample, N_node, "cosexp_data.txt");
     return 0;
 }
