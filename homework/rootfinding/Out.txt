@@ -1,0 +1,23 @@
+Task a: Test functions:
+root of 5x + 3 function with initial guess ( 10 ) and accuracy 0.001
+root found at x_root = ( -0.6 )
+Function value dF(x_root) = 7.10543e-15 is within tolerance 0.001
+
+Ekstremum of Rosenbrock's function with initial guess ( 2.5 2.5 ) and accuracy 0.001
+root of gradient found at x_root = ( 1 1 )
+gradient norm(dF(x)) = 3.59856e-06 is within tolerance 0.001
+Function value is 6.47438e-15
+
+Extrema of Himmelblau's function with grid search inital guesses and accuracy 1e-05
+root found at ( -2.80512 3.13131 ) using start guess ( -2.5 2.5 ), dF(x) = ( -6.87815e-08 1.66262e-07 ) < acc ?= 1
+root found at ( 3.58443 -1.84813 ) using start guess ( 2.5 -2.5 ), dF(x) = ( 1.83225e-09 -1.9244e-08 ) < acc ?= 1
+root found at ( -3.77931 -3.28319 ) using start guess ( -2.5 -2.5 ), dF(x) = ( -2.9932e-07 -2.3401e-08 ) < acc ?= 1
+root found at ( 3 2 ) using start guess ( 2.5 2.5 ), dF(x) = ( 3.05889e-12 2.84963e-11 ) < acc ?= 1
+
+Task b: Schroedinger equation
+Using r_min = 1e-05, r_max = 8
+Accuracy = 1e-05, eps = 0.001, with inital energy guess E = -5
+Optimal energy: -0.499971
+Within tolerance of the exact result of -1/2
+Covnergence with respect to the parameters r_min, r_max and (acc, eps) are plotted seperately
+It is obvious from the plots that the numerical quality is dependent on how close the parameters approach 0 or infinity

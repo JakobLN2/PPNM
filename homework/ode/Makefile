@@ -32,6 +32,7 @@ Out.txt : main
 main : main.o $(OBJS) $(INCS)
 	@echo MAKING MAIN WITH $^
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
+main.o : main.cc $(INCS)
 
 # Proper dependencies on the header file do not work, it claims to recompile but it does not change the default parameter value ._.
 ode.o : ode.cc ode.h
@@ -48,7 +49,7 @@ Plot.sinwave.svg : Out.txt Makefile
 		  set output "$@"; \
 		  set xlabel "t"; \
 		  set ylabel "y"; \
-		  plot \
+		  plot[:][-1.4:1.4] \
 		  	"$<" index 1 with linespoints title "numerical solution y",\
 		  	"$<" index 2 with linespoints title "numerical solution dy/dt",\
 	' | gnuplot
