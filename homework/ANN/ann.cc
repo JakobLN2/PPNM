@@ -34,8 +34,8 @@ void ann::train(const vector& x, const vector& y, double acc) {
         return cost;
     };
     
-    int epochs = 1;
-    int starts = 1;
+    int epochs = 15000;
+    int starts = 3;
     std::cerr << "Training network with " << n << " neurons for " << x.size << " datapoints\nEpochs: " << epochs << ", Random start locations: " << starts <<"\n";
     
     std::uniform_real_distribution<double> unif(-1,1);
@@ -76,14 +76,21 @@ void ann::train(const vector& x, const vector& y, double acc) {
 
 vector ann::gradient(const vector& x, const vector& y, const vector& p) {
     vector gp(p.size);
+    vector ak(x.size);
+    for(int k = 0; k < x.size; ++k) {
+        double a = -y[k];
+        for(int i = 0; i < p.size; i+= 3) a += F_act((x[k] - p[i])/p[i+1])*p[i+2];
+        ak[k] = a;
+    }
+
     for(int i = 0; i < p.size; i += 3) {
         vector pj({p[i],p[i+1],p[i+2]});
         for(int k = 0; k < x.size; ++k) {
-            gp[i] += dL_da(x[k],y[k],pj);
-            gp[i+1] += dL_db(x[k],y[k],pj);
-            gp[i+2] += dL_dw(x[k],y[k],pj);
+            gp[i] += dL_da(x[k],ak[k],pj);
+            gp[i+1] += dL_db(x[k],ak[k],pj);
+            gp[i+2] += dL_dw(x[k],ak[k],pj);
         }
     }
-    // gp.normalize();
+    gp.normalize();
     return gp;
 }

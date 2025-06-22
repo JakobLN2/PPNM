@@ -15,12 +15,11 @@ class ann {
     public:
         int n; //Number of neurons
         vector px; //Vector of weights used during training
-        matrix P; //matrix of weights for a nice representation
+        matrix P; //Matrix of weights for a nice representation
         std::string act; //which activation function to use
         
         std::function<double(double)> F_act, dF_act; //Activation function used in hidden neurons and its derivative
         std::function<double(double,vector)> F_neuron;
-        std::function<double(double,double)> a_k;
         std::function<double(double,double,vector)> dL_da, dL_db, dL_dw; //Derivatives of loss function
 
         
@@ -41,14 +40,9 @@ class ann {
 
             F_neuron = [&](double x, vector p) {return F_act((x - p[0])/p[1])*p[2];};
 
-            a_k = [&](double x, double y) {
-                double a = -y;
-                for(int i = 0; i < px.size/3; ++i) a+= F_act((x - px[3*i])/px[3*i+1])*px[3*i+2];
-                return a;
-            };
-            dL_da = [&](double x,double y, vector p) {return -2 * a_k(x,y) * p[2]/p[1] * dF_act((x - p[0])/p[1]);};
-            dL_db = [&](double x,double y, vector p) {return -2 * a_k(x,y) * p[2]/p[1]/p[1] * dF_act((x - p[0])/p[1])*(x - p[0]);};
-            dL_dw = [&](double x,double y, vector p) {return  2 * a_k(x,y) * F_act((x - p[0])/p[1]);};
+            dL_da = [&](double x,double a_k, vector p) {return -2 * a_k * dF_act((x - p[0])/p[1]) * p[2]/p[1];};
+            dL_db = [&](double x,double a_k, vector p) {return -2 * a_k * dF_act((x - p[0])/p[1]) * p[2]/p[1]/p[1] * (x - p[0]);};
+            dL_dw = [&](double x,double a_k, vector p) {return  2 * a_k *  F_act((x - p[0])/p[1]);};
         }
         ann(int n, vector x, vector y) : ann(n, "gaussian wavelet") {train(x,y);} //additional parametrized constructors
         ann(int n) : ann(n, "gaussian wavelet") {}
@@ -63,7 +57,7 @@ class ann {
 
         double eval(double x) const; //Calculate network response for input x
         vector eval2(double x) const;
-        void train(const vector& x, const vector& y, double acc = 1e-5); //There is diminishing returns so we add an acc, if the cost improves less than acc, terminate stop training
+        void train(const vector& x, const vector& y, double acc = 1e-5); //There are diminishing returns so we add an acc, if the cost improves less than acc, terminate stop training
         vector gradient(const vector&, const vector&, const vector&);
 };
 
