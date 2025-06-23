@@ -17,7 +17,7 @@ root found at ( 3 2 ) using start guess ( 2.5 2.5 ), dF(x) = ( 3.05889e-12 2.849
 Task b: Schroedinger equation
 Using r_min = 1e-05, r_max = 8
 Accuracy = 1e-05, eps = 0.001, with inital energy guess E = -5
-Optimal energy: -0.499971
+Optimal energy: -0.499965
 Within tolerance of the exact result of -1/2
 Covnergence with respect to the parameters r_min, r_max and (acc, eps) are plotted seperately
 It is obvious from the plots that the numerical quality is dependent on how close the parameters approach 0 or infinity

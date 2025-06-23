@@ -92,7 +92,7 @@ Plot.elliptical.svg : grData.txt Makefile
 		  set output "$@"; \
 		  set xlabel "angle phi"; \
 		  set ylabel "reduced-circumference 1/r"; \
-		  set title "Equatorial motion with u(0) = 1, du(0) = -0.25, eps = 0"; \
+		  set title "Equatorial motion with u(0) = 1, du(0) = -0.5, eps = 0"; \
 		  plot "$<" index 1 using (1/$$2)*cos($$1):(1/$$2)*sin($$1) with lines notitle \
 	' | gnuplot
 
@@ -119,8 +119,8 @@ Plot.P3.svg : Out.txt Makefile
 grData.txt : grSolve
 	./$< > $@
 
-grSolve : grSolve.o $(INCS)
-	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) $(OBJS) -o $@ $^
+grSolve : grSolve.o $(OBJS)
+	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
 
 #Create all object files from their corresponding .cc file. Also check if the obj folder even exists
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cc | $(OBJ_DIR)
@@ -132,5 +132,5 @@ $(OBJ_DIR):
 	mkdir -p $@
 
 clean:
-	$(RM) [Oo]ut*.txt *.o *.png *.svg main grSolve ../inc/*.o
+	$(RM) [Oo]ut*.txt *.o *.png *.svg main grSolve ../inc/*.o log* grData.txt
 

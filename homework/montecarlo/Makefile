@@ -80,5 +80,5 @@ $(OBJ_DIR):
 	mkdir -p $@
 
 clean:
-	$(RM) [Oo]ut*.txt *.o *.png *.svg main ../obj/*.o mcInt
+	$(RM) [Oo]ut*.txt *.o *.png *.svg main ../obj/*.o mcInt *.data *.log
 

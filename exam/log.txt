@@ -1,0 +1,14 @@
+Cyclic function started for
+input = ( 0.18384      0.127851     0.970633    
+          0.109782     0.412236     0.674747    
+          0.311149     0.767302     0.0692837   )
+Factorization done in 4 iterations
+Cyclic function started for
+input = ( 0.933965     0.53407     
+          0            0.654883    )
+Factorization done in 2 iterations
+Cyclic function started for
+input = ( 3             8             1            
+         -4             1             1            
+         -4             1             1            )
+Factorization done in 4 iterations

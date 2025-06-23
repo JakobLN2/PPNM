@@ -147,6 +147,7 @@ int main() {
     outstream = std::ofstream(outfile, std::ios::trunc);
     for(int i = 0; i < rmins.size ; ++i) {
         r_min = rmins[i];
+        vector yrmin({r_min * (1 - r_min), 1 - 2 * r_min});
         std::cerr << "calculating wave function for r_min = " << r_min << "\n";
         
         E_opt = newton(M_e,vector({E0}), acc)[0];

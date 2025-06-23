@@ -61,7 +61,7 @@ Plot.rmin_conv.svg : rmin_conv.txt Makefile
 		  set ylabel "y"; \
 		  set title "r_{min} convergence with r_max = 8, acc=eps=1e-5"; \
 		  f(x) = x*exp(-x); \
-		  plot[0:10][-0.01:0.6] \
+		  plot[0:10][-0.01:0.4] \
 			f(x) with lines title "analytical solution", \
 		  	"$<" index 0 with lines title "r_{min} = 1e-3",\
 		  	"$<" index 1 with lines title "r_{min} = 1e-2",\

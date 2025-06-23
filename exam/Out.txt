@@ -1,0 +1,110 @@
+Testing svd algorithm for matrix of size 3 x 3 with random values in [0,1]
+A = ( 0.18384      0.127851     0.970633    
+      0.109782     0.412236     0.674747    
+      0.311149     0.767302     0.0692837   )
+
+SVD factorization into A = UDV^T, where:
+	U : Semi-orthogonal matrix spanning the range of the matrix A
+	D : Diagonal matrix containing the singular values
+	V : Orthogonal matrix spanning the null space of A
+U = ( 0.702792     -0.479615     -0.525407     
+      0.602387      0.00832607    0.798161     
+      0.378436      0.877439     -0.294766     )
+D = ( 1.31755      -4.60422e-30  -1.25757e-38  
+      8.01755e-30   0.756629     -1.51505e-41  
+     -1.53641e-37  -1.06986e-40   0.10713      )
+V = ( 0.237624      0.245505     -0.93982      
+      0.47706       0.81331       0.333077     
+      0.846137     -0.527498      0.0761416    )
+
+The pseudo-inverse of A can be found using SVD as A^- = V(S^-)U^T
+A^- = ( 4.58038      -6.89069       2.93885      
+       -1.89462       2.70862       0.163741     
+        0.41228       0.948335     -0.578193     )
+Expect that the pseudoinverse A^- fulfills: A(A^-)A = A:
+A(A^-)A = ( 0.18384      0.127851     0.970633    
+            0.109782     0.412236     0.674747    
+            0.311149     0.767302     0.0692837   )
+A(A^-)A ?= A == 1
+
+Pseudoinverse can give the least squares solution to the overdetermined system Ax = b
+Random vector with entires in [0,8]:
+b = ( 4.81264 1.44764 2.99143 )
+Solution to the system of equations:
+x = ( 20.8599 -4.7072 1.62738 )
+
+
+
+Testing svd algorithm for matrix of size 4 x 2 with random values in [0,1]
+The algorithm has been expanded for use with tall matrices, but remains the 'economical version', examples online give the SVD for tall matrices as
+A is a tall matrix n x m, then
+	U is a large square matrix of size n x n
+	D is a tall matrix n x m
+	V is a small square matrix m x m
+However, in this implementation the additional elements are neglected
+A = ( 0.0523023    0.669201    
+      0.751673     0.430918    
+      0.477543     0.155331    
+      0.276577     0.237602    )
+
+SVD factorization into A = UDV^T, where:
+	U : Semi-orthogonal matrix spanning the range of the matrix A
+	D : Diagonal matrix containing the singular values
+	V : Orthogonal matrix spanning the null space of A
+U = ( 0.416307      0.884748     
+      0.74728      -0.298849     
+      0.407253     -0.357639     
+      0.320011      0.00201935   )
+D = ( 1.1394       -6.16298e-33  
+      0             0.536807     )
+V = ( 0.760464     -0.64938      
+      0.64938       0.760464     )
+
+The pseudo-inverse of A can be found using SVD as A^- = V(S^-)U^T
+A^- = (-0.792433      0.860273      0.704449      0.211141     
+        1.49064       0.00253658   -0.274541      0.185245     )
+Expect that the pseudoinverse A^- fulfills: A(A^-)A = A:
+A(A^-)A = ( 0.0523023    0.669201    
+            0.751673     0.430918    
+            0.477543     0.155331    
+            0.276577     0.237602    )
+A(A^-)A ?= A == 1
+
+Pseudoinverse can give the least squares solution to the overdetermined system Ax = b
+Random vector with entires in [0,8]:
+b = ( 0.492684 4.2779 3.95345 3.54794 )
+Solution to the system of equations:
+x = ( 6.82387 0.317119 )
+
+
+
+Testing svd algorithm for a singular matrix of size 3 x 3 with
+A = ( 3             8             1            
+     -4             1             1            
+     -4             1             1            )
+
+U = ( 0.993973      0.109626      9.68125e-18  
+     -0.077517      0.702845     -0.707107     
+     -0.077517      0.702845      0.707107     )
+D = ( 8.62948      -9.40395e-37   2.3703e-42   
+      1.31655e-36   5.96088      -3.10099e-49  
+      1.14794e-41  -3.70851e-46   2.02079e-16  )
+V = ( 0.417413     -0.888104      0.19245      
+      0.903502      0.382946     -0.19245      
+      0.0972178     0.25421       0.96225      )
+
+The pseudo-inverse of A can be found using SVD as A^- = VS^-U^T
+A^- = ( 0.040966                    -6.73415e+14                  6.73415e+14                 
+        0.101891                     6.73415e+14                 -6.73415e+14                 
+        0.0619728                   -3.36707e+15                  3.36707e+15                 )
+Expect that the pseudoinverse A^- fulfills: A(A^-)A = A:
+A(A^-)A = ( 3             8             1            
+           -4             1             1            
+           -4             1             1            )
+A(A^-)A ?= A == 1
+
+The columns of V correspond to the null space, such that it is expected that AV_i = 0 for the vanishing singular values D_ii = 0
+where V_i corresponds to column i of V. Any linear combination of such columns obviously works as well:
+AV_2 = ( 4.44089e-16 -1.11022e-16 -1.11022e-16 ) ?= 0 : 1
+
+

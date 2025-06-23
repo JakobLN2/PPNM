@@ -9,11 +9,11 @@ class QRSolver {
     public:
         matrix Q,
                R;
-        matrix& A;
+        const matrix& A;
         matrix B; //inverse of A, if we wish
         matrix Rinv;
         
-        QRSolver(matrix& A_in) : A(A_in) {
+        QRSolver(const matrix& A_in) : A(A_in) {
             Q = A.copy();
             R = matrix(A.ncols, A.ncols);
             decomp();

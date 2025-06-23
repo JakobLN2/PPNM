@@ -100,7 +100,7 @@ void matrix::print(std::string s, std::ostream& out) const {
 }
 
 
-matrix matrix::copy() {
+matrix matrix::copy() const {
     matrix res(nrows, ncols);
     for(int i = 0; i < nrows ; ++i) {
         for(int j = 0 ; j < ncols ; ++j) res(i,j) = cols[i + j * nrows];

@@ -23,9 +23,6 @@ std::tuple<vector,int> newton(const std::function<double(vector)>& F, vector sta
         }
         x += l*dx;
         N += 1;
-        std::cerr << "gx = " << gx << "\n";
-        std::cerr << "dx = " << dx << "\n";
-        std::cerr << "x  = " << x << "\n\n";
     } while(N < 25000);
 
     return std::make_tuple(x,N);

@@ -13,6 +13,7 @@ std::function<vector(double,vector)> harm = [](double x, const vector& y) {
     res[1] = -y[0];
     return res;
 };
+
 std::function<vector(double,vector)> harm_damp = [](double x, const vector& y) {
     x += 1; //Cheat unused variable warning
     vector res(2);
