@@ -59,7 +59,7 @@ Plot.rmin_conv.svg : rmin_conv.txt Makefile
 		  set output "$@"; \
 		  set xlabel "x"; \
 		  set ylabel "y"; \
-		  set title "r_{min} convergence with r_max = 8, acc=eps=1e-5"; \
+		  set title "r_{min} convergence with r_{max} = 8, acc=eps=1e-5"; \
 		  f(x) = x*exp(-x); \
 		  plot[0:10][-0.01:0.4] \
 			f(x) with lines title "analytical solution", \
@@ -73,7 +73,7 @@ Plot.acceps_conv.svg : acceps_conv.txt Makefile
 		  set output "$@"; \
 		  set xlabel "x"; \
 		  set ylabel "y"; \
-		  set title "acc/eps convergence with r_min = 1e-5, r_max = 8"; \
+		  set title "acc/eps convergence with r_{min} = 1e-5, r_{max} = 8"; \
 		  f(x) = x*exp(-x); \
 		  plot[0:10][-0.05:0.6] \
 			f(x) with lines title "analytical solution", \
