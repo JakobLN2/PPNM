@@ -49,7 +49,7 @@ int test(int n, int m) {
     return 0;
 }
 
-int test2() {
+int test2() { //test null space V
     matrix A(3,3);
     A.setRow(0, vector({3,8,1})); //Singular matrix
     A.setRow(1, vector({-4,1,1}));
@@ -94,6 +94,7 @@ int main(int argc, char** argv) {
         if(arg == "-n" && i+1<argc) n = std::stoi(argv[i + 1]);
         if(arg == "-m" && i+1<argc) m = std::stoi(argv[i + 1]);
     }
+
     if(m == -1) m = n; //m was not given -> assume square matrix
 
     if(n > 0) return test(n,m);

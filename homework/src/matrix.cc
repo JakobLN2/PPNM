@@ -79,9 +79,6 @@ void matrix::setCol(int j, double n) {
     for(int i = 0; i < nrows ; ++j) cols[i + j * nrows] = n;
 }
 
-// void matrix::print(std::string s) const {
-//     print(s, std::cout);
-// }
 void matrix::print(std::string s, std::ostream& out) const {
     out << s << "(";
     int maxSize = 1;

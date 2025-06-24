@@ -61,7 +61,7 @@ void svd::cyclic() {
                 timesJ(U,i,j,theta_J);
 
                 if(dii != D(i,i) && djj != D(j,j)) changed = true;
-                //If an entire cyclic iteration did not update the diagonal elements, we are done
+                //If an entire cyclic iteration did not update the diagonal elements once, we are done
             }
         }
         N += 1;
