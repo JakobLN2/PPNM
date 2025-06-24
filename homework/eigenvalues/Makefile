@@ -23,13 +23,16 @@ all: Out.txt plot.dr_convergence.svg plot.rmax_convergence.svg plot.eigenfuncs.s
 Out.txt : main
 	./$< -n 4 > $@
 
-main : main.o $(OBJS)
+main : main.o $(OBJS) $(INCS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
-swave : swave.o $(OBJS)
+swave : swave.o $(OBJS) $(INCS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
-factorizer : factorizer.o $(OBJS)
+factorizer : factorizer.o $(OBJS) $(INCS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^
 
+main.o : main.cc $(INCS)
+swave.o : swave.cc $(INCS)
+factorizer.o : factorizer.cc $(INCS)
 
 out.dr_convergence.txt: swave
 	>$@
@@ -91,6 +94,7 @@ out.times.txt: factorizer
 		do ($(TIME) ./factorizer -n $$n &); \
 	wait; \
 	done
+#The plot does not want to wait and breaks because it is not finished with calculating the times??
 
 plot.n_times.svg : out.times.txt Makefile
 	echo 'set terminal svg background "white"; \

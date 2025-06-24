@@ -25,8 +25,8 @@ std::tuple<vector, vector> rkstep12_midpoint(
 
 std::tuple< vector , vector > rkstep3point
 (std::function<vector(double,vector)> F,double h,double x,vector y ){
-	double a=1.0/3,b=2.0/3;
-	// double a=1.0/2,b=3.0/4;
+	// double a=1.0/3,b=2.0/3;
+	double a=1.0/2,b=3.0/4;
 	vector c ({0,a,b});
 	vector a1({a,0,0});
 	vector a2({b-b*b/2/a,b*b/2/a,0});
@@ -98,6 +98,7 @@ std::tuple<vector, std::vector<vector>> rkdriver(
         res = stepper(F,h,x,y);
         vector yh = std::get<0>(res); //New y-value
         vector dy = std::get<1>(res); //Error estimate
+        std::cerr << "err = " << dy.norm() << "\n";
         
         double tol = (acc + eps*yh.norm()) * std::sqrt(h/(b - a)); //Calculate tolerance based on step size
         double err = dy.norm();
@@ -110,3 +111,5 @@ std::tuple<vector, std::vector<vector>> rkdriver(
         else h*=2.0;
     };
 } //rkdriver
+
+

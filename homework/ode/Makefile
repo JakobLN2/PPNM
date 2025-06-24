@@ -8,7 +8,7 @@ OBJ_DIR := ../obj
 I_DIR := ../include
 
 #Header files to be compiled:
-INCS = $(I_DIR)/vector.h $(I_DIR)/matrix.h ode.h
+INCS = $(I_DIR)/vector.h $(I_DIR)/matrix.h ode.h ../splines/interp.h
 
 SRCS = $(INCS:$(I_DIR)/%.h=$(SRC_DIR)/%.cc)
 SRCS := $(SRCS:.h=.cc)
@@ -118,6 +118,7 @@ Plot.P3.svg : Out.txt Makefile
 
 grData.txt : grSolve
 	./$< > $@
+
 
 grSolve : grSolve.o $(OBJS)
 	$(CXX) $(CXXFLAGS) $(LDLIBS) $(CPPFLAGS) -o $@ $^

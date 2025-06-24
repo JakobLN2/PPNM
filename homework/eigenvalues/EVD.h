@@ -9,11 +9,9 @@ class EVD {
         matrix V, //Matrix of eigenvectors
                D; //Diagonal matrix of eigenvalues
             //    vector w; //vector of eigenvalues
-        matrix& M;
-        
-        // matrix B; //inverse of A, if we wish
-        
-        EVD(matrix& M_in) : M(M_in) {
+        const matrix& M;
+                
+        EVD(const matrix& M_in) : M(M_in) {
             D = M_in.copy();
             V = identity(D.nrows);
             // w = vector(D.ncols);

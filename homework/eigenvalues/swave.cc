@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 
     if(wf > 0) {
         std::cout << "\n\n";
-        for(int k = 0; k < 5; ++k) {
+        for(int k = 0; k < wf; ++k) {
             vector f_r = evd.V.getCol(k)/std::sqrt(dr);
             for(int i = 0; i < N; ++i) {
                 std::cout << r[i] << "," << f_r[i] << "\n";
